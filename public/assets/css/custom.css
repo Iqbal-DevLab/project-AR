@@ -1,0 +1,106 @@
+:root{
+    --status-sent: #00c853;
+    --approved-color: #56f000;
+    --waiting-color: #ffb302;
+    --rejected-color:#ff3838;
+    --notsend-color:#9ea7ad;
+}
+.bg-approved{
+    background-color: var(--approved-color);
+    color: #263238;
+}
+
+.bg-waiting{
+    background-color: var(--waiting-color);
+    color: #263238;
+}
+
+.bg-rejected{
+    background-color: var(--rejected-color);
+    color: #e3f2fd;
+}
+
+.bg-notsend{
+    background-color: var(--notsend-color);
+    color: #e3f2fd;
+}
+
+.btn-kirim{
+    background-color: var(--approved-color);
+    color: #263238;
+}
+
+.btn-kirim:hover {
+    background-color: var(--status-sent);
+    color: #e3f2fd;
+}
+
+.btn-sent{
+    background-color: var(--status-sent);
+    color: #e3f2fd;
+}
+
+.btn-add {
+    background-color: #1976d2;
+    color: #e3f2fd;
+    font-weight: 500;
+    font-size: 14px;
+    transition: 0.3s ease-in;
+}
+
+.btn-add:hover {
+    background-color: #1565c0;
+    color: #e3f2fd;
+}
+
+.bg-add {
+    background-color: #1976d2;
+    color: #e3f2fd !important;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #263238;
+    transition: 0.3s ease-in;
+}
+
+.btn-edit:hover {
+    background-color: #ffb300;
+    color: #263238;
+}
+
+.bg-edit {
+    background-color: #ffc107;
+    color: #263238 !important;
+}
+
+.btn-delete {
+    background-color: #d32f2f;
+    color: #e3f2fd;
+    font-weight: 500;
+    transition: 0.3s ease-in;
+}
+
+.bg-delete {
+    background-color: #d32f2f;
+}
+
+.btn-delete:hover {
+    background-color: #c62828;
+    color: #e3f2fd;
+}
+
+.form-input-custom {
+    border: none;
+    padding: 0;
+}
+
+.form-input-custom:focus {
+    border: none;
+    outline: none;
+}
+
+.logo-exports{
+    max-width: 15%;
+    height: auto;
+}

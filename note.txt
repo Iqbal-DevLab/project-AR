@@ -1,0 +1,25 @@
+Role 
+
+1. Super Admin
+2. Supervisor
+3. Head Production / Manager
+4. Finance
+5. Admin WO
+6. Koordinator
+7. Labour
+
+
+jenis hari 
+0. hari libur
+1. hari kerja
+
+
+status approval
+null : Pengajuan belum dikirimkan 
+2. Approved
+3. Reject SPV
+4. Reject Head
+5. Waiting Approval SPV
+6. Waiting Approval Head Production
+
+
