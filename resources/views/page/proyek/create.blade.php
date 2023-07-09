@@ -340,9 +340,6 @@
     @include('sweetalert::alert')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        var inputElement = document.getElementById("nama_customer");
-    </script>
 
     <script>
         const namaSalesInput = document.getElementById('nama_sales');
