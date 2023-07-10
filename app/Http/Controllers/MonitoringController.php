@@ -502,43 +502,6 @@ class MonitoringController extends Controller
 
     public function update(Request $request, $id)
     {
-        // ...
-
-        // Mendapatkan nilai kontrak dari request
-        $nilai_kontrak = $request->nilai_kontrak;
-
-        // Mendapatkan nilai kontrak revisi terakhir dari database
-        $last_revision = DB::table('proyek')
-            ->where('id', $id)
-            ->value('nilai_kontrak_rev10');
-
-        // Mengecek apakah nilai kontrak berbeda dengan nilai kontrak revisi terakhir
-        if ($nilai_kontrak !== $last_revision) {
-            // Menghitung nomor revisi berdasarkan jumlah revisi sebelumnya
-            $revision_number = 1;
-            for ($i = 1; $i <= 10; $i++) {
-                $revision_field = 'nilai_kontrak_rev' . $i;
-                if ($nilai_kontrak === DB::table('proyek')->where('id', $id)->value($revision_field)) {
-                    $revision_number = $i;
-                    break;
-                }
-            }
-
-            // Mengecek apakah sudah mencapai batas maksimal revisi
-            if ($revision_number === 10) {
-                return redirect('/page.monitoring.detail')->with('error', 'Batas revisi maksimal (10x) telah tercapai!');
-            }
-
-            // Memperbarui nilai kontrak revisi sesuai nomor revisi
-            $revision_field = 'nilai_kontrak_rev' . ($revision_number + 1);
-            DB::table('proyek')
-                ->where('id', $id)
-                ->update([$revision_field => $nilai_kontrak]);
-
-            return redirect('/page.monitoring.detail')->with('success', 'Proyek berhasil diperbarui!');
-        } else {
-            return redirect('/page.monitoring.detail')->with('info', 'Tidak ada perubahan nilai kontrak.');
-        }
     }
 
     public function destroy($id)
