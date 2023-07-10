@@ -28,16 +28,6 @@ return new class extends Migration
             $table->string('sales_id');
             $table->string('payment_terms_id');
             $table->string('keterangan')->nullable();
-            $table->string('nilai_kontrak_rev1')->nullable();
-            $table->string('nilai_kontrak_rev2')->nullable();
-            $table->string('nilai_kontrak_rev3')->nullable();
-            $table->string('nilai_kontrak_rev4')->nullable();
-            $table->string('nilai_kontrak_rev5')->nullable();
-            $table->string('nilai_kontrak_rev6')->nullable();
-            $table->string('nilai_kontrak_rev7')->nullable();
-            $table->string('nilai_kontrak_rev8')->nullable();
-            $table->string('nilai_kontrak_rev9')->nullable();
-            $table->string('nilai_kontrak_rev10')->nullable();
             $table->timestamps();
         });
     }

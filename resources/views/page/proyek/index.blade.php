@@ -57,7 +57,6 @@
                                         <a href="#" data-toggle="modal" data-target="#editProyek{{ $p->id }}"
                                             class="btn btn-sm btn-alt-primary rounded-2"><i
                                                 class="fa-regular fa-pen-to-square"></i>
-
                                         </a>
                                     </td>
                                     <div class="modal fade" id="editProyek{{ $p->id }}" tabindex="-1"

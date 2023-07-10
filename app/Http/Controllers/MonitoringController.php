@@ -246,7 +246,6 @@ class MonitoringController extends Controller
         $tableDP = DB::table('invoice')
             ->select('invoice.id', 'invoice.nilai_tagihan', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-            // ->join('transaksi', 'invoice.kode_proyek', '=', 'transaksi.kode_proyek')
             ->where('invoice.status', '!=', 'DIBATALKAN')
             ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
             ->orderBy('invoice.id', 'desc')

@@ -6,7 +6,7 @@
             font-size: 0.875rem;
         }
     </style>
-    <div class="content extraTableLarge">
+    <div class="content tableExtraLarge">
         {{-- <h2 class="content-heading">Halaman Invoice</h2> --}}
         <div class="block shadow bg-white">
             <div class="block-content block-content-full">

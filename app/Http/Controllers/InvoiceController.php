@@ -48,7 +48,6 @@ class InvoiceController extends Controller
             ->get();
 
         $payment_terms = PaymentTerms::All();
-
         return view('page.invoice.create', compact('invoice', 'proyek', 'payment_terms'));
     }
 
@@ -103,11 +102,15 @@ class InvoiceController extends Controller
             'sisa_pembayaran' => $total_tagihan,
             'progress' => $request->progress,
             'status' => 'KWITANSI BELUM DITERIMA',
-            'keterangan' => $request->keterangan,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
+        DB::table('proyek')
+            ->where('kode_proyek', $request->kode_proyek)
+            ->update([
+                'keterngan' => $request->keterangan
+            ]);
         return redirect('/invoice')->with('success', 'Invoice berhasil dibuat!');
     }
 

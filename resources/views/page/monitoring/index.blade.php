@@ -6,7 +6,7 @@
             font-size: 0.875rem;
         }
     </style>
-    <div class="extraTableLarge content">
+    <div class="tableExtraLarge content">
         {{-- <h2 class="content-heading">Halaman Monitoring</h2> --}}
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">

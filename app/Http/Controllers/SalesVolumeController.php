@@ -23,6 +23,7 @@ class SalesVolumeController extends Controller
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
             ->select('proyek.nama_proyek', 'proyek.nama_customer', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.progress', 'invoice.tagihan', 'invoice.ppn_nominal', 'invoice.total_tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.koreksi_dp', 'invoice.nilai_tagihan', 'invoice.keterangan', 'sales.nama_sales')
             ->where('invoice.status', '!=', 'DIBATALKAN')
+            ->where('invoice.progress', 'NOT LIKE', '%DP%')
             ->orderBy('invoice.tgl_invoice', 'desc');
 
         if ($request->tgl_awal and $request->tgl_akhir) {

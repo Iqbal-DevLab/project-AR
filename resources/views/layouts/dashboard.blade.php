@@ -72,7 +72,7 @@
         max-width: 1500px !important;
     }
 
-    .extraTableLarge {
+    .tableExtraLarge {
         max-width: 1700px !important;
     }
 

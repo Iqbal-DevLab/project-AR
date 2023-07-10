@@ -44,7 +44,8 @@
                                         @forelse ($proyek as $i)
                                             <option value="{{ $i->kode_proyek }}"
                                                 data-payment-terms-id="{{ $i->payment_terms_id }}"
-                                                data-customer-id="{{ $i->customer_id }}">
+                                                data-customer-id="{{ $i->customer_id }}"
+                                                data-keterangan="{{ $i->keterangan }}">
                                                 {{ $i->nama_proyek }} </option>
                                         @empty
                                             <span>Data kosong</span>
@@ -315,6 +316,7 @@
         const namaProyekInput = document.getElementById('nama_proyek');
         const paymentTermsIdInput = document.getElementById('payment_terms_id');
         const customerIdInput = document.getElementById('customer_id');
+        const keteranganInput = document.getElementById('keterangan');
         const kodeProyekButton = document.getElementById('refresh_kode_proyek');
         const progressSelect = document.getElementById('progress');
         const kodeDP = document.getElementById('DP');
@@ -331,10 +333,12 @@
                 namaProyekInput.value = selectedOption.textContent.trim();
                 paymentTermsIdInput.value = selectedOption.dataset.paymentTermsId;
                 customerIdInput.value = selectedOption.dataset.customerId;
+                keteranganInput.value = selectedOption.dataset.keterangan;
             } else {
                 namaProyekInput.value = '';
                 paymentTermsIdInput.value = '';
                 customerIdInput.value = '';
+                keteranganInput.value = '';
             }
 
             kodeDP.style.display = "none";
@@ -452,6 +456,7 @@
             kodeProyekInput.value = '';
             namaProyekInput.value = '';
             paymentTermsIdInput.value = '';
+            keteranganInput.value = '';
             progressSelect.disabled = true;
         });
     </script>

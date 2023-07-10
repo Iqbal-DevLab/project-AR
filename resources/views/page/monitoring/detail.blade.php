@@ -12,7 +12,7 @@
             white-space: nowrap;
         }
     </style>
-    <div class="extraTableLarge content">
+    <div class="tableExtraLarge content">
 
         <div class="block" style="padding-bottom: 15px;">
             <div class="block-header block-header-default">
@@ -101,15 +101,65 @@
                                                         <span class="font-w600">{{ $item->nama_proyek }}</span><br>
                                                         {{ $item->kode_proyek }}<br>
                                                         {{ $item->kategori_proyek }}<br>
-                                                        <a>@if ($item->status_po == 'BELUM DITERIMA')
-                                                                PO{{ $item->status_po }}</a><br><br>
+                                                        <a>
+                                                            @if ($item->status_po == 'BELUM DITERIMA')
+                                                                PO {{ $item->status_po }}
                                                             @endif
+                                                        </a><br><br>
                                                         <i class="fa-solid fa-hand-holding-dollar mr-1"></i>
                                                         <a>
                                                             {{ isset($item->nilai_kontrak) ? 'Rp. ' . number_format(($item->nilai_kontrak * 111) / 100, 0, ',', '.') . ',-' : '-' }}
                                                         </a><br>
                                                         <i class="fa fa-users mr-5"></i>{{ $item->nama_sales }}<br>
-                                                        <i class="fa-solid fa-message mr-5"></i>{{ $item->keterangan }}
+                                                        <a href="#" data-toggle="modal"
+                                                            data-target="#editKeterangan{{ $item->id }}"
+                                                            class="fa-solid
+                                                            fa-message mr-5 btn btn-sm btn-alt-primary"
+                                                            style="cursor: pointer;"></a>{{ $item->keterangan }}
+                                                        <div class="modal fade" id="editKeterangan{{ $item->id }}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="editKeteranganModal" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-popout" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="block block-themed block-transparent mb-0">
+                                                                        <div class="block-header bg-primary-dark">
+                                                                            <h3 class="block-title">Update Keterangan</h3>
+                                                                            <div class="block-options">
+                                                                                <button type="button"
+                                                                                    class="btn-block-option"
+                                                                                    data-dismiss="modal" aria-label="Close">
+                                                                                    <i class="si si-close"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="block-content">
+                                                                            <form
+                                                                                action="{{ route('proyek.update', $item->kode_proyek) }}"
+                                                                                class="text-black" method="POST">
+                                                                                <div class="modal-body">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <div class="mb-3">
+                                                                                        <label for="keterangan"
+                                                                                            class="col-form-label fs-6">
+                                                                                            KETERANGAN <span
+                                                                                                class="text-danger">*</span></label>
+                                                                                        <textarea class="form-control" id="keterangan" placeholder="Ketik keterangan tambahan disini..." name="keterangan"
+                                                                                            rows="3" style="resize: none;">{{ $item->keterangan }}</textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-alt-success">
+                                                                                        <i class="fa fa-check"></i> Simpan
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </address>
                                                 </div>
                                             </div>

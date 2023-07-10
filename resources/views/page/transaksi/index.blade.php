@@ -6,7 +6,7 @@
             font-size: 0.875rem;
         }
     </style>
-    <div class="content extraTableLarge">
+    <div class="content tableExtraLarge">
         <div class="text-right">
             <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-notifications"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
