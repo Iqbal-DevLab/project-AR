@@ -178,6 +178,7 @@
                                                     <option value="" hidden>--Pilih Tipe--</option>
                                                     <option value="SWASTA">SWASTA</option>
                                                     <option value="BUMN">BUMN</option>
+                                                    <option value="SBY">SBY</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">

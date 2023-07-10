@@ -502,7 +502,14 @@ class MonitoringController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        dd($request);
+        DB::table('proyek')
+            ->where('kode_proyek', $request->kode_proyek)
+            ->update([
+                'keterngan' => $request->keterangan
+            ]);
+
+        return redirect()->back()->with('success', 'Keterangan berhasil diperbarui');
     }
 
     public function destroy($id)

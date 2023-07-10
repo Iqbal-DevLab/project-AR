@@ -57,25 +57,27 @@ class SalesTargetController extends Controller
                 'sales.nama_sales',
                 'sales_target.target',
                 'sales.type',
-                DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan_invoice"),
+                DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan"),
+                DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun"),
                 DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan")
             )
             ->where('invoice.status', '!=', 'DIBATALKAN')
             ->orderBy('sales.nama_sales', 'asc')
-            ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"))
+            ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
             ->get();
 
         $dataTarget = [];
         foreach ($salesTarget as $data) {
             $namaSales = $data->nama_sales;
-            $bulanInvoice = "bulan_" . $data->bulan_invoice;
+            $bulanInvoice = "bulan_" . $data->bulan;
 
             // Mengecek apakah data sudah ada dalam grup
             if (!isset($dataTarget[$namaSales])) {
                 $dataTarget[$namaSales] = [
                     'nama_sales' => $namaSales,
                     'target' => $data->target,
-                    'type' => $data->type
+                    'type' => $data->type,
+                    'tahun' =>  $data->tahun
                 ];
             }
 

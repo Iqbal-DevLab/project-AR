@@ -134,11 +134,31 @@
                                                                         </div>
                                                                         <div class="block-content">
                                                                             <form
-                                                                                action="{{ route('proyek.update', $item->kode_proyek) }}"
+                                                                                action="{{ route('proyek.update', $item->id) }}"
                                                                                 class="text-black" method="POST">
                                                                                 <div class="modal-body">
                                                                                     @csrf
                                                                                     @method('PUT')
+                                                                                    <div class="row">
+                                                                                        <div class="col mb-3">
+                                                                                            <label for="status_po"
+                                                                                                class=" col-form-label fs-6">STATUS
+                                                                                                PO <span
+                                                                                                    class="text-danger">*</span></label>
+                                                                                            <select type="text"
+                                                                                                class="form-control"
+                                                                                                name="status_po" required>
+                                                                                                <option
+                                                                                                    value="BELUM DITERIMA"
+                                                                                                    @if ($item->status_po == 'BELUM DITERIMA') selected @endif>
+                                                                                                    BELUM DITERIMA</option>
+                                                                                                <option
+                                                                                                    value="SUDAH DITERIMA"
+                                                                                                    @if ($item->status_po == 'SUDAH DITERIMA') selected @endif>
+                                                                                                    SUDAH DITERIMA</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
                                                                                     <div class="mb-3">
                                                                                         <label for="keterangan"
                                                                                             class="col-form-label fs-6">

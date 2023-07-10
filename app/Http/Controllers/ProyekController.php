@@ -140,6 +140,6 @@ class ProyekController extends Controller
 
         // Lakukan sesuatu setelah berhasil memperbarui data
 
-        return redirect('/proyek')->with('success', 'Status PO berhasil diperbaui!');
+        return redirect()->back()->with('success', 'Berhasil diperbaui!');
     }
 }
