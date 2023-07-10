@@ -25,11 +25,12 @@
                                         <div class="input-group" style="width: 15%;">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"
-                                                    style="height: 28px; text-transform: none;">Total AR</span>
-                                            </div><input readonly class="form-control form-control-sm " id="total_AR">
+                                                    style="height: 28px; text-transform: none; background: none !important; border: none;">Total
+                                                    AR:</span>
+                                            </div><input readonly class="form-control-plaintext form-control-sm "
+                                                id="total_AR">
                                         </div>
                                     </div>
-
                                 </th>
                             </tr>
                             <tr>
