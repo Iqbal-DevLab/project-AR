@@ -17,13 +17,30 @@
                 <div class="table-responsive">
                     @php
                         $categories = ['BUMN', 'SWASTA', 'PRESALES', 'SBY'];
+                        $totalSemuaTarget = 0;
+                        
+                        $totalSemuaJan = 0;
+                        $totalSemuaFeb = 0;
+                        $totalSemuaMar = 0;
+                        $totalSemuaApr = 0;
+                        $totalSemuaMei = 0;
+                        $totalSemuaJun = 0;
+                        $totalSemuaJul = 0;
+                        $totalSemuaAgs = 0;
+                        $totalSemuaSep = 0;
+                        $totalSemuaOkt = 0;
+                        $totalSemuaNov = 0;
+                        $totalSemuaDes = 0;
+                        
+                        $totalSemuaTotal = 0;
+                        $totalSemuaVariance = 0;
                     @endphp
                     @foreach ($categories as $category)
-                        <h4>SALES {{ $category }}</h4>
                         <table class="table table-striped table-vcenter table-hover">
+                            <h4>SALES {{ $category }}</h4>
                             <thead>
                                 <tr class="bg-primary text-white">
-                                    <th class="text-center">Sales</th>
+                                    <th class="text-center" style="width: 15%;">Sales</th>
                                     <th class="text-center">Target</th>
                                     <th class="text-center">Januari</th>
                                     <th class="text-center">Februari</th>
@@ -116,30 +133,67 @@
                                         </tr>
                                     @endif
                                 @endforeach
+                                @php
+                                    $totalSemuaTarget += $totalTarget;
+                                    $totalSemuaJan += $totalJan;
+                                    $totalSemuaFeb += $totalFeb;
+                                    $totalSemuaMar += $totalMar;
+                                    $totalSemuaApr += $totalApr;
+                                    $totalSemuaMei += $totalMei;
+                                    $totalSemuaJun += $totalJun;
+                                    $totalSemuaJul += $totalJul;
+                                    $totalSemuaAgs += $totalAgs;
+                                    $totalSemuaSep += $totalSep;
+                                    $totalSemuaOkt += $totalOkt;
+                                    $totalSemuaNov += $totalNov;
+                                    $totalSemuaDes += $totalDes;
+                                    $totalSemuaTotal += $totalSemuaSales;
+                                    $totalSemuaVariance += $totalVariance;
+                                @endphp
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="1" class="text-center" style="font-weight: bold;">TOTAL
-                                        SALES {{ $category }}</td>
-                                    <td class="font-w600">@currency($totalTarget),-</td>
-                                    <td class="font-w600">@currency($totalJan),-</td>
-                                    <td class="font-w600">@currency($totalFeb),-</td>
-                                    <td class="font-w600">@currency($totalMar),-</td>
-                                    <td class="font-w600">@currency($totalApr),-</td>
-                                    <td class="font-w600">@currency($totalMei),-</td>
-                                    <td class="font-w600">@currency($totalJun),-</td>
-                                    <td class="font-w600">@currency($totalJul),-</td>
-                                    <td class="font-w600">@currency($totalAgs),-</td>
-                                    <td class="font-w600">@currency($totalSep),-</td>
-                                    <td class="font-w600">@currency($totalOkt),-</td>
-                                    <td class="font-w600">@currency($totalNov),-</td>
-                                    <td class="font-w600">@currency($totalDes),-</td>
-                                    <td class="font-w600">@currency($totalSemuaSales),-</td>
-                                    <td class="font-w600">@currency($totalVariance),-</td>
-                                </tr>
-                            </tfoot>
-                        </table>
+
+                            <tr>
+                                <td class="text-center" style="font-weight: bold; width: 15%;">TOTAL
+                                    SALES {{ $category }}</td>
+                                <td class="font-w600">@currency($totalTarget),-</td>
+                                <td class="font-w600">@currency($totalJan),-</td>
+                                <td class="font-w600">@currency($totalFeb),-</td>
+                                <td class="font-w600">@currency($totalMar),-</td>
+                                <td class="font-w600">@currency($totalApr),-</td>
+                                <td class="font-w600">@currency($totalMei),-</td>
+                                <td class="font-w600">@currency($totalJun),-</td>
+                                <td class="font-w600">@currency($totalJul),-</td>
+                                <td class="font-w600">@currency($totalAgs),-</td>
+                                <td class="font-w600">@currency($totalSep),-</td>
+                                <td class="font-w600">@currency($totalOkt),-</td>
+                                <td class="font-w600">@currency($totalNov),-</td>
+                                <td class="font-w600">@currency($totalDes),-</td>
+                                <td class="font-w600">@currency($totalSemuaSales),-</td>
+                                <td class="font-w600">@currency($totalVariance),-</td>
+                            </tr>
                     @endforeach
+
+
+                    <tr class="">
+                        <td class="text-center" style="font-weight: bold; width: 15%;">KUMULATIF SALES</td>
+                        <td class="font-w600">@currency($totalSemuaTarget),-</td>
+                        <td class="font-w600">@currency($totalSemuaJan),-</td>
+                        <td class="font-w600">@currency($totalSemuaFeb),-</td>
+                        <td class="font-w600">@currency($totalSemuaMar),-</td>
+                        <td class="font-w600">@currency($totalSemuaApr),-</td>
+                        <td class="font-w600">@currency($totalSemuaMei),-</td>
+                        <td class="font-w600">@currency($totalSemuaJun),-</td>
+                        <td class="font-w600">@currency($totalSemuaJul),-</td>
+                        <td class="font-w600">@currency($totalSemuaAgs),-</td>
+                        <td class="font-w600">@currency($totalSemuaSep),-</td>
+                        <td class="font-w600">@currency($totalSemuaOkt),-</td>
+                        <td class="font-w600">@currency($totalSemuaNov),-</td>
+                        <td class="font-w600">@currency($totalSemuaDes),-</td>
+                        <td class="font-w600">@currency($totalSemuaTotal),-</td>
+                        <td class="font-w600">@currency($totalSemuaVariance),-</td>
+                    </tr>
+
+                    </table>
                 </div>
             </div>
         </div>
