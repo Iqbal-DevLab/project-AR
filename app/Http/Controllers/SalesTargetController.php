@@ -51,7 +51,7 @@ class SalesTargetController extends Controller
         $salesTarget = DB::table('invoice')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
-            ->join('sales_target', 'sales.id', '=', 'sales_target.id')
+            ->leftJoin('sales_target', 'sales.id', '=', 'sales_target.sales_id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
             ->select(
                 'sales.nama_sales',
@@ -84,8 +84,8 @@ class SalesTargetController extends Controller
             // Menambahkan data total_nilai_tagihan ke dalam grup
             $dataTarget[$namaSales][$bulanInvoice] = $data->total_nilai_tagihan;
         }
-        // dd($dataTarget);
 
+        // dd($dataTarget);
         return view('page.salestarget.index', compact('salesTarget', 'dataTarget'));
     }
 

@@ -58,7 +58,7 @@ class SalesController extends Controller
         //     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         // ]);
 
-        return redirect('/sales')->with('success', 'Berhasil menambahkan Sales!');;
+        return redirect('/sales')->with('success', 'Berhasil menambahkan Sales!');
     }
 
     public function show($id)
@@ -76,21 +76,21 @@ class SalesController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_sales' => 'required|unique:sales',
             'type' => 'required',
         ], [
             'nama_sales.required' => 'Nama sales tidak boleh kosong!',
-            'nama_sales.unique' => 'Nama sales sudah ada!',
             'type.required' => 'Tipe sales tidak boleh kosong!',
         ]);
 
-        DB::table('sales')->insert([
+        DB::table('sales')->where('sales.id', $id)->update([
             'nama_sales' => $request->nama_sales,
             'contact_sales' => $request->contact_sales,
             'type' => $request->type,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+
         ]);
+        return redirect('/sales')->with('success', 'Berhasil Perbarui Sales!');;
     }
 
     public function destroy($id)

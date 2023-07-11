@@ -418,7 +418,7 @@
                                                                     <tr>
                                                                         <td class="text-center">
                                                                             <button type="button"
-                                                                                class="btn btn-sm btn-alt-primary rounded-2"
+                                                                                class="btn btn-sm btn-alt-primary rounded-2 w-100"
                                                                                 style="cursor: default">
                                                                                 {{ $invoice->no_invoice }}
                                                                             </button>
@@ -507,7 +507,7 @@
                                                                     <tr>
                                                                         <td class="text-center">
                                                                             <button type="button"
-                                                                                class="btn btn-sm btn-alt-primary rounded-2"
+                                                                                class="btn btn-sm btn-alt-primary rounded-2 w-100"
                                                                                 style="cursor: default">
                                                                                 {{ $transaksi->no_invoice }}
                                                                             </button>
@@ -529,9 +529,8 @@
                                                                             {{ $transaksi->tgl_transfer ? $transaksi->tgl_transfer : '-' }}
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            <a class="disabled-link"
-                                                                                href="javascript:void(0)">
-                                                                                {{ isset($transaksi->nilai_giro) ? '-' : 'Rp. ' . number_format($transaksi->total_dana_masuk, 0, ',', '.') . ',-' }}
+                                                                            <a class="text-primary">
+                                                                                {{ isset($transaksi->total_dana_masuk) ? 'Rp. ' . number_format($transaksi->total_dana_masuk, 0, ',', '.') . ',-' : '-' }}
                                                                             </a>
                                                                         </td>
                                                                         @if ($transaksi->nilai_giro != null && $transaksi->status == 'BELUM DIBAYAR')
@@ -562,14 +561,8 @@
                         </div>
                     @endforeach
                 </div>
-
-
-
-
-
             </div>
         </div>
-
     </div>
     @include('sweetalert::alert')
 @endsection

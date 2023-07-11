@@ -109,7 +109,7 @@ class InvoiceController extends Controller
         DB::table('proyek')
             ->where('kode_proyek', $request->kode_proyek)
             ->update([
-                'keterngan' => $request->keterangan
+                'keterangan' => $request->keterangan
             ]);
         return redirect('/invoice')->with('success', 'Invoice berhasil dibuat!');
     }

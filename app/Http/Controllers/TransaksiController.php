@@ -58,8 +58,6 @@ class TransaksiController extends Controller
 
         $transaksi = $get->get();
 
-
-
         foreach ($transaksi as $t) {
             if ($t->status == 'SUDAH DIBAYAR') {
                 $totalDanaMasuk = DB::table('transaksi')
@@ -236,8 +234,6 @@ class TransaksiController extends Controller
             $sisa_pembayaran = $total_tagihan - $total_dana_masuk;
         }
 
-
-
         // Mengupdate sisa_pembayaran pada invoice
         DB::table('invoice')
             ->where('id', $request->invoice_id)
@@ -268,8 +264,7 @@ class TransaksiController extends Controller
     {
         $dana =  $request->dana_masuk ?  str_replace(['.', 'Rp', ' '], '', $request->dana_masuk) : null;
         $nilai_giro = $request->nilai_giro ? str_replace(['.', 'Rp', ' '], '', $request->nilai_giro) : null;
-        // $dana = $request->dana_masuk ? str_replace(['.', 'Rp', ' '], '', $request->dana_masuk) : null;
-        // $nilai_giro = $request->nilai_giro ? str_replace(['.', 'Rp', ' '], '', $request->nilai_giro) : null;
+        $total_dana_masuk = $request->total_dana_masuk ? str_replace(['.', 'Rp', ' '], '', $request->total_dana_masuk) : null;
 
         DB::table('transaksi')->where('id', $id)->update([
             'kode_proyek' => $request->kode_proyek,
@@ -282,10 +277,27 @@ class TransaksiController extends Controller
             'tgl_giro_cair' => $request->tgl_giro_cair,
             'nilai_giro' => $nilai_giro,
             'dana_masuk' => $dana,
+            'total_dana_masuk' => $total_dana_masuk,
             'status' => $request->status,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
+
+        // Menghitung sisa pembayaran
+        $total_tagihan = $request->total_tagihan ?  str_replace(['.', 'Rp', ' ', ',-'], '', $request->total_tagihan) : null;
+        $sisa_pembayaran = $request->sisa_pembayaran ?  str_replace(['.', 'Rp', ' ', ',-'], '', $request->sisa_pembayaran) : null;
+
+        //Pembayaran Transfer
+        if ($sisa_pembayaran) {
+            $sisa_pembayaran = $sisa_pembayaran - $total_dana_masuk;
+        } else {
+            $sisa_pembayaran = $total_tagihan - $total_dana_masuk;
+        }
+
+        // Mengupdate sisa_pembayaran pada invoice
+        DB::table('invoice')
+            ->where('id', $request->invoice_id)
+            ->update(['sisa_pembayaran' => $sisa_pembayaran]);
 
         return redirect('transaksi')->with('success', 'Pembayaran berhasil diperbarui.');
     }

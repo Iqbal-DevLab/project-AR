@@ -85,7 +85,7 @@
 
                 <div class="block shadow">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Rekap Data Table DP <small>Belum Dibayar</small></h3>
+                        <h3 class="block-title">Rekap Data DP <small>Belum Dibayar</small></h3>
                     </div>
                     <div class="block-content block-content-full">
                         <div class="table-responsive">
@@ -140,7 +140,7 @@
             <div class="col-md-6">
                 <div class="block shadow">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Rekap Data Table BMOS <small>Belum Dibayar</small></h3>
+                        <h3 class="block-title">Rekap Data BMOS <small>Belum Dibayar</small></h3>
                     </div>
                     <div class="block-content block-content-full">
                         <div class="table-responsive">

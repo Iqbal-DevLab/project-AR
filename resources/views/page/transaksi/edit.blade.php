@@ -196,7 +196,7 @@
                                             Pembayaran + PPN(11%)</label>
                                     </div>
                                     <div class="col input-group">
-                                        <input type="text" value="@currency($transaksi->total_tagihan),- "readonly required
+                                        <input type="text" value="@currency($transaksi->total_tagihan),-" readonly required
                                             placeholder="0" class="form-control col-md-5" id="total_nominal_i"
                                             name="total_tagihan">
                                     </div>
@@ -207,8 +207,9 @@
                                             Pembayaran</label>
                                     </div>
                                     <div class="col input-group">
-                                        <input type="text" value="0,- "readonly required placeholder="0"
-                                            class="form-control col-md-5" id="total_nominal_i" name="sisa_pembayaran">
+                                        <input type="text" value="@currency($transaksi->sisa_pembayaran),-" readonly required
+                                            placeholder="0" class="form-control col-md-5" id="total_nominal_i"
+                                            name="sisa_pembayaran">
                                     </div>
                                 </div>
                                 <div class="row text-monospace">
@@ -390,7 +391,7 @@
                 const totalDanaMasuk = danaMasuk;
 
                 // Memperbarui nilai total dana masuk
-                totalDanaMasukInput.value = totalDanaMasuk >= 0 ? totalDanaMasuk.toLocaleString("id-ID") :
+                totalDanaMasukInput.value = totalDanaMasuk >= 0 ? 'Rp. ' + totalDanaMasuk.toLocaleString("id-ID") :
                     0; // Menampilkan format angka dengan tanda titik sebagai pemisah ribuan dan mengatur nilai default menjadi 0 jika negatif
                 // }
             }

@@ -94,7 +94,7 @@
                                 <div class="col mb-3">
                                     <label for="progress" class="col-form-label fs-6">PROGRESS PEMBAYARAN</label>
                                     <select class="custom-select" disabled name="progress" id="progress">
-                                        <option hidden>--Pilih Progress Pembayaran--</option>
+                                        <option hidden value=''>--Pilih Progress Pembayaran--</option>
                                         <option id="DP"></option>
                                         <option id="APPROVAL"></option>
                                         <option id="BMOS"></option>

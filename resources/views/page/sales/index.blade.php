@@ -179,6 +179,7 @@
                                                     <option value="SWASTA">SWASTA</option>
                                                     <option value="BUMN">BUMN</option>
                                                     <option value="SBY">SBY</option>
+                                                    <option value="PRESALES">PRESALES</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
@@ -355,6 +356,12 @@
                                                                     <option value="SWASTA"
                                                                         @if ($s->type == 'SWASTA') selected @endif>
                                                                         SWASTA</option>
+                                                                    <option value="SBY"
+                                                                        @if ($s->type == 'SBY') selected @endif>
+                                                                        SBY</option>
+                                                                    <option value="PRESALES"
+                                                                        @if ($s->type == 'PRESALES') selected @endif>
+                                                                        PRESALES</option>
                                                                 </select>
                                                             </div>
                                                             <div class="mb-3">
