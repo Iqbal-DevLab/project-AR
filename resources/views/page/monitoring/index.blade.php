@@ -51,7 +51,9 @@
                         <tbody>
                             @foreach ($combinedCustomers as $customer)
                                 @php
-                                    $totalAR += $customer->AR;
+                                    $AR = property_exists($customer, 'AR') ? $customer->AR : 0;
+                                    $totalAR += property_exists($customer, 'AR') ? $customer->AR : 0;
+                                    
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
