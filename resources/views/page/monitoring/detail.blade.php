@@ -140,7 +140,7 @@
                                                                                     @csrf
                                                                                     @method('PUT')
                                                                                     <div class="row">
-                                                                                        <div class="col mb-3">
+                                                                                        <div hidden class="col mb-3">
                                                                                             <label for="status_po"
                                                                                                 class=" col-form-label fs-6">STATUS
                                                                                                 PO <span
@@ -433,15 +433,15 @@
                                                                         <td class="text-center">
                                                                             {{ isset($invoice->sisa_pembayaran) ? 'Rp. ' . number_format($invoice->sisa_pembayaran, 0, ',', '.') . ',-' : '-' }}
                                                                         </td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center font-italic">
                                                                             {{ $invoice->tgl_invoice ? $invoice->tgl_invoice : '-' }}
                                                                         </td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center font-italic">
                                                                             {{ $invoice->tgl_ttk ? $invoice->tgl_ttk : '-' }}
                                                                         </td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center font-italic">
                                                                             {{ $invoice->batas_jatuh_tempo }} Hari</td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center font-italic">
                                                                             {{ $invoice->tgl_jatuh_tempo ? $invoice->tgl_jatuh_tempo : '-' }}
                                                                         </td>
                                                                         <td class="text-center">
@@ -452,13 +452,12 @@
                                                                                     $tglLunas = isset($invoice->tgl_lunas) ? \Carbon\Carbon::createFromFormat('d-m-Y', $invoice->tgl_lunas) : null;
                                                                                     
                                                                                     if ($tglLunas) {
-                                                                                        $telatHari = max(0, $tglSekarang->diffInDays($tglLunas, false));
+                                                                                        $telatHari = max(0, $tglJatuhTempo->diffInDays($tglLunas, false));
                                                                                         echo $telatHari . ' Hari';
                                                                                     } else {
                                                                                         $telatHari = max(0, $tglJatuhTempo->diffInDays($tglSekarang, false));
-                                                                                        echo '-';
+                                                                                        echo $telatHari . ' Hari';
                                                                                     }
-                                                                                    
                                                                                 @endphp
                                                                             @else
                                                                                 -
@@ -535,7 +534,8 @@
                                                                         </td>
                                                                         @if ($transaksi->nilai_giro != null && $transaksi->status == 'BELUM DIBAYAR')
                                                                             <td class="text-center">
-                                                                                <span class="badge badge-pill badge-info">
+                                                                                <span
+                                                                                    class="badge badge-pill bg-secondary text-white">
                                                                                     GIRO MUNDUR SUDAH DITERIMA
                                                                                 </span>
                                                                             </td>

@@ -366,16 +366,11 @@
             }
         });
 
-        // Tambahkan event listener ke input nama proyek
         namaSalesInput.addEventListener('input', function() {
-            // Ambil value dari opsi yang dipilih
             const selectedOption = document.querySelector(`#sales option[value="${this.value}"]`);
-            // Jika opsi yang dipilih ditemukan
             if (selectedOption) {
-                // Set nilai input kode proyek sesuai dengan value dari opsi yang dipilih
                 idSalesInput.value = selectedOption.textContent.trim();
             } else {
-                // Jika opsi yang dipilih tidak ditemukan, reset nilai input kode proyek
                 idSalesInput.value = '';
             }
         });
@@ -414,14 +409,10 @@
         });
 
         namaCustomerInput.addEventListener('input', function() {
-            // Ambil value dari opsi yang dipilih
             const selectedOption = document.querySelector(`#pemesan option[value="${this.value}"]`);
-            // Jika opsi yang dipilih ditemukan
             if (selectedOption) {
-                // Set nilai input kode proyek sesuai dengan value dari opsi yang dipilih
                 idCustomerInput.value = selectedOption.textContent.trim();
             } else {
-                // Jika opsi yang dipilih tidak ditemukan, reset nilai input kode proyek
                 idCustomerInput.value = '';
             }
         });
@@ -510,16 +501,11 @@
             paymentTermsButton.disabled = true;
         });
 
-        // Tambahkan event listener ke input payment terms
         paymentTermsInput.addEventListener('input', function() {
-            // Ambil value dari opsi yang dipilih
             const selectedOption = document.querySelector(`#top option[value="${this.value}"]`);
-            // Jika opsi yang dipilih ditemukan
             if (selectedOption) {
-                // Set nilai input kode payment terms sesuai dengan value dari opsi yang dipilih
                 idPaymentTermsInput.value = selectedOption.textContent.trim();
             } else {
-                // Jika opsi yang dipilih tidak ditemukan, reset nilai input kode payment terms
                 idPaymentTermsInput.value = '';
             }
         });

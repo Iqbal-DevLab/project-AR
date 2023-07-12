@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="align-self-center">
                                     <select class="form-control form-control-sm" name="filter_select"
-                                        style="font-size: 0.875rem; height: 28px; width: 9rem;">
+                                        style="font-size: 0.875rem; height: 28px; width: 9rem;" required>
                                         <option value="">--Pilih Filter--</option>
                                         <option value="TANGGAL_TRANSFER"
                                             {{ request('filter_select') == 'TANGGAL_TRANSFER' ? 'selected' : '' }}>TANGGAL
@@ -199,13 +199,28 @@
                                     @endif
                                 </td>
                                 <td><span class="badge badge-info">@currency($total),-</span></td>
-                                <td class="text-center">
+                                {{-- <td class="text-center">
                                     <span
                                         class="badge
                                         {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
                                         {{ $t->status }}
                                     </span>
-                                </td>
+                                </td> --}}
+                                @if ($t->nilai_giro != null && $t->status == 'BELUM DIBAYAR')
+                                    <td class="text-center">
+                                        <span class="badge badge-pill bg-secondary text-white">
+                                            GIRO MUNDUR SUDAH DITERIMA
+                                        </span>
+                                    </td>
+                                @else
+                                    <td class="text-center">
+                                        <span
+                                            class="badge
+                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
+                                            {{ $t->status }}
+                                        </span>
+                                    </td>
+                                @endif
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="{{ route('transaksi.edit', $t->id) }}" type="button"

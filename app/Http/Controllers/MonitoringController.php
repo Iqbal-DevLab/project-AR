@@ -36,6 +36,7 @@ class MonitoringController extends Controller
                 'invoice.customer_id'
             )
             ->groupBy('customer.id')
+            ->where('invoice.status', '!=', 'DIBATALKAN')
             ->select(
                 DB::raw('SUM(CAST(invoice.total_tagihan AS decimal(18))) as totalNilaiTagihan'),
                 'customer.id',
@@ -44,6 +45,7 @@ class MonitoringController extends Controller
 
         $customers3 = DB::table('customer')
             ->join('transaksi', 'transaksi.customer_id', '=', 'customer.id')
+            ->where('transaksi.status', '!=', 'DIBATALKAN')
             ->groupBy('customer.id')
             ->select(
                 DB::raw('SUM(CAST(transaksi.total_dana_masuk AS decimal(18))) as pembayaranSudahDiterima'),
@@ -125,10 +127,11 @@ class MonitoringController extends Controller
             }
             $totalHargaKontrak = isset($combinedCustomer->totalHargaKontrak) ? $combinedCustomer->totalHargaKontrak : 0;
             $pembayaranSudahDiterima = isset($combinedCustomer->pembayaranSudahDiterima) ? $combinedCustomer->pembayaranSudahDiterima : 0;
-            $pembayaranBelumDiterima = isset($combinedCustomer->pembayaranBelumDiterima) ? $combinedCustomer->pembayaranBelumDiterima : 0;
+            // $pembayaranBelumDiterima = isset($combinedCustomer->pembayaranBelumDiterima) ? $combinedCustomer->pembayaranBelumDiterima : 0;
+            $AR = isset($combinedCustomer->AR) ? $combinedCustomer->AR : 0;
 
 
-            $sisaTagihan = max(0, $totalHargaKontrak * 111 / 100 - $pembayaranSudahDiterima - $pembayaranBelumDiterima);
+            $sisaTagihan = max(0, $totalHargaKontrak * 111 / 100 - $pembayaranSudahDiterima - $AR);
             $combinedCustomer->sisaTagihan = $sisaTagihan;
             $combinedCustomers[] = $combinedCustomer;
         }

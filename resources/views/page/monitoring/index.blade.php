@@ -5,6 +5,10 @@
         .table th {
             font-size: 0.875rem;
         }
+
+        .font-small {
+            font-size: 0.775rem !important;
+        }
     </style>
     <div class="tableExtraLarge content">
         {{-- <h2 class="content-heading">Halaman Monitoring</h2> --}}
@@ -89,7 +93,7 @@
                     </div>
                     <div class="block-content block-content-full">
                         <div class="table-responsive">
-                            <table class="table table-striped table-vcenter js-dataTable-simple">
+                            <table class="table table-striped table-vcenter table-hover js-dataTable-simple">
                                 <thead>
                                     <tr>
                                         {{-- <th class="text-center"></th> --}}
@@ -109,20 +113,22 @@
                                         @if (strpos($item->progress, 'DP') !== false)
                                             <tr>
                                                 {{-- <td class="text-center">{{ $key + 1 }}</td> --}}
-                                                <td class="font-w600">{{ $item->nama_proyek }}</td>
-                                                <td class="font-w600">{{ $item->nama_customer }}</td>
+                                                <td class="font-w600 font-small">{{ $item->nama_proyek }}</td>
+                                                <td class="font-w600 font-small">{{ $item->nama_customer }}</td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-sm btn-alt-primary w-100"
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-alt-primary w-100 font-small"
                                                         style="cursor: default">
                                                         {{ $item->no_invoice }}
                                                     </button>
                                                 </td>
-                                                <td class="font-w600">{{ $item->progress }}</td>
-                                                <td class="text-center font-italic">
-                                                    {{ $item->tgl_ttk ? $item->tgl_ttk : '-' }}
+                                                <td class="font-w600 font-small">{{ $item->progress }}</td>
+                                                <td class="text-center font-italic"><span class="badge badge-transparent">
+                                                        {{ $item->tgl_ttk ? $item->tgl_ttk : '-' }}</span>
                                                 </td>
-                                                <td class="text-center">@currency($item->nilai_tagihan),-</td>
-                                                <td class="text-center">
+                                                <td class="text-center"><span
+                                                        class="badge badge-transparent">@currency($item->nilai_tagihan),-</span></td>
+                                                <td class="text-center font-small">
                                                     <span
                                                         class="badge {{ $item->status == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($item->status == 'DIBATALKAN' ? 'badge-danger' : ($item->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($item->status == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
                                                         {{ $item->status }}
@@ -144,7 +150,7 @@
                     </div>
                     <div class="block-content block-content-full">
                         <div class="table-responsive">
-                            <table class="table table-striped table-vcenter js-dataTable-simple">
+                            <table class="table table-striped table-vcenter table-hover js-dataTable-simple">
                                 <thead>
                                     <tr>
                                         {{-- <th class="text-center"></th> --}}
@@ -164,27 +170,28 @@
                                         @if (strpos($item->progress, 'BMOS') !== false)
                                             <tr>
                                                 {{-- <td class="text-center">{{ $loop->iteration }}</td> --}}
-                                                <td class="font-w600">{{ $item->nama_proyek }}</td>
-                                                <td class="font-w600">{{ $item->nama_customer }}</td>
+                                                <td class="font-w600 font-small">{{ $item->nama_proyek }}</td>
+                                                <td class="font-w600 font-small">{{ $item->nama_customer }}</td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-sm btn-alt-primary w-100"
                                                         style="cursor: default">
                                                         {{ $item->no_invoice }}
                                                     </button>
                                                 </td>
-                                                <td class="font-w600">{{ $item->progress }}</td>
-                                                <td class="text-center font-italic">
-                                                    {{ $item->tgl_ttk ? $item->tgl_ttk : '-' }}
+                                                <td class="font-w600 font-small">{{ $item->progress }}</td>
+                                                <td class="text-center font-italic"><span class="badge badge-transparent">
+                                                        {{ $item->tgl_ttk ? $item->tgl_ttk : '-' }}</span>
                                                 </td>
-                                                <td class="text-center">@currency($item->nilai_tagihan),-</td>
+                                                <td class="text-center"><span
+                                                        class="badge badge-transparent">@currency($item->nilai_tagihan),-</span></td>
                                                 @if ($item->nilai_giro != null && $item->transaksiStatus == 'BELUM DIBAYAR')
-                                                    <td class="text-center">
-                                                        <span class="badge badge-pill badge-info">
+                                                    <td class="text-center font-small">
+                                                        <span class="badge badge-pill bg-secondary text-white">
                                                             GIRO MUNDUR SUDAH DITERIMA
                                                         </span>
                                                     </td>
                                                 @else
-                                                    <td class="text-center">
+                                                    <td class="text-center font-small">
                                                         <span
                                                             class="badge {{ $item->invoiceStatus == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($item->invoiceStatus == 'DIBATALKAN' ? 'badge-danger' : ($item->invoiceStatus == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($item->invoiceStatus == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
                                                             {{ $item->invoiceStatus }}

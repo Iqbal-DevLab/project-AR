@@ -41,8 +41,8 @@
                             <thead>
                                 <tr class="bg-primary text-white">
                                     <th class="text-center" style="width: 15%;">Sales</th>
-                                    <th class="text-center">Target</th>
-                                    <th class="text-center">Januari</th>
+                                    <th class="text-center" style="width: 8%;">Target</th>
+                                    <th class="text-center" style="width: 50px;">Januari</th>
                                     <th class="text-center">Februari</th>
                                     <th class="text-center">Maret</th>
                                     <th class="text-center">April</th>
@@ -115,21 +115,21 @@
                                         @endphp
                                         <tr>
                                             <td class="text-center">{{ $data['nama_sales'] }}</td>
-                                            <td>@currency($data['target']),-</td>
-                                            <td>@currency($jan),-</td>
-                                            <td>@currency($feb),-</td>
-                                            <td>@currency($mar),-</td>
-                                            <td>@currency($apr),-</td>
-                                            <td>@currency($mei),-</td>
-                                            <td>@currency($jun),-</td>
-                                            <td>@currency($jul),-</td>
-                                            <td>@currency($ags),-</td>
-                                            <td>@currency($sep),-</td>
-                                            <td>@currency($okt),-</td>
-                                            <td>@currency($nov),-</td>
-                                            <td>@currency($des),-</td>
-                                            <td>@currency($totalperSales),-</td>
-                                            <td>@currency($variance),-</td>
+                                            <td><span class="badge badge-transparent">@currency($data['target']),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($jan),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($feb),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($mar),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($apr),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($mei),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($jun),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($jul),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($ags),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($sep),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($okt),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($nov),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($des),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($totalperSales),-</span></td>
+                                            <td><span class="badge badge-transparent">@currency($variance),-</span></td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -155,42 +155,42 @@
                             <tr>
                                 <td class="text-center" style="font-weight: bold; width: 15%;">TOTAL
                                     SALES {{ $category }}</td>
-                                <td class="font-w600">@currency($totalTarget),-</td>
-                                <td class="font-w600">@currency($totalJan),-</td>
-                                <td class="font-w600">@currency($totalFeb),-</td>
-                                <td class="font-w600">@currency($totalMar),-</td>
-                                <td class="font-w600">@currency($totalApr),-</td>
-                                <td class="font-w600">@currency($totalMei),-</td>
-                                <td class="font-w600">@currency($totalJun),-</td>
-                                <td class="font-w600">@currency($totalJul),-</td>
-                                <td class="font-w600">@currency($totalAgs),-</td>
-                                <td class="font-w600">@currency($totalSep),-</td>
-                                <td class="font-w600">@currency($totalOkt),-</td>
-                                <td class="font-w600">@currency($totalNov),-</td>
-                                <td class="font-w600">@currency($totalDes),-</td>
-                                <td class="font-w600">@currency($totalSemuaSales),-</td>
-                                <td class="font-w600">@currency($totalVariance),-</td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalTarget),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalJan),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalFeb),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalMar),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalApr),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalMei),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalJun),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalJul),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalAgs),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalSep),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalOkt),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalNov),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalDes),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaSales),-</span></td>
+                                <td class="font-w600"><span class="badge badge-transparent">@currency($totalVariance),-</span></td>
                             </tr>
                     @endforeach
 
 
                     <tr class="">
                         <td class="text-center" style="font-weight: bold; width: 15%;">KUMULATIF SALES</td>
-                        <td class="font-w600">@currency($totalSemuaTarget),-</td>
-                        <td class="font-w600">@currency($totalSemuaJan),-</td>
-                        <td class="font-w600">@currency($totalSemuaFeb),-</td>
-                        <td class="font-w600">@currency($totalSemuaMar),-</td>
-                        <td class="font-w600">@currency($totalSemuaApr),-</td>
-                        <td class="font-w600">@currency($totalSemuaMei),-</td>
-                        <td class="font-w600">@currency($totalSemuaJun),-</td>
-                        <td class="font-w600">@currency($totalSemuaJul),-</td>
-                        <td class="font-w600">@currency($totalSemuaAgs),-</td>
-                        <td class="font-w600">@currency($totalSemuaSep),-</td>
-                        <td class="font-w600">@currency($totalSemuaOkt),-</td>
-                        <td class="font-w600">@currency($totalSemuaNov),-</td>
-                        <td class="font-w600">@currency($totalSemuaDes),-</td>
-                        <td class="font-w600">@currency($totalSemuaTotal),-</td>
-                        <td class="font-w600">@currency($totalSemuaVariance),-</td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaTarget),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaJan),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaFeb),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaMar),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaApr),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaMei),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaJun),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaJul),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaAgs),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaSep),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaOkt),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaNov),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaDes),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaTotal),-</span></td>
+                        <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaVariance),-</span></td>
                     </tr>
 
                     </table>

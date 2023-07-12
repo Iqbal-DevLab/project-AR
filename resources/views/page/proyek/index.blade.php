@@ -28,6 +28,7 @@
                                 <th class="text-center">#</th>
                                 <th class="text-center">Nama Proyek</th>
                                 <th class="text-center" style="width: 10%">Kode Proyek</th>
+                                <th class="text-center">Nama Pemesan</th>
                                 <th class="text-center">Kategori</th>
                                 <th class="text-center">Sales</th>
                                 <th class="text-center">Harga Kontrak</th>
@@ -46,6 +47,7 @@
                                             {{ $p->kode_proyek }}
                                         </button>
                                     </td>
+                                    <td class="font-w600 text-center">{{ $p->nama_customer }}</td>
                                     <td class="text-center">{{ $p->kategori_proyek }}</td>
                                     <td class="text-center">{{ $p->nama_sales }}</td>
                                     <td class="text-center">@currency($p->nilai_kontrak),-</td>
