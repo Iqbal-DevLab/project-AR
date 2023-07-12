@@ -116,11 +116,9 @@
                                                 <td class="font-w600 font-small">{{ $item->nama_proyek }}</td>
                                                 <td class="font-w600 font-small">{{ $item->nama_customer }}</td>
                                                 <td class="text-center">
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-alt-primary w-100 font-small"
-                                                        style="cursor: default">
+                                                    <span class="badge badge-transparent">
                                                         {{ $item->no_invoice }}
-                                                    </button>
+                                                    </span>
                                                 </td>
                                                 <td class="font-w600 font-small">{{ $item->progress }}</td>
                                                 <td class="text-center font-italic"><span class="badge badge-transparent">
@@ -173,10 +171,9 @@
                                                 <td class="font-w600 font-small">{{ $item->nama_proyek }}</td>
                                                 <td class="font-w600 font-small">{{ $item->nama_customer }}</td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-sm btn-alt-primary w-100"
-                                                        style="cursor: default">
+                                                    <span class="badge badge-transparent">
                                                         {{ $item->no_invoice }}
-                                                    </button>
+                                                    </span>
                                                 </td>
                                                 <td class="font-w600 font-small">{{ $item->progress }}</td>
                                                 <td class="text-center font-italic"><span class="badge badge-transparent">
