@@ -68,11 +68,6 @@
                                 class="col-sm-12 col-md-6 col-xl-10 form-control" id="total_sales_volume"
                                 name="total_sales_volume">
                         </div>
-                        {{-- <div class="col-lg-5">
-                            <label for="uang_muka" class="form-label fs-6">Uang Muka</label>
-                            <input type="text" readonly required placeholder=0
-                                class="col-sm-12 col-md-6 col-xl-10 form-control" id="uang_muka" name="uang_muka">
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -81,7 +76,9 @@
             <div class="block-header block-header-default">
                 <h3 class="block-title">Data Table <small>Sales Volume</small></h3>
                 <a href="{{ route('sales-volume.pdf', ['tgl_awal' => request('tgl_awal'), 'tgl_akhir' => request('tgl_akhir')]) }}"
-                    class="btn btn-sm btn-alt-primary"><i class="fa-solid fa-file-arrow-down"></i> Download PDF</a>
+                    class="btn btn-sm btn-alt-primary" id="button_pdf"><i class="fa-solid fa-file-arrow-down"></i>
+                    Download
+                    PDF</a>
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">

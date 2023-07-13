@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $get = DB::table('invoice')
-            ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
+            ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
@@ -39,6 +39,7 @@ class InvoiceController extends Controller
     public function create()
     {
         $invoice = DB::table('invoice')->get();
+        $payment_terms = PaymentTerms::All();
 
         $proyek = DB::table('proyek')
             ->select('proyek.*', 'sales.nama_sales', 'payment_terms.id as payment_terms_id')
@@ -47,8 +48,15 @@ class InvoiceController extends Controller
             ->join('payment_terms', 'payment_terms.id', '=', 'proyek.payment_terms_id')
             ->get();
 
-        $payment_terms = PaymentTerms::All();
-        return view('page.invoice.create', compact('invoice', 'proyek', 'payment_terms'));
+        $dataInvoice = DB::table('invoice')
+            ->select('invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_jatuh_tempo')
+            ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
+            ->join('sales', 'proyek.sales_id', '=', 'sales.id')
+            ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+            ->orderBy('invoice.id', 'asc')
+            ->get();
+
+        return view('page.invoice.create', compact('invoice', 'dataInvoice', 'proyek', 'payment_terms'));
     }
 
     public function store(Request $request)

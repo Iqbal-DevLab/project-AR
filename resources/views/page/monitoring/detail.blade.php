@@ -119,7 +119,8 @@
                                                         <div class="modal fade" id="editKeterangan{{ $item->id }}"
                                                             tabindex="-1" role="dialog"
                                                             aria-labelledby="editKeteranganModal" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-popout" role="document">
+                                                            <div class="modal-dialog  modal-dialog-centered modal-dialog-popout"
+                                                                role="document">
                                                                 <div class="modal-content">
                                                                     <div class="block block-themed block-transparent mb-0">
                                                                         <div class="block-header bg-primary-dark">

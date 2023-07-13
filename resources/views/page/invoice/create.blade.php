@@ -1,7 +1,41 @@
 @extends('layouts.dashboard')
 @section('content')
+    <style>
+        .table td,
+        .table th {
+            font-size: 0.875rem;
+        }
+    </style>
     <div class="content">
         {{-- <h2 class="content-heading">Halaman Pembuatan Invoice</h2> --}}
+        <div class="block shadow">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Data Invoice <small>Sudah Dibuat</small></h3>
+            </div>
+            <div class="block-content block-content-full">
+                <div class="table-responsive">
+                    <table class="table table-striped table-vcenter table-hover js-dataTable-simple">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th>Customer</th>
+                                <th class="text-center" style="width: 15%">No Invoice</th>
+                                <th class="text-center">Progress</th>
+                                <th class="text-center" style="width: 15%">
+                                    Tanggal TTK
+                                </th>
+                                <th class="text-center">Nilai Tagihan</th>
+                                <th class="text-center">Total Tagihan</th>
+                                <th class="text-center">AR</th>
+                                <th class="text-center" style="width: 15%">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoiceTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
                 <h3 class="block-title text-center">BUAT INVOICE</h3>
@@ -81,9 +115,10 @@
                                         INVOICE</label>
                                     <div class="input-group date align-items-center">
                                         <input type="text" class="js-datepicker form-control" id="tgl_invoice"
-                                            name="tgl_invoice" autocomplete="off" data-week-start="1" data-autoclose="true"
-                                            data-today-highlight="true" data-date-format="dd-mm-yyyy"
-                                            value="{{ old('tgl_invoice') }}" placeholder="dd-MM-yyyy">
+                                            name="tgl_invoice" autocomplete="off" data-week-start="1"
+                                            data-autoclose="true" data-today-highlight="true"
+                                            data-date-format="dd-mm-yyyy" value="{{ old('tgl_invoice') }}"
+                                            placeholder="dd-MM-yyyy">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary fw-bold" type="button"><i
                                                     class="fa fa-calendar"></i>
@@ -256,61 +291,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- <script>
-        var tglInvoiceInput = document.getElementById('tgl_invoice');
-        var tglJatuhTempoSelect = document.getElementById('batas_jatuh_tempo');
-        var tglJatuhTempoInput = document.getElementById('tgl_jatuh_tempo');
-        var lainnyaForm = document.getElementById("lainnya");
-        var tglJatuhTempoLainnyaInput = document.getElementById("tgl_jatuh_tempo_lainnya");
-
-        tglInvoiceInput.addEventListener('change', function() {
-            if (this.value !== "") {
-                tglJatuhTempoSelect.disabled = false;
-            } else {
-                tglJatuhTempoSelect.disabled = true;
-            }
-        });
-
-
-        function calculateTanggalJatuhTempo() {
-            var tglInvoiceValue = tglInvoiceInput.value;
-            var tglInvoiceParts = tglInvoiceValue.split('-');
-            var tanggalInvoice = new Date(tglInvoiceParts[2], tglInvoiceParts[1] - 1, tglInvoiceParts[0]);
-
-            if (tglJatuhTempoSelect.value !== "") {
-                var selectedOptionValue = parseInt(tglJatuhTempoSelect.value);
-                tanggalInvoice.setDate(tanggalInvoice.getDate() + selectedOptionValue);
-            } else {
-                var customInputValue = tglJatuhTempoLainnyaInput.value;
-                var customDays = parseInt(customInputValue);
-
-                if (!isNaN(customDays)) {
-                    tanggalInvoice.setDate(tanggalInvoice.getDate() + customDays);
-                }
-            }
-
-            var dd = String(tanggalInvoice.getDate()).padStart(2, '0');
-            var mm = String(tanggalInvoice.getMonth() + 1).padStart(2, '0');
-            var yyyy = tanggalInvoice.getFullYear();
-
-            tglJatuhTempoInput.value = dd + '-' + mm + '-' + yyyy;
-        }
-
-        tglJatuhTempoSelect.addEventListener('change', function() {
-            if (this.value === "") {
-                lainnyaForm.style.display = "block";
-            } else {
-                lainnyaForm.style.display = "none";
-            }
-
-            calculateTanggalJatuhTempo();
-        });
-
-        tglJatuhTempoLainnyaInput.addEventListener('input', function() {
-            calculateTanggalJatuhTempo();
-        });
-    </script> --}}
-
     <script>
         const kodeProyekInput = document.getElementById('kode_proyek');
         const namaProyekInput = document.getElementById('nama_proyek');
@@ -326,6 +306,33 @@
         const kodeTESTCOMM = document.getElementById('TESTCOMM');
         const kodeRETENSI = document.getElementById('RETENSI');
 
+        const invoiceData = {!! json_encode($dataInvoice) !!};
+        // Mendapatkan referensi ke elemen tbody di dalam tabel
+        var tableBody = document.getElementById('invoiceTableBody');
+
+        //Fungsi Status invoice pada table invoice
+        function getStatusBadgeClass(status) {
+            if (status === 'MENUNGGU PEMBAYARAN') {
+                return 'badge-warning';
+            } else if (status === 'DIBATALKAN') {
+                return 'badge-danger';
+            } else if (status === 'TAGIHAN MENUNGGU PELUNASAN') {
+                return 'badge-info';
+            } else if (status === 'KWITANSI BELUM DITERIMA') {
+                return 'badge-secondary';
+            } else {
+                return 'badge-primary';
+            }
+        }
+
+        // Fungsi untuk memformat nilai sebagai mata uang dalam format Rupiah tanpa angka desimal yang bernilai nol di belakangnya
+        function formatCurrency(amount) {
+            const formattedAmount = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(amount);
+            return formattedAmount.replace(/\,00$/, '');
+        }
 
         kodeProyekInput.addEventListener('input', function() {
             const selectedOption = document.querySelector(`#kode option[value="${this.value}"]`);
@@ -334,11 +341,46 @@
                 paymentTermsIdInput.value = selectedOption.dataset.paymentTermsId;
                 customerIdInput.value = selectedOption.dataset.customerId;
                 keteranganInput.value = selectedOption.dataset.keterangan;
+
+                const kodeProyek = selectedOption.value;
+                const filteredInvoices = invoiceData.filter(dataInvoice => dataInvoice.kode_proyek === kodeProyek);
+
+                // Membuat variabel untuk menyimpan markup HTML tabel
+                let tableHTML = '';
+
+                // Meloopi setiap invoice dalam filteredInvoices
+                for (let i = 0; i < filteredInvoices.length; i++) {
+                    const invoice = filteredInvoices[i];
+
+                    // Membuat baris HTML untuk setiap invoice
+                    tableHTML += '<tr>';
+                    tableHTML += '<td class="text-center"></td>';
+                    tableHTML += '<td>' + invoice.nama_customer + '</td>';
+                    tableHTML += '<td class="text-center">' + invoice.no_invoice + '</td>';
+                    tableHTML += '<td class="text-center">' + invoice.progress + '</td>';
+                    tableHTML += '<td class="text-center font-italic">' + invoice.tgl_ttk + '</td>';
+                    tableHTML += '<td class="text-center font-italic">' + invoice.tgl_jatuh_tempo + '</td>';
+                    tableHTML += '<td class="text-center">' + formatCurrency(invoice.total_tagihan) + '</td>';
+                    tableHTML += '<td class="text-center">' + formatCurrency(invoice.sisa_pembayaran) + '</td>';
+                    tableHTML += '<td class="text-center">';
+                    tableHTML += '<span class="badge ' + getStatusBadgeClass(invoice.status) + '">';
+                    tableHTML += invoice.status;
+                    tableHTML += '</span>';
+                    tableHTML += '</td>';
+
+                    tableHTML += '</tr>';
+                }
+
+                // Menambahkan markup HTML ke dalam tbody
+                tableBody.innerHTML = tableHTML;
             } else {
                 namaProyekInput.value = '';
                 paymentTermsIdInput.value = '';
                 customerIdInput.value = '';
                 keteranganInput.value = '';
+
+                // Jika tidak ada kode proyek yang cocok, hapus isi tabel
+                tableBody.innerHTML = '';
             }
 
             kodeDP.style.display = "none";
@@ -349,8 +391,6 @@
             kodeRETENSI.style.display = "none";
 
             console.log(paymentTermsIdInput.value);
-
-
 
             const paymentTermsData = {!! json_encode($payment_terms) !!};
             const invoiceGet = {!! json_encode($invoice) !!};
@@ -458,6 +498,7 @@
             paymentTermsIdInput.value = '';
             keteranganInput.value = '';
             progressSelect.disabled = true;
+            tableBody.innerHTML = '';
         });
     </script>
 
