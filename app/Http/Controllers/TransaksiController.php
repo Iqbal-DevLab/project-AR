@@ -147,7 +147,7 @@ class TransaksiController extends Controller
 
         $proyek = DB::table('invoice')
             ->join('proyek', 'proyek.kode_proyek', '=', 'invoice.kode_proyek')
-            ->select('invoice.id', 'invoice.customer_id', 'invoice.no_invoice', 'proyek.nama_proyek', 'invoice.sisa_pembayaran', 'invoice.tgl_ttk', 'invoice.batas_jatuh_tempo', 'invoice.tgl_jatuh_tempo', 'invoice.koreksi_dp', 'invoice.nilai_tagihan', 'invoice.progress', 'proyek.kode_proyek', 'invoice.tagihan', 'invoice.pph', 'invoice.pph_nominal', 'invoice.ppn_nominal', 'invoice.lain_lain', 'invoice.total_tagihan')
+            ->select('invoice.id', 'invoice.customer_id', 'invoice.no_invoice', 'proyek.nama_proyek', 'invoice.ar', 'invoice.tgl_ttk', 'invoice.batas_jatuh_tempo', 'invoice.tgl_jatuh_tempo', 'invoice.koreksi_dp', 'invoice.nilai_tagihan', 'invoice.progress', 'proyek.kode_proyek', 'invoice.tagihan', 'invoice.pph', 'invoice.pph_nominal', 'invoice.ppn_nominal', 'invoice.lain_lain', 'invoice.total_tagihan')
             ->where('invoice.status', '!=', 'DIBATALKAN')
             ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
             ->whereNotNull('invoice.tgl_ttk')
@@ -200,7 +200,7 @@ class TransaksiController extends Controller
         $total_dana_masuk = $request->total_dana_masuk ? str_replace(['.', ',-'], '', $request->total_dana_masuk) : null;
         $bank_charge = $request->bank_charge ? str_replace(['.', ',-'], '', $request->bank_charge) : null;
         $nilai_giro = $request->nilai_giro ? str_replace(['.', ',-'], '', $request->nilai_giro) : null;
-        $sisa_pembayaran = $request->sisa_pembayaran ? str_replace(['.', ',-'], '', $request->sisa_pembayaran) : null;
+        $ar = $request->ar ? str_replace(['.', ',-'], '', $request->ar) : null;
 
         DB::table('transaksi')->insert([
             'kode_proyek' => $request->kode_proyek,
@@ -214,7 +214,7 @@ class TransaksiController extends Controller
             'tgl_giro_cair' => $request->tgl_giro_cair,
             'nilai_giro' => $nilai_giro,
             'dana_masuk' => $dana,
-            'sisa_pembayaran' => $sisa_pembayaran,
+            'ar' => $ar,
             'total_dana_masuk' => $total_dana_masuk,
             'bank_charge' => $bank_charge,
             'status' => $request->status,
@@ -224,20 +224,20 @@ class TransaksiController extends Controller
 
         // Menghitung sisa pembayaran
         $total_tagihan = str_replace(['.', ',-'], '', $request->total_tagihan);
-        $sisa_pembayaran = str_replace(['.', ',-'], '', $request->sisa_pembayaran);
+        $ar = str_replace(['.', ',-'], '', $request->ar);
         $total_nilai = $total_dana_masuk ? $total_dana_masuk : $nilai_giro;
 
         //Pembayaran Transfer
-        if ($sisa_pembayaran) {
-            $sisa_pembayaran = $sisa_pembayaran - $total_dana_masuk;
+        if ($ar) {
+            $ar = $ar - $total_dana_masuk;
         } else {
-            $sisa_pembayaran = $total_tagihan - $total_dana_masuk;
+            $ar = $total_tagihan - $total_dana_masuk;
         }
 
-        // Mengupdate sisa_pembayaran pada invoice
+        // Mengupdate ar pada invoice
         DB::table('invoice')
             ->where('id', $request->invoice_id)
-            ->update(['sisa_pembayaran' => $sisa_pembayaran]);
+            ->update(['ar' => $ar]);
 
 
         return redirect('transaksi')->with('success', 'Pembayaran baru berhasil ditambahkan.');;
@@ -285,19 +285,19 @@ class TransaksiController extends Controller
 
         // Menghitung sisa pembayaran
         $total_tagihan = $request->total_tagihan ?  str_replace(['.', 'Rp', ' ', ',-'], '', $request->total_tagihan) : null;
-        $sisa_pembayaran = $request->sisa_pembayaran ?  str_replace(['.', 'Rp', ' ', ',-'], '', $request->sisa_pembayaran) : null;
+        $ar = $request->ar ?  str_replace(['.', 'Rp', ' ', ',-'], '', $request->ar) : null;
 
         //Pembayaran Transfer
-        if ($sisa_pembayaran) {
-            $sisa_pembayaran = $sisa_pembayaran - $total_dana_masuk;
+        if ($ar) {
+            $ar = $ar - $total_dana_masuk;
         } else {
-            $sisa_pembayaran = $total_tagihan - $total_dana_masuk;
+            $ar = $total_tagihan - $total_dana_masuk;
         }
 
-        // Mengupdate sisa_pembayaran pada invoice
+        // Mengupdate ar pada invoice
         DB::table('invoice')
             ->where('id', $request->invoice_id)
-            ->update(['sisa_pembayaran' => $sisa_pembayaran]);
+            ->update(['ar' => $ar]);
 
         return redirect('transaksi')->with('success', 'Pembayaran berhasil diperbarui.');
     }
@@ -332,8 +332,8 @@ class TransaksiController extends Controller
         $invoice = DB::table('invoice')
             ->where('invoice.id', $transaksi->invoice_id)
             ->first();
-        // dd($totalDanaMasuk->total_dana_masuk, $transaksi->total_tagihan, $invoice->sisa_pembayaran);
-        $AR = $totalDanaMasuk->total_dana_masuk + $invoice->sisa_pembayaran;
+        // dd($totalDanaMasuk->total_dana_masuk, $transaksi->total_tagihan, $invoice->ar);
+        $AR = $totalDanaMasuk->total_dana_masuk + $invoice->ar;
         if ($AR == 0) {
 
             DB::table('invoice')
@@ -343,12 +343,12 @@ class TransaksiController extends Controller
 
             DB::table('invoice')
                 ->where('invoice.id', $transaksi->invoice_id)
-                ->update(['status' => 'MENUNGGU PEMBAYARAN', 'sisa_pembayaran' => $invoice->sisa_pembayaran + $transaksi->total_dana_masuk]);
+                ->update(['status' => 'MENUNGGU PEMBAYARAN', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
         } elseif ($AR != $transaksi->total_tagihan) {
 
             DB::table('invoice')
                 ->where('invoice.id', $transaksi->invoice_id)
-                ->update(['status' => 'TAGIHAN MENUNGGU PELUNASAN', 'sisa_pembayaran' => $invoice->sisa_pembayaran + $transaksi->total_dana_masuk]);
+                ->update(['status' => 'TAGIHAN MENUNGGU PELUNASAN', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
         }
 
 

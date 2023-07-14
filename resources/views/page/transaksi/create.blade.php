@@ -53,7 +53,7 @@
                                             data-koreksi-dp="{{ $p->koreksi_dp }}" data-tgl-ttk="{{ $p->tgl_ttk }}"
                                             data-tgl-jatuh-tempo="{{ $p->tgl_jatuh_tempo }}"
                                             data-batas-jatuh-tempo="{{ $p->batas_jatuh_tempo }}"
-                                            data-sisa-pembayaran="{{ $p->sisa_pembayaran }}">
+                                            data-sisa-pembayaran="{{ $p->ar }}">
                                             {{ $p->nama_proyek }}</option>
                                     @empty
                                         <span>Data kosong</span>
@@ -238,13 +238,13 @@
                                 </div>
                                 <div class="row text-monospace">
                                     <div class="col input-group">
-                                        <label for="sisa_pembayaran" class="col-form-label col-md-9 fs-6">Sisa
+                                        <label for="ar" class="col-form-label col-md-9 fs-6">Sisa
                                             Pembayaran</label>
                                     </div>
                                     <div class="col input-group">
                                         <span class="align-self-center">Rp.</span>
                                         <input type="text" readonly placeholder="0" class="form-control col-md-5"
-                                            id="sisa_pembayaran_i" name="sisa_pembayaran">
+                                            id="ar_i" name="ar">
                                     </div>
                                 </div>
                                 <div class="row text-monospace">
@@ -467,7 +467,7 @@
         const biayaLainnyaInput = document.getElementById('biayalain_i');
         const totalNominalInput = document.getElementById('total_nominal_i');
         const nilaiTagihanInput = document.getElementById('nilai_tagihan_i');
-        const sisaPembayaranInput = document.getElementById('sisa_pembayaran_i');
+        const sisaPembayaranInput = document.getElementById('ar_i');
         const tglTtkInput = document.getElementById('tgl_ttk_i');
         const batasJatuhTempoInput = document.getElementById('batas_jatuh_tempo_i');
         const tglJatuhTempoInput = document.getElementById('tgl_jatuh_tempo_i');

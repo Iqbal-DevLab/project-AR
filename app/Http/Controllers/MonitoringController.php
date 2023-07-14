@@ -84,7 +84,7 @@ class MonitoringController extends Controller
                 'DIBATALKAN'
             )
             ->select(
-                DB::raw('SUM(CAST(invoice.sisa_pembayaran AS decimal(18))) as AR'),
+                DB::raw('SUM(CAST(invoice.ar AS decimal(18))) as AR'),
                 'customer.id',
             )
             ->get();
@@ -247,7 +247,7 @@ class MonitoringController extends Controller
         // dd($customers1, $customers2, $customersF);
 
         $tableDP = DB::table('invoice')
-            ->select('invoice.id', 'invoice.nilai_tagihan', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
+            ->select('invoice.id', 'invoice.nilai_tagihan', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->where('invoice.status', '!=', 'DIBATALKAN')
             ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
@@ -255,7 +255,7 @@ class MonitoringController extends Controller
             ->get();
 
         $tableBMOS = DB::table('invoice')
-            ->select('transaksi.nilai_giro', 'invoice.nilai_tagihan', 'transaksi.status as transaksiStatus', 'invoice.id', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status as invoiceStatus', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
+            ->select('transaksi.nilai_giro', 'invoice.nilai_tagihan', 'transaksi.status as transaksiStatus', 'invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status as invoiceStatus', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->leftJoin('transaksi', 'invoice.id', '=', 'transaksi.invoice_id')
             ->where('invoice.status', '!=', 'DIBATALKAN')
@@ -298,7 +298,7 @@ class MonitoringController extends Controller
             $invoice = [];
 
             $invoiceData = DB::table('invoice')
-                ->select('invoice.tgl_lunas', 'invoice.id', 'invoice.sisa_pembayaran', 'invoice.tgl_ttk', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.batas_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at')
+                ->select('invoice.tgl_lunas', 'invoice.id', 'invoice.ar', 'invoice.tgl_ttk', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.batas_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at')
                 ->where('invoice.kode_proyek', $item->kode_proyek)
                 ->where(
                     'invoice.status',
@@ -315,7 +315,7 @@ class MonitoringController extends Controller
             $transaksi = []; // Define an empty array for transactions
 
             $transaksiData = DB::table('transaksi')
-                ->select('invoice.no_invoice', 'invoice.tagihan', 'invoice.nilai_tagihan', 'invoice.total_tagihan', 'invoice.progress', 'invoice.tgl_ttk', 'transaksi.sisa_pembayaran', 'transaksi.dana_masuk', 'transaksi.bank', 'transaksi.nilai_giro', 'transaksi.total_dana_masuk', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'transaksi.tgl_transfer', 'transaksi.status')
+                ->select('invoice.no_invoice', 'invoice.tagihan', 'invoice.nilai_tagihan', 'invoice.total_tagihan', 'invoice.progress', 'invoice.tgl_ttk', 'transaksi.ar', 'transaksi.dana_masuk', 'transaksi.bank', 'transaksi.nilai_giro', 'transaksi.total_dana_masuk', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'transaksi.tgl_transfer', 'transaksi.status')
                 ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
                 ->join('invoice', 'invoice.id', '=', 'transaksi.invoice_id')
                 ->where('transaksi.kode_proyek', $item->kode_proyek)
@@ -345,7 +345,7 @@ class MonitoringController extends Controller
                     'DIBATALKAN'
                 )
                 ->where('kode_proyek', $item->kode_proyek)
-                ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as totalPembayaranBelumDiterima'))
+                ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as totalPembayaranBelumDiterima'))
                 ->first()
                 ->totalPembayaranBelumDiterima;
 
@@ -367,7 +367,7 @@ class MonitoringController extends Controller
             // $arDP = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%DP%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arDP'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arDP'))
             //     ->first()
             //     ->arDP;
 
@@ -381,7 +381,7 @@ class MonitoringController extends Controller
             // $arAPPROVAL = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%APPROVAL%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arAPPROVAL'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arAPPROVAL'))
             //     ->first()
             //     ->arAPPROVAL;
 
@@ -395,7 +395,7 @@ class MonitoringController extends Controller
             // $arBMOS = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%BMOS%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arBMOS'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arBMOS'))
             //     ->first()
             //     ->arBMOS;
 
@@ -409,7 +409,7 @@ class MonitoringController extends Controller
             // $arAMOS = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%AMOS%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arAMOS'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arAMOS'))
             //     ->first()
             //     ->arAMOS;
 
@@ -423,7 +423,7 @@ class MonitoringController extends Controller
             // $arTESTCOMM = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%TESTCOMM%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arTESTCOMM'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arTESTCOMM'))
             //     ->first()
             //     ->arTESTCOMM;
 
@@ -437,7 +437,7 @@ class MonitoringController extends Controller
             // $arRETENSI = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
             //     ->where('progress', 'LIKE', '%RETENSI%')
-            //     ->select(DB::raw('SUM(CAST(sisa_pembayaran AS decimal(18))) as arRETENSI'))
+            //     ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as arRETENSI'))
             //     ->first()
             //     ->arRETENSI;
 
@@ -467,7 +467,7 @@ class MonitoringController extends Controller
                 $monitoringTable[$item->id][$arColumn] = DB::table('invoice')
                     ->where('kode_proyek', $item->kode_proyek)
                     ->where('progress', 'LIKE', "%{$type}%")
-                    ->select(DB::raw("SUM(CAST(sisa_pembayaran AS decimal(18))) as {$arColumn}"))
+                    ->select(DB::raw("SUM(CAST(ar AS decimal(18))) as {$arColumn}"))
                     ->first()
                     ->$arColumn;
             }

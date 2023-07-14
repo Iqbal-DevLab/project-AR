@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $get = DB::table('invoice')
-            ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
+            ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
@@ -49,7 +49,7 @@ class InvoiceController extends Controller
             ->get();
 
         $dataInvoice = DB::table('invoice')
-            ->select('invoice.tgl_ttk', 'invoice.sisa_pembayaran', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_jatuh_tempo')
+            ->select('proyek.nilai_kontrak', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_jatuh_tempo', 'payment_terms.DP', 'payment_terms.APPROVAL', 'payment_terms.BMOS', 'payment_terms.AMOS', 'payment_terms.TESTCOMM', 'payment_terms.RETENSI')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
@@ -107,7 +107,7 @@ class InvoiceController extends Controller
             'pph_nominal' => $pph_nominal,
             'lain_lain' => $lain_lain,
             'total_tagihan' => $total_tagihan,
-            'sisa_pembayaran' => $total_tagihan,
+            'ar' => $total_tagihan,
             'progress' => $request->progress,
             'status' => 'KWITANSI BELUM DITERIMA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

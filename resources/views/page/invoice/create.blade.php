@@ -7,7 +7,16 @@
         }
     </style>
     <div class="content">
-        {{-- <h2 class="content-heading">Halaman Pembuatan Invoice</h2> --}}
+        @php
+            $hargaKontrak = 0;
+            
+            $dp = 0;
+            $approval = 0;
+            $bmos = 0;
+            $amos = 0;
+            $testcomm = 0;
+            $retensi = 0;
+        @endphp
         <div class="block shadow">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Data Invoice <small>Sudah Dibuat</small></h3>
@@ -24,7 +33,7 @@
                                 <th class="text-center" style="width: 15%">
                                     Tanggal TTK
                                 </th>
-                                <th class="text-center">Nilai Tagihan</th>
+                                <th class="text-center">Tanggal Jatuh Tempo</th>
                                 <th class="text-center">Total Tagihan</th>
                                 <th class="text-center">AR</th>
                                 <th class="text-center" style="width: 15%">Status</th>
@@ -130,12 +139,12 @@
                                     <label for="progress" class="col-form-label fs-6">PROGRESS PEMBAYARAN</label>
                                     <select class="custom-select" disabled name="progress" id="progress">
                                         <option hidden value=''>--Pilih Progress Pembayaran--</option>
-                                        <option id="DP"></option>
-                                        <option id="APPROVAL"></option>
-                                        <option id="BMOS"></option>
-                                        <option id="AMOS"></option>
-                                        <option id="TESTCOMM"></option>
-                                        <option id="RETENSI"></option>
+                                        <option id="DP" style="display: none;"></option>
+                                        <option id="APPROVAL" style="display: none;"></option>
+                                        <option id="BMOS" style="display: none;"></option>
+                                        <option id="AMOS" style="display: none;"></option>
+                                        <option id="TESTCOMM" style="display: none;"></option>
+                                        <option id="RETENSI" style="display: none;"></option>
                                     </select>
                                 </div>
                             </div>
@@ -267,7 +276,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="mb-3 mt-3">
                                 <label for="keterangan" class="col-form-label fs-6">
@@ -347,10 +355,18 @@
 
                 // Membuat variabel untuk menyimpan markup HTML tabel
                 let tableHTML = '';
+                //Deklarasi variable TOP
+                var dp = 0;
+                var approval = 0;
+                var bmos = 0;
+                var amos = 0;
+                var testcomm = 0;
+                var retensi = 0;
 
-                // Meloopi setiap invoice dalam filteredInvoices
+                // Melooping setiap invoice dalam filteredInvoices
                 for (let i = 0; i < filteredInvoices.length; i++) {
                     const invoice = filteredInvoices[i];
+                    console.log(invoice);
 
                     // Membuat baris HTML untuk setiap invoice
                     tableHTML += '<tr>';
@@ -358,10 +374,14 @@
                     tableHTML += '<td>' + invoice.nama_customer + '</td>';
                     tableHTML += '<td class="text-center">' + invoice.no_invoice + '</td>';
                     tableHTML += '<td class="text-center">' + invoice.progress + '</td>';
-                    tableHTML += '<td class="text-center font-italic">' + invoice.tgl_ttk + '</td>';
-                    tableHTML += '<td class="text-center font-italic">' + invoice.tgl_jatuh_tempo + '</td>';
+                    tableHTML += '<td class="text-center font-italic">' + (invoice.tgl_ttk ? invoice.tgl_ttk :
+                        '-') + '</td>';
+
+                    tableHTML += '<td class="text-center font-italic">' + (invoice.tgl_jatuh_tempo ? invoice
+                        .tgl_jatuh_tempo : '-') + '</td>';
+
                     tableHTML += '<td class="text-center">' + formatCurrency(invoice.total_tagihan) + '</td>';
-                    tableHTML += '<td class="text-center">' + formatCurrency(invoice.sisa_pembayaran) + '</td>';
+                    tableHTML += '<td class="text-center">' + formatCurrency(invoice.ar) + '</td>';
                     tableHTML += '<td class="text-center">';
                     tableHTML += '<span class="badge ' + getStatusBadgeClass(invoice.status) + '">';
                     tableHTML += invoice.status;
@@ -369,10 +389,35 @@
                     tableHTML += '</td>';
 
                     tableHTML += '</tr>';
-                }
 
+                    //Perhitungan TOP
+                    let dp_percentage = invoice.DP ? parseFloat(invoice.DP.replace('%', '')) : 0;
+                    let approval_percentage = invoice.APPROVAL ? parseFloat(invoice.APPROVAL.replace('%', '')) : 0;
+                    let bmos_percentage = invoice.BMOS ? parseFloat(invoice.BMOS.replace('%', '')) : 0;
+                    let amos_percentage = invoice.AMOS ? parseFloat(invoice.AMOS.replace('%', '')) : 0;
+                    let testcomm_percentage = invoice.TESTCOMM ? parseFloat(invoice.TESTCOMM.replace('%', '')) : 0;
+                    let retensi_percentage = invoice.RETENSI ? parseFloat(invoice.RETENSI.replace('%', '')) : 0;
+
+                    let nilai_kontrak = invoice.nilai_kontrak;
+
+                    var dp = (dp_percentage * nilai_kontrak) / 100;
+                    var approval = (approval_percentage * nilai_kontrak) / 100;
+                    var bmos = (bmos_percentage * nilai_kontrak) / 100;
+                    var amos = (amos_percentage * nilai_kontrak) / 100;
+                    var testcomm = (testcomm_percentage * nilai_kontrak) / 100;
+                    var retensi = (retensi_percentage * nilai_kontrak) / 100;
+
+
+                    var ar = invoice.ar ? invoice.ar : 0;
+                    console.log('ini ar', ar);
+
+                }
                 // Menambahkan markup HTML ke dalam tbody
                 tableBody.innerHTML = tableHTML;
+                console.log('ini dp', dp);
+
+                // console.log("datainvoice", filteredInvoices);
+
             } else {
                 namaProyekInput.value = '';
                 paymentTermsIdInput.value = '';
@@ -383,14 +428,7 @@
                 tableBody.innerHTML = '';
             }
 
-            kodeDP.style.display = "none";
-            kodeAPPROVAL.style.display = "none";
-            kodeBMOS.style.display = "none";
-            kodeAMOS.style.display = "none";
-            kodeTESTCOMM.style.display = "none";
-            kodeRETENSI.style.display = "none";
-
-            console.log(paymentTermsIdInput.value);
+            // console.log(paymentTermsIdInput.value);
 
             const paymentTermsData = {!! json_encode($payment_terms) !!};
             const invoiceGet = {!! json_encode($invoice) !!};
@@ -418,17 +456,17 @@
             const differentData = [...data1, ...data2].filter(value =>
                 (value !== null) && (!data1.includes(value) || !data2.includes(value))
             );
-            console.log(kodeProyekInput.value);
-            console.log(invoiceGet);
+            // console.log(kodeProyekInput.value);
+            // console.log(invoiceGet);
 
-            console.log('ini adaa', invoiceKodePro);
-            console.log('ini 2', data1);
+            // console.log('ini adaa', invoiceKodePro);
+            // console.log('ini 2', data1);
 
-            console.log('ini rs', result);
-            console.log('ini rs2', data2);
+            // console.log('ini rs', result);
+            // console.log('ini rs2', data2);
 
-            console.log("Different data:");
-            console.log(differentData);
+            // console.log("Different data:");
+            // console.log(differentData);
             differentData.forEach(value => {
                 const key = Object.keys(result).find(key => result[key] === value);
 
@@ -471,7 +509,7 @@
                         kodeRETENSI.style.display = "block";
                     }
                 }
-                console.log(`Key: ${key}, Value: ${value}`);
+                // console.log(`Key: ${key}, Value: ${value}`);
             });
         });
 
@@ -498,7 +536,8 @@
             paymentTermsIdInput.value = '';
             keteranganInput.value = '';
             progressSelect.disabled = true;
-            tableBody.innerHTML = '';
+            tableBody.innerHTML =
+                '<tr class="odd"><td valign="top" colspan="9" class="dataTables_empty">No data available in table</td></tr>';
         });
     </script>
 

@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('pph_nominal')->nullable();
             $table->string('lain_lain')->nullable();
             $table->string('total_tagihan');
-            $table->string('sisa_pembayaran')->nullable();
+            $table->string('ar')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('status');
             $table->string('tgl_lunas')->nullable();

@@ -94,7 +94,7 @@
                                 <td class="text-center">{{ $i->nama_sales }}</td>
                                 <td class="text-center">{{ $i->progress }}</td>
                                 <td class="text-center">@currency($i->total_tagihan),-</td>
-                                <td class="text-center">@currency($i->sisa_pembayaran),-</td>
+                                <td class="text-center">@currency($i->ar),-</td>
                                 <td class="text-center font-italic">{{ $i->tgl_invoice }}</td>
                                 @if (!$i->tgl_ttk)
                                     <td class="text-center">

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('tgl_transfer')->nullable();
             $table->string('dana_masuk')->nullable();
             $table->string('total_dana_masuk')->nullable();
-            $table->string('sisa_pembayaran')->nullable();
+            $table->string('ar')->nullable();
             $table->string('bank_charge')->nullable();
             $table->string('no_giro')->nullable();
             $table->string('nilai_giro')->nullable();

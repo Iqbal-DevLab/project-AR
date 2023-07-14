@@ -11,6 +11,24 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        @keyframes blinking {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .button-blink {
+            animation: blinking 1s infinite;
+        }
     </style>
     <div class="tableExtraLarge content">
 
@@ -432,7 +450,7 @@
                                                                             {{ isset($invoice->total_tagihan) ? 'Rp. ' . number_format($invoice->total_tagihan, 0, ',', '.') . ',-' : '-' }}
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            {{ isset($invoice->sisa_pembayaran) ? 'Rp. ' . number_format($invoice->sisa_pembayaran, 0, ',', '.') . ',-' : '-' }}
+                                                                            {{ isset($invoice->ar) ? 'Rp. ' . number_format($invoice->ar, 0, ',', '.') . ',-' : '-' }}
                                                                         </td>
                                                                         <td class="text-center font-italic">
                                                                             {{ $invoice->tgl_invoice ? $invoice->tgl_invoice : '-' }}
@@ -517,7 +535,7 @@
                                                                         </td>
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            {{ isset($transaksi->sisa_pembayaran) ? 'Rp. ' . number_format($transaksi->sisa_pembayaran, 0, ',', '.') . ',-' : '-' }}
+                                                                            {{ isset($transaksi->ar) ? 'Rp. ' . number_format($transaksi->ar, 0, ',', '.') . ',-' : '-' }}
                                                                         </td>
                                                                         <td class="text-center">
                                                                             {{ isset($transaksi->nilai_giro) ? 'Rp. ' . number_format($transaksi->nilai_giro, 0, ',', '.') . ',-' : '-' }}
@@ -555,6 +573,10 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <button class="font-w600 button-blink btn btn-sm btn-square btn-alt-info"
+                                                data-toggle="collapse" style="margin-top: 3%;" data-parent="#accordion2"
+                                                href="#accordion2_q{{ $item->id }}" aria-expanded="true"
+                                                aria-controls="accordion2_q{{ $item->id }}">Tutup</button>
                                         </div>
                                     </div>
                                 </div>

@@ -203,13 +203,13 @@
                                 </div>
                                 <div class="row text-monospace">
                                     <div class="col input-group">
-                                        <label for="sisa_pembayaran" class="col-form-label col-md-9 fs-6">Sisa
+                                        <label for="ar" class="col-form-label col-md-9 fs-6">Sisa
                                             Pembayaran</label>
                                     </div>
                                     <div class="col input-group">
-                                        <input type="text" value="@currency($transaksi->sisa_pembayaran),-" readonly required
+                                        <input type="text" value="@currency($transaksi->ar),-" readonly required
                                             placeholder="0" class="form-control col-md-5" id="total_nominal_i"
-                                            name="sisa_pembayaran">
+                                            name="ar">
                                     </div>
                                 </div>
                                 <div class="row text-monospace">
