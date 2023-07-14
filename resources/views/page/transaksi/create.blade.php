@@ -53,7 +53,7 @@
                                             data-koreksi-dp="{{ $p->koreksi_dp }}" data-tgl-ttk="{{ $p->tgl_ttk }}"
                                             data-tgl-jatuh-tempo="{{ $p->tgl_jatuh_tempo }}"
                                             data-batas-jatuh-tempo="{{ $p->batas_jatuh_tempo }}"
-                                            data-sisa-pembayaran="{{ $p->ar }}">
+                                            data-ar="{{ $p->ar }}">
                                             {{ $p->nama_proyek }}</option>
                                     @empty
                                         <span>Data kosong</span>
@@ -467,7 +467,7 @@
         const biayaLainnyaInput = document.getElementById('biayalain_i');
         const totalNominalInput = document.getElementById('total_nominal_i');
         const nilaiTagihanInput = document.getElementById('nilai_tagihan_i');
-        const sisaPembayaranInput = document.getElementById('ar_i');
+        const arInput = document.getElementById('ar_i');
         const tglTtkInput = document.getElementById('tgl_ttk_i');
         const batasJatuhTempoInput = document.getElementById('batas_jatuh_tempo_i');
         const tglJatuhTempoInput = document.getElementById('tgl_jatuh_tempo_i');
@@ -525,7 +525,7 @@
                     nilaiTagihanInput.value = selectedOption.dataset.nilaiTagihan.replace(
                         /\B(?=(\d{3})+(?!\d))/g,
                         '.') + ',-';
-                    sisaPembayaranInput.value = selectedOption.dataset.sisaPembayaran.replace(
+                    arInput.value = selectedOption.dataset.ar.replace(
                         /\B(?=(\d{3})+(?!\d))/g,
                         '.') + ',-';
                 } else {
