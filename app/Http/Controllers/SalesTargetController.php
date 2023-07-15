@@ -48,6 +48,43 @@ class SalesTargetController extends Controller
         // }
 
 
+        // $salesTarget = DB::table('invoice')
+        //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
+        //     ->join('sales', 'proyek.sales_id', '=', 'sales.id')
+        //     ->leftJoin('sales_target', 'sales.id', '=', 'sales_target.sales_id')
+        //     ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+        //     ->select(
+        //         'sales.nama_sales',
+        //         'sales_target.target',
+        //         'sales.type',
+        //         DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan"),
+        //         DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun"),
+        //         DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan")
+        //     )
+        //     ->where('invoice.status', '!=', 'DIBATALKAN')
+        //     ->orderBy('sales.nama_sales', 'asc')
+        //     ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
+        //     ->get();
+
+        // $dataTarget = [];
+        // foreach ($salesTarget as $data) {
+        //     $namaSales = $data->nama_sales;
+        //     $bulanInvoice = "bulan_" . $data->bulan;
+
+        //     // Mengecek apakah data sudah ada dalam grup
+        //     if (!isset($dataTarget[$namaSales])) {
+        //         $dataTarget[$namaSales] = [
+        //             'nama_sales' => $namaSales,
+        //             'target' => $data->target,
+        //             'type' => $data->type,
+        //             'tahun' =>  $data->tahun
+        //         ];
+        //     }
+
+        //     // Menambahkan data total_nilai_tagihan ke dalam grup
+        //     $dataTarget[$namaSales][$bulanInvoice] = $data->total_nilai_tagihan;
+        // }
+
         $salesTarget = DB::table('invoice')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
@@ -57,13 +94,13 @@ class SalesTargetController extends Controller
                 'sales.nama_sales',
                 'sales_target.target',
                 'sales.type',
-                DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan"),
-                DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun"),
-                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan")
+                DB::raw("MONTH(CONVERT(invoice.tgl_invoice, DATE)) as bulan"),
+                DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE)) as tahun"),
+                DB::raw("SUM(CONVERT(invoice.nilai_tagihan, DECIMAL(18))) as total_nilai_tagihan")
             )
             ->where('invoice.status', '!=', 'DIBATALKAN')
             ->orderBy('sales.nama_sales', 'asc')
-            ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
+            ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(invoice.tgl_invoice, DATE))"), DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE))"))
             ->get();
 
         $dataTarget = [];
@@ -77,7 +114,7 @@ class SalesTargetController extends Controller
                     'nama_sales' => $namaSales,
                     'target' => $data->target,
                     'type' => $data->type,
-                    'tahun' =>  $data->tahun
+                    'tahun' => $data->tahun
                 ];
             }
 

@@ -174,7 +174,7 @@
                     @endforeach
 
 
-                    <tr class="">
+                    <tr class="bg-warning">
                         <td class="text-center" style="font-weight: bold; width: 15%;">KUMULATIF SALES</td>
                         <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaTarget),-</span></td>
                         <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaJan),-</span></td>

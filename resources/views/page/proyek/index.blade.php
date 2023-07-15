@@ -8,17 +8,15 @@
     </style>
     <div class="content tableLarge">
         {{-- <h2 class="content-heading">Halaman Proyek</h2> --}}
+        <div class="text-left">
+            <a type="button" class="btn btn-alt-primary min-width-125 mb-10" href="{{ route('proyek.create') }}">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1 fs-6">Proyek Baru</span>
+            </a>
+        </div>
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Table <small>Proyek</small></h3>
-                <div>
-                    <div class="text-right">
-                        <a type="button" class="btn btn-alt-primary min-width-125 mb-10" href="{{ route('proyek.create') }}">
-                            <i class="fa-solid fa-plus"></i>
-                            <span class="ms-1 fs-6">Proyek Baru</span>
-                        </a>
-                    </div>
-                </div>
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">
@@ -52,7 +50,8 @@
                                     <td class="text-center">{{ $p->nama_sales }}</td>
                                     <td class="text-center">@currency($p->nilai_kontrak),-</td>
                                     <td class="text-center"><span
-                                            class="badge {{ $p->status_po == 'BELUM DITERIMA' ? 'badge-warning' : 'badge-success' }}">{{ $p->status_po }}</span>
+                                            class="badge {{ $p->status_po == 'BELUM DITERIMA' ? 'badge-warning' : 'badge-success' }}">{{ $p->status_po }}
+                                            </>
                                     </td>
                                     <td class="text-center">{{ $p->keterangan ? $p->keterangan : '-' }}</td>
                                     <td class="text-center">

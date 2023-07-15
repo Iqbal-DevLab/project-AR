@@ -8,9 +8,17 @@
     </style>
     <div class="content tableExtraLarge">
         {{-- <h2 class="content-heading">Halaman Invoice</h2> --}}
+        <div class="text-left">
+            <a type="button" class="btn btn-alt-primary min-width-125 mb-10" href="{{ route('invoice.create') }}">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1 fs-6">Invoice Baru</span>
+            </a>
+        </div>
         <div class="block shadow bg-white">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Berdasarkan Tanggal</h3>
+            </div>
             <div class="block-content block-content-full">
-                <h3 class="block-title mb-4">Berdasarkan Tanggal</h3>
                 <form action="{{ route('invoice.index') }}">
                     <div class="form-group row">
                         <label for="tgl_awal" class="col-md-1 col-form-label"
@@ -39,17 +47,13 @@
                                         class="fa fa-calendar"></i></span>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-sm btn-alt-primary align-self-center"><i
                                 class="fa fa-search"></i>
                             Cari</button>
-
                         <a href="{{ route('invoice.index') }}" class="btn btn-sm btn-secondary fw-bold align-self-center"
                             title="Refresh filter tanggal" type="button" id="refresh-filter-tanggal"><i
                                 class="fa-solid fa-rotate"></i> Refresh
                         </a>
-
-
                     </div>
                 </form>
             </div>
@@ -59,7 +63,8 @@
                 <h3 class="block-title">List <small>Invoice</small></h3>
             </div>
             <div class="block-content block-content-full">
-                <table class="table table-responsive table-hover table-striped table-vcenter js-dataTable-full">
+                <table
+                    class="table table-responsive table-hover table-striped table-vcenter js-dataTable-full no-pagination">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>

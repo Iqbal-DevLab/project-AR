@@ -47,6 +47,12 @@
             </div>
         </div>
         {{-- <h2 class="content-heading">Halaman Rekap Penerimaan</h2> --}}
+        <div class="text-left">
+            <a type="button" class="btn btn-alt-primary min-width-125 mb-10" href="{{ route('transaksi.create') }}">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1 fs-6">Transaksi Baru</span>
+            </a>
+        </div>
         <div class="row row-deck gutters-tiny mb-3">
             <div class="col-md-6">
                 <div class="block shadow bg-white">
