@@ -116,7 +116,7 @@ class TransaksiController extends Controller
                             'no_invoice' => $t2->no_invoice,
                             'nama_proyek' => $t2->nama_proyek,
                             'nama_customer' => $t2->nama_customer,
-                            'keterangan' => 'Pembayaran giro akan kadaluwarsa ' . $daysDiff . ' hari dari sekarang',
+                            'keterangan' => 'Pembayaran giro akan kadaluwarsa ' . $daysDiff . ' hari lagi',
                             'icon' => '<i class="fa fa-fw fa-exclamation-triangle text-warning"></i>'
                         ];
                         $notifications[] = $notification;

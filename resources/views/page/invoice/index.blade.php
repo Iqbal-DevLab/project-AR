@@ -19,8 +19,36 @@
                 <h3 class="block-title">Berdasarkan Tanggal</h3>
             </div>
             <div class="block-content block-content-full">
-                <form action="{{ route('invoice.index') }}">
-                    <div class="form-group row">
+                <form action="{{ route('invoice.index') }}" class="row">
+                    <select class="custom-select font-weight-bold"
+                        style="font-size: 0.775rem; max-width: 150px; height:28px;" id="bulan" name="bulan">
+                        <option value="01" {{ request('bulan') == '01' ? 'selected' : '' }}>Januari</option>
+                        <option value="02" {{ request('bulan') == '02' ? 'selected' : '' }}>Februari</option>
+                        <option value="03" {{ request('bulan') == '03' ? 'selected' : '' }}>Maret</option>
+                        <option value="04" {{ request('bulan') == '04' ? 'selected' : '' }}>April</option>
+                        <option value="05" {{ request('bulan') == '05' ? 'selected' : '' }}>Mei</option>
+                        <option value="06" {{ request('bulan') == '06' ? 'selected' : '' }}>Juni</option>
+                        <option value="07" {{ request('bulan') == '07' ? 'selected' : '' }}>Juli</option>
+                        <option value="08" {{ request('bulan') == '08' ? 'selected' : '' }}>Agustus</option>
+                        <option value="09" {{ request('bulan') == '09' ? 'selected' : '' }}>September</option>
+                        <option value="10" {{ request('bulan') == '10' ? 'selected' : '' }}>Oktober</option>
+                        <option value="11" {{ request('bulan') == '11' ? 'selected' : '' }}>November</option>
+                        <option value="12" {{ request('bulan') == '12' ? 'selected' : '' }}>Desember</option>
+                    </select>
+                    <select class="custom-select font-weight-bold"
+                        style="font-size: 0.775rem; max-width: 150px; height:28px;" id="tahun" name="tahun">
+                        <option value="2022" {{ request('tahun') == '2022' ? 'selected' : '' }}>2022</option>
+                        <option value="2023" {{ request('tahun') == '2023' ? 'selected' : '' }}>2023</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-alt-primary align-self-center"><i class="fa fa-search"></i>
+                        Cari</button>
+                    <a href="{{ route('invoice.index') }}" class="btn btn-sm btn-secondary fw-bold align-self-center"
+                        title="Refresh filter tanggal" type="button" id="refresh-filter-tanggal"><i
+                            class="fa-solid fa-rotate"></i> Refresh
+                    </a>
+
+
+                    {{-- <div class="form-group row">
                         <label for="tgl_awal" class="col-md-1 col-form-label"
                             style="font-size: 0.875rem; max-width: 59px;">DARI</label>
                         <div class="col-md-2 input-group date align-items-center">
@@ -54,7 +82,7 @@
                             title="Refresh filter tanggal" type="button" id="refresh-filter-tanggal"><i
                                 class="fa-solid fa-rotate"></i> Refresh
                         </a>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
         </div>
@@ -64,10 +92,13 @@
             </div>
             <div class="block-content block-content-full">
                 <table
-                    class="table table-responsive table-hover table-striped table-vcenter js-dataTable-full no-pagination">
+                    class="table table-responsive table-hover table-striped table-vcenter js-dataTable-full-pagination no-pagination">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
+                            @if (request('tgl_awal'))
+                                <p class="text-center font-weight-bold">Periode<br>{{ request('tgl_awal') }} -
+                                    {{ request('tgl_akhir') }}</p>
+                            @endif
                             <th class="text-center">Invoice</th>
                             <th class="text-center">Nama Proyek</th>
                             <th class="text-center">Kode Proyek</th>
@@ -87,7 +118,7 @@
                         @foreach ($result as $i)
                             <a hidden>{{ $i->created_at }}</a>
                             <tr>
-                                <td class="text-center">{{ $loop->iteration }}</td>
+                                {{-- <td class="text-center">{{ $loop->iteration }}</td> --}}
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-alt-primary rounded-2 w-100 copy-button"
                                         style="cursor: default ;">
@@ -128,13 +159,13 @@
                                         <a href="javascript:void(0)"
                                             onclick="confirmDelete('{{ route('invoice.cancel', ['id' => $i->id, 'no_invoice' => $i->no_invoice]) }}', {{ $i->id }}, '{{ $i->no_invoice }}')"
                                             type="button"
-                                            class="btn btn-square btn-alt-danger rounded-2{{ $i->status == 'TAGIHAN TELAH DILUNASI' ? 'disabled' : '' }}"
+                                            class="btn btn-square btn-alt-danger rounded-2 {{ $i->status == 'TAGIHAN TELAH DILUNASI' || $i->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'disabled' : '' }}"
                                             title="Batalkan Invoice"><i class="fa fa-close"></i>
                                         </a>
                                     </div>
                                 </td>
-                                <div class="modal fade" id="editInvoice{{ $i->id }}" tabindex="-1"
-                                    role="dialog" aria-labelledby="editInvoiceModal" aria-hidden="true">
+                                <div class="modal fade" id="editInvoice{{ $i->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="editInvoiceModal" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-popout" role="document">
                                         <div class="modal-content">
                                             <div class="block block-themed block-transparent mb-0">
@@ -180,10 +211,11 @@
                                                                         class="col-form-label fs-6">BATAS JATUH
                                                                         TEMPO</label>
                                                                     <select class="custom-select"
-                                                                        oninput="jatuhTempo(this.value, '{{ $i->id }}')"
+                                                                        oninput="jatuhTempo(this.value, '{{ $i->id }}',false)"
                                                                         name="batas_jatuh_tempo" disabled
                                                                         id="batas_jatuh_tempo{{ $i->id }}">
-                                                                        <option>--Pilih Batas Jatuh Tempo--</option>
+                                                                        <option value="Tidak Diisi">--Pilih Batas Jatuh
+                                                                            Tempo--</option>
                                                                         <option value="1">1 Hari</option>
                                                                         <option value="7">7 Hari</option>
                                                                         <option value="14">14 Hari</option>
@@ -201,7 +233,7 @@
                                                                     </label>
                                                                     <div class="input-group">
                                                                         <input type="text"
-                                                                            oninput="jatuhTempo(this.value, '{{ $i->id }}')"
+                                                                            oninput="jatuhTempo(this.value, '{{ $i->id }}',true)"
                                                                             name="batas_jatuh_tempo_lainnya"
                                                                             id="batas_jatuh_tempo_lainnya{{ $i->id }}"
                                                                             class="form-control">
@@ -269,90 +301,58 @@
             tglJatuhTempoSelect.disabled = false;
         }
 
+
         function submitFunction(id) {
+            var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
             var tglJatuhTempoInput = document.getElementById(`tgl_jatuh_tempo${id}`);
-            console.log(tglJatuhTempoInput.value);
-            tglJatuhTempoInput.disabled = false;
+            var tglJatuhTempoSelect = document.getElementById(`batas_jatuh_tempo${id}`);
+
+            // Periksa apakah ada input yang kosong
+            if (tglTtkInput.value.trim() === '' || tglJatuhTempoInput.value.trim() === '' || tglJatuhTempoSelect.value
+                .trim() === '' || tglJatuhTempoSelect.value
+                .trim() === 'Tidak Diisi') {
+                // Tampilkan pesan kesalahan menggunakan Swal
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Mohon lengkapi semua input sebelum submit!',
+                });
+
+                // Mencegah pengiriman form ke server
+                event.preventDefault();
+            } else {
+                // Input valid, form dapat di-submit ke server (jika Anda ingin mengirimkan formulir setelah validasi)
+                // event.target.submit();
+            }
         }
 
-        function jatuhTempo(jatuhTempo, id) {
+
+        function jatuhTempo(jatuhTempo, id, i) {
             var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
-            // var tglJatuhTempoSelect = document.getElementById(`batas_jatuh_tempo${id}`);
             var tglJatuhTempoInput = document.getElementById(`tgl_jatuh_tempo${id}`);
             var lainnyaForm = document.getElementById(`lainnya${id}`);
-            // var tglJatuhTempoLainnyaInput = document.getElementById(`batas_jatuh_tempo_lainnya${id}`);
-            // var simpanButton = document.getElementById(`submit${id}`);
+            var simpanButton = document.getElementById(`submit${id}`);
 
             var tglttk = tglTtkInput.value
             var tglTtkParts = tglttk.split('-');
             var tanggalTtk = new Date(tglTtkParts[2], tglTtkParts[1] - 1, tglTtkParts[0]);
-
-            if (jatuhTempo !== "") {
+            if (jatuhTempo !== '' && i == false) {
                 var selectedOptionValue = parseInt(jatuhTempo);
                 tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
                 lainnyaForm.style.display = "none";
             } else {
+                var selectedOptionValue = parseInt(jatuhTempo);
+                tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
                 lainnyaForm.style.display = "block";
             }
+
             var dd = String(tanggalTtk.getDate()).padStart(2, '0');
             var mm = String(tanggalTtk.getMonth() + 1).padStart(2, '0');
             var yyyy = tanggalTtk.getFullYear();
 
             tglJatuhTempoInput.value = dd + '-' + mm + '-' + yyyy;
-
         }
     </script>
-
-    {{-- <script>
-          var tglTtkInput = document.getElementById('tgl_ttk'data-id);
-        var tglJatuhTempoSelect = document.getElementById('batas_jatuh_tempo'data-id));
-        var tglJatuhTempoInput = document.getElementById('tgl_jatuh_tempo'data-id));
-        var lainnyaForm = document.getElementById('lainnya'data-id));
-        var tglJatuhTempoLainnyaInput = document.getElementById('batas_jatuh_tempo_lainnya'data-id));
-        var simpanButton = document.getElementById('submit'data-id));
-
-        function calculateTanggalJatuhTempo() {
-            var tglTtkValue = tglTtkInput.value;
-            var tglTtkParts = tglTtkValue.split('-');
-            var tanggalTtk = new Date(tglTtkParts[2], tglTtkParts[1] - 1, tglTtkParts[0]);
-
-            if (tglJatuhTempoSelect.value !== "") {
-                var selectedOptionValue = parseInt(tglJatuhTempoSelect.value);
-                tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
-            } else {
-                var customInputValue = tglJatuhTempoLainnyaInput.value;
-                var customDays = parseInt(customInputValue);
-
-                if (!isNaN(customDays)) {
-                    tanggalTtk.setDate(tanggalTtk.getDate() + customDays);
-                }
-            }
-
-            var dd = String(tanggalTtk.getDate()).padStart(2, '0');
-            var mm = String(tanggalTtk.getMonth() + 1).padStart(2, '0');
-            var yyyy = tanggalTtk.getFullYear();
-
-            tglJatuhTempoInput.value = dd + '-' + mm + '-' + yyyy;
-        }
-
-        tglJatuhTempoSelect.addEventListener('change', function() {
-            if (this.value === "") {
-                lainnyaForm.style.display = "block";
-            } else {
-                lainnyaForm.style.display = "none";
-            }
-
-            calculateTanggalJatuhTempo();
-        });
-
-        tglJatuhTempoLainnyaInput.addEventListener('input', function() {
-            calculateTanggalJatuhTempo();
-        });
-
-        simpanButton.addEventListener('click', function() {
-            tglJatuhTempoInput.disabled = false;
-        });
-    </script> --}}
 
     <script>
         function confirmDelete(i, id, no_invoice) {

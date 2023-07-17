@@ -26,7 +26,6 @@
                     <table class="table table-striped table-vcenter table-hover js-dataTable-simple">
                         <thead>
                             <tr>
-                                <th class="text-center"></th>
                                 <th>Customer</th>
                                 <th class="text-center" style="width: 15%">No Invoice</th>
                                 <th class="text-center">Progress</th>
@@ -370,7 +369,6 @@
 
                     // Membuat baris HTML untuk setiap invoice
                     tableHTML += '<tr>';
-                    tableHTML += '<td class="text-center"></td>';
                     tableHTML += '<td>' + invoice.nama_customer + '</td>';
                     tableHTML += '<td class="text-center">' + invoice.no_invoice + '</td>';
                     tableHTML += '<td class="text-center">' + invoice.progress + '</td>';
