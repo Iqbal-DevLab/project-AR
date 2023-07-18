@@ -47,7 +47,6 @@ class SalesTargetController extends Controller
                 ->get();
         }
 
-
         $salesTarget = DB::table('invoice')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
@@ -59,9 +58,11 @@ class SalesTargetController extends Controller
                 'sales.type',
                 DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan"),
                 DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun"),
-                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan")
+                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan"),
+                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.koreksi_dp)) as total_koreksi_dp")
             )
             ->where('invoice.status', '!=', 'DIBATALKAN')
+            ->where('invoice.progress', 'NOT LIKE', '%DP%')
             ->orderBy('sales.nama_sales', 'asc')
             ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
             ->get();
@@ -75,15 +76,23 @@ class SalesTargetController extends Controller
             if (!isset($dataTarget[$namaSales])) {
                 $dataTarget[$namaSales] = [
                     'nama_sales' => $namaSales,
-                    'target' => $data->target,
+                    'target' => floatval($data->target),
                     'type' => $data->type,
-                    'tahun' =>  $data->tahun
+                    'tahun' =>  intval($data->tahun),
+                    'total_sales_volume' => 0.0, // Initialize total_sales_volume to 0.0
                 ];
             }
 
-            // Menambahkan data total_nilai_tagihan ke dalam grup
-            $dataTarget[$namaSales][$bulanInvoice] = $data->total_nilai_tagihan;
+            // Mengubah tipe data string menjadi float untuk nilai sales_volume dan koreksi_dp
+            $salesVolume = floatval($data->total_nilai_tagihan) + floatval($data->total_koreksi_dp);
+
+            // Menambahkan data sales_volume ke dalam grup
+            $dataTarget[$namaSales][$bulanInvoice] = $salesVolume;
+
+            // Menambahkan data sales_volume ke total_sales_volume
+            $dataTarget[$namaSales]['total_sales_volume'] += $salesVolume;
         }
+
 
         // $salesTarget = DB::table('invoice')
         //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')

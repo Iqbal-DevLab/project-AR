@@ -16,12 +16,13 @@
         </div>
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Berdasarkan Tanggal</h3>
+                <h3 class="block-title">Filter Laporan</h3>
             </div>
-            <div class="block-content block-content-full">
-                <form action="{{ route('invoice.index') }}" class="row">
-                    <select class="custom-select font-weight-bold"
+            <div class="block-content block-content-full" class="row">
+                <form action="{{ route('invoice.index') }}">
+                    {{-- <select class="custom-select font-weight-bold"
                         style="font-size: 0.775rem; max-width: 150px; height:28px;" id="bulan" name="bulan">
+                        <option>Bulan</option>
                         <option value="01" {{ request('bulan') == '01' ? 'selected' : '' }}>Januari</option>
                         <option value="02" {{ request('bulan') == '02' ? 'selected' : '' }}>Februari</option>
                         <option value="03" {{ request('bulan') == '03' ? 'selected' : '' }}>Maret</option>
@@ -37,6 +38,7 @@
                     </select>
                     <select class="custom-select font-weight-bold"
                         style="font-size: 0.775rem; max-width: 150px; height:28px;" id="tahun" name="tahun">
+                        <option>Tahun</option>
                         <option value="2022" {{ request('tahun') == '2022' ? 'selected' : '' }}>2022</option>
                         <option value="2023" {{ request('tahun') == '2023' ? 'selected' : '' }}>2023</option>
                     </select>
@@ -45,10 +47,8 @@
                     <a href="{{ route('invoice.index') }}" class="btn btn-sm btn-secondary fw-bold align-self-center"
                         title="Refresh filter tanggal" type="button" id="refresh-filter-tanggal"><i
                             class="fa-solid fa-rotate"></i> Refresh
-                    </a>
-
-
-                    {{-- <div class="form-group row">
+                    </a> --}}
+                    <div class="form-group row">
                         <label for="tgl_awal" class="col-md-1 col-form-label"
                             style="font-size: 0.875rem; max-width: 59px;">DARI</label>
                         <div class="col-md-2 input-group date align-items-center">
@@ -75,6 +75,31 @@
                                         class="fa fa-calendar"></i></span>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="status" class="col-md-1 col-form-label"
+                            style="font-size: 0.875rem; max-width: 59px;">STATUS</label>
+                        <div class="col-md-2 input-group date align-items-center">
+                            <select class="custom-select align-self-center" style="font-size: 0.875rem; height:28px;"
+                                id="status" name="status">
+                                <option value="SEMUA STATUS" {{ request('status') == 'SEMUA STATUS' ? 'selected' : '' }}>
+                                    SEMUA STATUS</option>
+                                <option value="KWITANSI BELUM DITERIMA"
+                                    {{ request('status') == 'KWITANSI BELUM DITERIMA' ? 'selected' : '' }}>KWITANSI BELUM
+                                    DITERIMA</option>
+                                <option value="MENUNGGU PEMBAYARAN"
+                                    {{ request('status') == 'MENUNGGU PEMBAYARAN' ? 'selected' : '' }}>MENUNGGU PEMBAYARAN
+                                </option>
+                                <option value="TAGIHAN MENUNGGU PELUNASAN"
+                                    {{ request('status') == 'TAGIHAN MENUNGGU PELUNASAN' ? 'selected' : '' }}>TAGIHAN
+                                    MENUNGGU PELUNASAN</option>
+                                <option value="TAGIHAN TELAH DILUNASI"
+                                    {{ request('status') == 'TAGIHAN TELAH DILUNASI' ? 'selected' : '' }}>TAGIHAN TELAH
+                                    DILUNASI</option>
+                                <option value="DIBATALKAN" {{ request('status') == 'DIBATALKAN' ? 'selected' : '' }}>
+                                    DIBATALKAN</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-sm btn-alt-primary align-self-center"><i
                                 class="fa fa-search"></i>
                             Cari</button>
@@ -82,7 +107,7 @@
                             title="Refresh filter tanggal" type="button" id="refresh-filter-tanggal"><i
                                 class="fa-solid fa-rotate"></i> Refresh
                         </a>
-                    </div> --}}
+                    </div>
                 </form>
             </div>
         </div>
@@ -94,10 +119,26 @@
                 <table
                     class="table table-responsive table-hover table-striped table-vcenter js-dataTable-full-pagination no-pagination">
                     <thead>
+                        @php
+                            $totalAR = 0;
+                        @endphp
+
                         <tr>
+                            {{-- @if (request('bulan'))
+                                @php
+                                    $namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                                    $bulanIndex = intval(request('bulan')) - 1;
+                                    $namaBulanTerpilih = $namaBulan[$bulanIndex];
+                                @endphp
+                                <p class="text-center font-weight-bold">Periode<br>{{ $namaBulanTerpilih }} -
+                                    {{ request('tahun') }}</p>
+                            @endif --}}
                             @if (request('tgl_awal'))
                                 <p class="text-center font-weight-bold">Periode<br>{{ request('tgl_awal') }} -
                                     {{ request('tgl_akhir') }}</p>
+                                @if (request('status') !== 'SEMUA STATUS')
+                                    <p class="text-center font-weight-bold">{{ request('status') }}</p>
+                                @endif
                             @endif
                             <th class="text-center">Invoice</th>
                             <th class="text-center">Nama Proyek</th>
@@ -116,6 +157,11 @@
                     </thead>
                     <tbody>
                         @foreach ($result as $i)
+                            @php
+                                $AR = $i->ar ? $i->ar : 0;
+                                $totalAR += $i->ar ? $i->ar : 0;
+                                
+                            @endphp
                             <a hidden>{{ $i->created_at }}</a>
                             <tr>
                                 {{-- <td class="text-center">{{ $loop->iteration }}</td> --}}
@@ -134,7 +180,8 @@
                                 <td class="text-center font-italic">{{ $i->tgl_invoice }}</td>
                                 @if (!$i->tgl_ttk)
                                     <td class="text-center">
-                                        <a href="#" data-toggle="modal" data-target="#editInvoice{{ $i->id }}"
+                                        <a href="#" data-toggle="modal"
+                                            data-target="#editInvoice{{ $i->id }}"
                                             class="btn btn-sm btn-alt-success" style="white-space: nowrap;">
                                             Input Tanggal TTK
                                         </a>
@@ -164,8 +211,8 @@
                                         </a>
                                     </div>
                                 </td>
-                                <div class="modal fade" id="editInvoice{{ $i->id }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="editInvoiceModal" aria-hidden="true">
+                                <div class="modal fade" id="editInvoice{{ $i->id }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="editInvoiceModal" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-popout" role="document">
                                         <div class="modal-content">
                                             <div class="block block-themed block-transparent mb-0">
@@ -284,7 +331,24 @@
                                 </div>
                             </tr>
                         @endforeach
+                        <tr>
+                            {{-- <td colspan="6" class="font-w600">Total AR</td>
+                            <td colspan="7"><span class="badge badge-transparent" id="total_AR"></span></td> --}}
+                            <th colspan="13" class="text-center ">
+                                <div class=" d-flex justify-content-center">
+                                    <div class="input-group" style="width: 15%;">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"
+                                                style="height: 28px; text-transform: none; background: none !important; border: none;">Total
+                                                AR:</span>
+                                        </div>
+                                        <input readonly class="form-control-plaintext form-control-sm " id="total_AR">
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
                     </tbody>
+                    <span hidden id="total">@currency($totalAR),-</span>
                 </table>
             </div>
         </div>
@@ -292,7 +356,13 @@
     @include('sweetalert::alert')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const total = document.getElementById('total');
+        const totalAR = document.getElementById('total_AR');
 
+        totalAR.value = total.textContent;
+        console.log(total.textContent);
+    </script>
     <script>
         function ttkFunction(id) {
             var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
@@ -325,7 +395,6 @@
                 // event.target.submit();
             }
         }
-
 
         function jatuhTempo(jatuhTempo, id, i) {
             var tglTtkInput = document.getElementById(`tgl_ttk${id}`);

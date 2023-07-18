@@ -151,7 +151,6 @@
                                     $totalSemuaVariance += $totalVariance;
                                 @endphp
                             </tbody>
-
                             <tr>
                                 <td class="text-center" style="font-weight: bold; width: 15%;">TOTAL
                                     SALES {{ $category }}</td>
@@ -172,8 +171,6 @@
                                 <td class="font-w600"><span class="badge badge-transparent">@currency($totalVariance),-</span></td>
                             </tr>
                     @endforeach
-
-
                     <tr class="bg-warning">
                         <td class="text-center" style="font-weight: bold; width: 15%;">KUMULATIF SALES</td>
                         <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaTarget),-</span></td>
@@ -192,7 +189,6 @@
                         <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaTotal),-</span></td>
                         <td class="font-w600"><span class="badge badge-transparent">@currency($totalSemuaVariance),-</span></td>
                     </tr>
-
                     </table>
                 </div>
             </div>

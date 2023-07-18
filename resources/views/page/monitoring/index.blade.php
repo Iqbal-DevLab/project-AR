@@ -31,8 +31,8 @@
                                                 <span class="input-group-text"
                                                     style="height: 28px; text-transform: none; background: none !important; border: none;">Total
                                                     AR:</span>
-                                            </div><input readonly class="form-control-plaintext form-control-sm "
-                                                id="total_AR">
+                                            </div>
+                                            <input readonly class="form-control-plaintext form-control-sm " id="total_AR">
                                         </div>
                                     </div>
                                 </th>

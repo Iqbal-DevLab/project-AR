@@ -16,22 +16,6 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        // $get = DB::table('invoice')
-        //     ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
-        //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-        //     ->join('sales', 'proyek.sales_id', '=', 'sales.id')
-        //     ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-        //     ->orderBy('invoice.id', 'desc');
-
-        // if ($request->tgl_awal and $request->tgl_akhir) {
-        //     $tgl_awal = Carbon::createFromFormat('d-m-Y', $request->tgl_awal)->format('Y-m-d');
-        //     $tgl_akhir = Carbon::createFromFormat('d-m-Y', $request->tgl_akhir)->format('Y-m-d');
-
-        //     $result = $get->whereBetween(DB::raw("CONVERT(DATE, invoice.tgl_invoice, 105)"), [$tgl_awal, $tgl_akhir])->get();
-        // }
-
-        // $result = $get->get();
-
         $get = DB::table('invoice')
             ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
@@ -39,18 +23,37 @@ class InvoiceController extends Controller
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
             ->orderBy('invoice.id', 'desc');
 
-        $bulan = $request->input('bulan');
-        $tahun = $request->input('tahun');
-
-        if ($bulan && $tahun) {
-            $tgl_awal = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->startOfMonth();
-            $tgl_akhir = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->endOfMonth();
+        if ($request->tgl_awal && $request->tgl_akhir) {
+            $tgl_awal = Carbon::createFromFormat('d-m-Y', $request->tgl_awal)->format('Y-m-d');
+            $tgl_akhir = Carbon::createFromFormat('d-m-Y', $request->tgl_akhir)->format('Y-m-d');
 
             $get->whereBetween(DB::raw("CONVERT(DATE, invoice.tgl_invoice, 105)"), [$tgl_awal, $tgl_akhir]);
         }
 
+        if ($request->status && $request->status !== 'SEMUA STATUS') {
+            $get->where('invoice.status', '=', $request->status);
+        }
+
         $result = $get->get();
 
+        // $get = DB::table('invoice')
+        //     ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
+        //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
+        //     ->join('sales', 'proyek.sales_id', '=', 'sales.id')
+        //     ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+        //     ->orderBy('invoice.id', 'desc');
+
+        // $bulan = $request->input('bulan');
+        // $tahun = $request->input('tahun');
+
+        // if ($bulan && $tahun) {
+        //     $tgl_awal = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->startOfMonth();
+        //     $tgl_akhir = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->endOfMonth();
+
+        //     $get->whereBetween(DB::raw("CONVERT(DATE, invoice.tgl_invoice, 105)"), [$tgl_awal, $tgl_akhir]);
+        // }
+
+        // $result = $get->get();
 
         return view('page.invoice.index', compact('result'));
     }
