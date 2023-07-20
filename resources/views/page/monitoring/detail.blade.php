@@ -29,6 +29,14 @@
         .button-blink {
             animation: blinking 1s infinite;
         }
+
+        .top-td {
+            width: 100px;
+        }
+
+        .nominal-top-td {
+            width: 150px;
+        }
     </style>
     <div class="tableExtraLarge content">
 
@@ -209,127 +217,78 @@
                                                     <h3 class="block-title">Term of Payment</h3>
                                                 </div>
                                                 <div class="block-content">
+                                                    @php
+                                                        $dp_percentage = floatval(str_replace('%', '', $item->DP));
+                                                        $approval_percentage = floatval(str_replace('%', '', $item->APPROVAL));
+                                                        $bmos_percentage = floatval(str_replace('%', '', $item->BMOS));
+                                                        $amos_percentage = floatval(str_replace('%', '', $item->AMOS));
+                                                        $testcomm_percentage = floatval(str_replace('%', '', $item->TESTCOMM));
+                                                        $retensi_percentage = floatval(str_replace('%', '', $item->RETENSI));
+                                                        
+                                                        $nilai_kontrak = $item->nilai_kontrak;
+                                                        $ppn = 111 / 100;
+                                                        
+                                                        $dp = ($dp_percentage * $nilai_kontrak) / 100;
+                                                        $approval = ($approval_percentage * $nilai_kontrak) / 100;
+                                                        $bmos = ($bmos_percentage * $nilai_kontrak) / 100;
+                                                        $amos = ($amos_percentage * $nilai_kontrak) / 100;
+                                                        $testcomm = ($testcomm_percentage * $nilai_kontrak) / 100;
+                                                        $retensi = ($retensi_percentage * $nilai_kontrak) / 100;
+                                                        
+                                                        $dpPPN = $dp * $ppn;
+                                                        $approvalPPN = $approval * $ppn;
+                                                        $bmosPPN = $bmos * $ppn;
+                                                        $amosPPN = $amos * $ppn;
+                                                        $testcommPPN = $testcomm * $ppn;
+                                                        $retensiPPN = $retensi * $ppn;
+                                                        
+                                                        $tagihanDP = $monitoringTable[$item->id]['tagihanDP'];
+                                                        $arDP = $monitoringTable[$item->id]['arDP'];
+                                                        
+                                                        $tagihanAPPROVAL = $monitoringTable[$item->id]['tagihanAPPROVAL'];
+                                                        $arAPPROVAL = $monitoringTable[$item->id]['arAPPROVAL'];
+                                                        
+                                                        $tagihanBMOS = $monitoringTable[$item->id]['tagihanBMOS'];
+                                                        $arBMOS = $monitoringTable[$item->id]['arBMOS'];
+                                                        
+                                                        $tagihanAMOS = $monitoringTable[$item->id]['tagihanAMOS'];
+                                                        $arAMOS = $monitoringTable[$item->id]['arAMOS'];
+                                                        
+                                                        $tagihanTESTCOMM = $monitoringTable[$item->id]['tagihanTESTCOMM'];
+                                                        $arTESTCOMM = $monitoringTable[$item->id]['arTESTCOMM'];
+                                                        
+                                                        $tagihanRETENSI = $monitoringTable[$item->id]['tagihanRETENSI'];
+                                                        $arRETENSI = $monitoringTable[$item->id]['arRETENSI'];
+                                                        
+                                                        $dpNominal = $tagihanDP == $arDP ? $dpPPN : $dpPPN - ($tagihanDP - $arDP);
+                                                        $approvalNominal = $tagihanAPPROVAL == $arAPPROVAL ? $approvalPPN : $approvalPPN - ($tagihanAPPROVAL - $arAPPROVAL);
+                                                        $bmosNominal = $tagihanBMOS == $arBMOS ? $bmosPPN : $bmosPPN - ($tagihanBMOS - $arBMOS);
+                                                        $amosNominal = $tagihanAMOS == $arAMOS ? $amosPPN : $amosPPN - ($tagihanAMOS - $arAMOS);
+                                                        $testcommNominal = $tagihanTESTCOMM == $arTESTCOMM ? $testcommPPN : $testcommPPN - ($tagihanTESTCOMM - $arTESTCOMM);
+                                                        $retensiNominal = $tagihanRETENSI == $arRETENSI ? $retensiPPN : $retensiPPN - ($tagihanRETENSI - $arRETENSI);
+                                                    @endphp
+                                                    {{-- <table>
+                                                        <tr>
+                                                            @if (!empty($item->DP))
+                                                                <td class="top-td">DP {{ $item->DP }}</td>
+                                                                <td>:</td>
+                                                                <td class="nominal-top-td">@currency($dpPPN),-</td>
+                                                                <td class="top-td">Sisa</td>
+                                                                <td>:</td>
+                                                                <td>@currency($dpNominal),-</td>
+                                                            @endif
+                                                        <tr>
+                                                            @if (!empty($item->APPROVAL))
+                                                                <td class="top-td">APPROVAL {{ $item->APPROVAL }}</td>
+                                                                <td>:</td>
+                                                                <td class="nominal-top-td">@currency($approvalPPN),-</td>
+                                                                <td class="top-td">Sisa</td>
+                                                                <td>:</td>
+                                                                <td>@currency($approvalNominal),-</td>
+                                                            @endif
+                                                        </tr>
+                                                    </table> --}}
                                                     <address>
-                                                        @php
-                                                            // $dp_percentage = floatval(str_replace('%', '', $item->DP));
-                                                            // $approval_percentage = floatval(str_replace('%', '', $item->APPROVAL));
-                                                            // $bmos_percentage = floatval(str_replace('%', '', $item->BMOS));
-                                                            // $amos_percentage = floatval(str_replace('%', '', $item->AMOS));
-                                                            // $testcomm_percentage = floatval(str_replace('%', '', $item->TESTCOMM));
-                                                            // $retensi_percentage = floatval(str_replace('%', '', $item->RETENSI));
-                                                            
-                                                            // $dp = ($dp_percentage * $item->nilai_kontrak) / 100;
-                                                            // $approval = ($approval_percentage * $item->nilai_kontrak) / 100;
-                                                            // $bmos = ($bmos_percentage * $item->nilai_kontrak) / 100;
-                                                            // $amos = ($amos_percentage * $item->nilai_kontrak) / 100;
-                                                            // $testcomm = ($testcomm_percentage * $item->nilai_kontrak) / 100;
-                                                            // $retensi = ($retensi_percentage * $item->nilai_kontrak) / 100;
-                                                            
-                                                            // $dpPPN = ($dp * 111) / 100;
-                                                            // $approvalPPN = ($approval * 111) / 100;
-                                                            // $bmosPPN = ($bmos * 111) / 100;
-                                                            // $amosPPN = ($amos * 111) / 100;
-                                                            // $testcommPPN = ($testcomm * 111) / 100;
-                                                            // $retensiPPN = ($retensi * 111) / 100;
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanDP'] == $monitoringTable[$item->id]['arDP']) {
-                                                            //     $dpNominal = $dpPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanDP'] - $monitoringTable[$item->id]['arDP'];
-                                                            //     $dpAR = $dpPPN - $diff;
-                                                            //     $dpNominal = $dpAR;
-                                                            // }
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanAPPROVAL'] == $monitoringTable[$item->id]['arAPPROVAL']) {
-                                                            //     $approvalNominal = $approvalPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanAPPROVAL'] - $monitoringTable[$item->id]['arAPPROVAL'];
-                                                            //     $approvalAR = $approvalPPN - $diff;
-                                                            //     $approvalNominal = $approvalAR;
-                                                            // }
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanBMOS'] == $monitoringTable[$item->id]['arBMOS']) {
-                                                            //     $bmosNominal = $bmosPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanBMOS'] - $monitoringTable[$item->id]['arBMOS'];
-                                                            //     $bmosAR = $bmosPPN - $diff;
-                                                            //     $bmosNominal = $bmosAR;
-                                                            // }
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanAMOS'] == $monitoringTable[$item->id]['arAMOS']) {
-                                                            //     $amosNominal = $amosPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanAMOS'] - $monitoringTable[$item->id]['arAMOS'];
-                                                            //     $amosAR = $amosPPN - $diff;
-                                                            //     $amosNominal = $amosAR;
-                                                            // }
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanTESTCOMM'] == $monitoringTable[$item->id]['arTESTCOMM']) {
-                                                            //     $testcommNominal = $testcommPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanTESTCOMM'] - $monitoringTable[$item->id]['arTESTCOMM'];
-                                                            //     $testcommAR = $testcommPPN - $diff;
-                                                            //     $testcommNominal = $testcommAR;
-                                                            // }
-                                                            
-                                                            // if ($monitoringTable[$item->id]['tagihanRETENSI'] == $monitoringTable[$item->id]['arRETENSI']) {
-                                                            //     $retensiNominal = $retensiPPN;
-                                                            // } else {
-                                                            //     $diff = $monitoringTable[$item->id]['tagihanRETENSI'] - $monitoringTable[$item->id]['arRETENSI'];
-                                                            //     $retensiAR = $retensiPPN - $diff;
-                                                            //     $retensiNominal = $retensiAR;
-                                                            // }
-                                                            
-                                                            $dp_percentage = floatval(str_replace('%', '', $item->DP));
-                                                            $approval_percentage = floatval(str_replace('%', '', $item->APPROVAL));
-                                                            $bmos_percentage = floatval(str_replace('%', '', $item->BMOS));
-                                                            $amos_percentage = floatval(str_replace('%', '', $item->AMOS));
-                                                            $testcomm_percentage = floatval(str_replace('%', '', $item->TESTCOMM));
-                                                            $retensi_percentage = floatval(str_replace('%', '', $item->RETENSI));
-                                                            
-                                                            $nilai_kontrak = $item->nilai_kontrak;
-                                                            $ppn = 111 / 100;
-                                                            
-                                                            $dp = ($dp_percentage * $nilai_kontrak) / 100;
-                                                            $approval = ($approval_percentage * $nilai_kontrak) / 100;
-                                                            $bmos = ($bmos_percentage * $nilai_kontrak) / 100;
-                                                            $amos = ($amos_percentage * $nilai_kontrak) / 100;
-                                                            $testcomm = ($testcomm_percentage * $nilai_kontrak) / 100;
-                                                            $retensi = ($retensi_percentage * $nilai_kontrak) / 100;
-                                                            
-                                                            $dpPPN = $dp * $ppn;
-                                                            $approvalPPN = $approval * $ppn;
-                                                            $bmosPPN = $bmos * $ppn;
-                                                            $amosPPN = $amos * $ppn;
-                                                            $testcommPPN = $testcomm * $ppn;
-                                                            $retensiPPN = $retensi * $ppn;
-                                                            
-                                                            $tagihanDP = $monitoringTable[$item->id]['tagihanDP'];
-                                                            $arDP = $monitoringTable[$item->id]['arDP'];
-                                                            
-                                                            $tagihanAPPROVAL = $monitoringTable[$item->id]['tagihanAPPROVAL'];
-                                                            $arAPPROVAL = $monitoringTable[$item->id]['arAPPROVAL'];
-                                                            
-                                                            $tagihanBMOS = $monitoringTable[$item->id]['tagihanBMOS'];
-                                                            $arBMOS = $monitoringTable[$item->id]['arBMOS'];
-                                                            
-                                                            $tagihanAMOS = $monitoringTable[$item->id]['tagihanAMOS'];
-                                                            $arAMOS = $monitoringTable[$item->id]['arAMOS'];
-                                                            
-                                                            $tagihanTESTCOMM = $monitoringTable[$item->id]['tagihanTESTCOMM'];
-                                                            $arTESTCOMM = $monitoringTable[$item->id]['arTESTCOMM'];
-                                                            
-                                                            $tagihanRETENSI = $monitoringTable[$item->id]['tagihanRETENSI'];
-                                                            $arRETENSI = $monitoringTable[$item->id]['arRETENSI'];
-                                                            
-                                                            $dpNominal = $tagihanDP == $arDP ? $dpPPN : $dpPPN - ($tagihanDP - $arDP);
-                                                            $approvalNominal = $tagihanAPPROVAL == $arAPPROVAL ? $approvalPPN : $approvalPPN - ($tagihanAPPROVAL - $arAPPROVAL);
-                                                            $bmosNominal = $tagihanBMOS == $arBMOS ? $bmosPPN : $bmosPPN - ($tagihanBMOS - $arBMOS);
-                                                            $amosNominal = $tagihanAMOS == $arAMOS ? $amosPPN : $amosPPN - ($tagihanAMOS - $arAMOS);
-                                                            $testcommNominal = $tagihanTESTCOMM == $arTESTCOMM ? $testcommPPN : $testcommPPN - ($tagihanTESTCOMM - $arTESTCOMM);
-                                                            $retensiNominal = $tagihanRETENSI == $arRETENSI ? $retensiPPN : $retensiPPN - ($tagihanRETENSI - $arRETENSI);
-                                                            
-                                                        @endphp
                                                         <div class="row">
                                                             @if (!empty($item->DP))
                                                                 <span class="col"> DP {{ $item->DP }}
@@ -359,7 +318,6 @@
                                                             @endif
                                                         </div>
                                                         <div class="row">
-
                                                             @if (!empty($item->TESTCOMM))
                                                                 <span class="col"> TESTCOMM {{ $item->TESTCOMM }}
                                                                     @currency($testcommPPN),-</span>
@@ -367,15 +325,12 @@
                                                             @endif
                                                         </div>
                                                         <div class="row">
-
                                                             @if (!empty($item->RETENSI))
                                                                 <p class="col"> RETENSI {{ $item->RETENSI }}
                                                                     @currency($retensiPPN),-</p>
                                                                 <p class="col">Sisa @currency($retensiNominal),-</p><br>
                                                             @endif
                                                         </div>
-
-
                                                     </address>
                                                     <div class="mb-1">
                                                         <i class="fa-solid fa-wallet"></i> Sudah Diterima +

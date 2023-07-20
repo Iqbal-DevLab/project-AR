@@ -21,6 +21,7 @@ class InvoiceController extends Controller
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+            ->where('status', '!=', 'DIBATALKAN')
             ->orderBy('invoice.id', 'desc');
 
         if ($request->tgl_awal && $request->tgl_akhir) {

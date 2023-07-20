@@ -77,8 +77,7 @@
                 <h3 class="block-title">Data Table <small>Sales Volume</small></h3>
                 <a href="{{ route('sales-volume.pdf', ['tgl_awal' => request('tgl_awal'), 'tgl_akhir' => request('tgl_akhir')]) }}"
                     class="btn btn-sm btn-alt-primary" id="button_pdf"><i class="fa-solid fa-file-arrow-down"></i>
-                    Download
-                    PDF</a>
+                </a>
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">

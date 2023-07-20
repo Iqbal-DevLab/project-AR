@@ -110,4 +110,5 @@ Route::group(['middleware' => ['finance']], function () {
 
     //export pdf
     Route::get('/sales-volume-pdf', [PDFController::class, 'salesVolumePDF'])->name('sales-volume.pdf');
+    Route::get('/invoice-pdf', [PDFController::class, 'invoicePDF'])->name('invoice.pdf');
 });

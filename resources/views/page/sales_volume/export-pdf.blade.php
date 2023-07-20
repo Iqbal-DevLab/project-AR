@@ -36,7 +36,7 @@
 <body>
     <div class="">
         <div class="header mb-2">
-            <img src="{{ public_path('assets/images/simetri-logo.png') }}" style="height: 30px; width: 110px;"
+            <img src="{{ public_path('assets/images/simetri-logo.png') }}" style="height: 30px; width: 100px;"
                 alt="logo-simetri">
         </div>
         <div class="mb-3 text-center">
@@ -74,12 +74,12 @@
                                 <td class="text-center">{{ $sv->progress }}</td>
                                 <td class="text-center font-italic">{{ $sv->tgl_invoice }}</td>
                                 <td class="text-center">{{ $sv->no_invoice }}</td>
-                                <td>@currency($sv->total_tagihan),-</td>
-                                <td>@currency($sv->nilai_tagihan),-</td>
-                                <td>@currency($sv->koreksi_dp),-</td>
+                                <td class="text-right">@currency($sv->total_tagihan),-</td>
+                                <td class="text-right">@currency($sv->nilai_tagihan),-</td>
+                                <td class="text-right">@currency($sv->koreksi_dp),-</td>
                                 <td class="text-center">{{ $sv->nama_sales }}</td>
                                 <td class="text-center">{{ $sv->kode_proyek }}</td>
-                                <td>@currency($sv->nilai_tagihan + $sv->koreksi_dp),-</td>
+                                <td class="text-right">@currency($sv->nilai_tagihan + $sv->koreksi_dp),-</td>
                             </tr>
                             @php
                                 $total += $sv->koreksi_dp + $sv->nilai_tagihan;
@@ -88,9 +88,9 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr>
+                    <tr class="small-row">
                         <td colspan="11" class="text-right" style="font-weight: bold;">Total</td>
-                        <td>@currency($total),-</td>
+                        <td class="text-right">@currency($total),-</td>
                     </tr>
                 </tfoot>
             </table>

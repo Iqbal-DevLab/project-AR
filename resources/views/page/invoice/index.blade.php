@@ -114,6 +114,9 @@
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
                 <h3 class="block-title">List <small>Invoice</small></h3>
+                <a href="{{ route('invoice.pdf', ['tgl_awal' => request('tgl_awal'), 'tgl_akhir' => request('tgl_akhir'), 'status' => request('status')]) }}"
+                    class="btn btn-sm btn-alt-primary" id="button_pdf"><i class="fa-solid fa-file-arrow-down"></i>
+                </a>
             </div>
             <div class="block-content block-content-full">
                 <table
@@ -331,23 +334,23 @@
                                 </div>
                             </tr>
                         @endforeach
-                        <tr>
-                            {{-- <td colspan="6" class="font-w600">Total AR</td>
-                            <td colspan="7"><span class="badge badge-transparent" id="total_AR"></span></td> --}}
-                            <th colspan="13" class="text-center ">
-                                <div class=" d-flex justify-content-center">
-                                    <div class="input-group" style="width: 15%;">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                                style="height: 28px; text-transform: none; background: none !important; border: none;">Total
-                                                AR:</span>
-                                        </div>
-                                        <input readonly class="form-control-plaintext form-control-sm " id="total_AR">
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
                     </tbody>
+                    <tr>
+                        {{-- <td colspan="6" class="font-w600">Total AR</td>
+                        <td colspan="7"><span class="badge badge-transparent" id="total_AR"></span></td> --}}
+                        <th colspan="13" class="text-center ">
+                            <div class=" d-flex justify-content-center">
+                                <div class="input-group" style="width: 15%;">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            style="height: 28px; text-transform: none; background: none !important; border: none;">Total
+                                            AR:</span>
+                                    </div>
+                                    <input readonly class="form-control-plaintext form-control-sm " id="total_AR">
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
                     <span hidden id="total">@currency($totalAR),-</span>
                 </table>
             </div>
