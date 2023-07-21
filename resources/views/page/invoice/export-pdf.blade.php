@@ -48,7 +48,7 @@
 </head>
 
 <body>
-    <div class="">
+    <div class="text-dark">
         <div class="header mb-2">
             <img src="{{ public_path('assets/images/simetri-logo.png') }}" style="height: 30px; width: 100px;"
                 alt="logo-simetri">
@@ -75,7 +75,7 @@
                 </tr>
         </div>
         <div>
-            <table class="table table-bordered">
+            <table class="table table-bordered text-dark">
                 <thead>
                     <tr class="table-primary small-row">
                         <th class="text-center" style="width: 11%;">Invoice</th>

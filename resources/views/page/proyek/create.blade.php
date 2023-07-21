@@ -307,6 +307,19 @@
                                 <div class="border text-center">
                                     <div class="row text-monospace">
                                         <div class="col input-group">
+                                            <label for="ppn" class="col-form-label col-md-4 fs-6">PPN 11%</label>
+                                            <input type="text" class="form-control-plaintext col-md-3" id="ppn"
+                                                readonly placeholder="0%" name="ppn" value="{{ old('ppn') }}">
+                                        </div>
+                                        <div class="col input-group">
+                                            <span class="align-self-center">Rp.</span>
+                                            <input type="text" readonly placeholder="0"
+                                                class="form-control-plaintext col-md-5" id="ppn_nominal"
+                                                name="ppn_nominal" value="{{ old('ppn_nominal') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row text-monospace">
+                                        <div class="col input-group">
                                             <label for="TOTAL" class="col-form-label col-md-4 fs-6">Total</label>
                                             <input type="text" class="form-control-plaintext col-md-3" id="total"
                                                 readonly placeholder="0%" name="TOTAL" value="{{ old('TOTAL') }}">
@@ -460,6 +473,7 @@
         var testcommNominalInput = document.getElementById('testcomm_nominal');
         var retensiNominalInput = document.getElementById('retensi_nominal');
         var totalNominalInput = document.getElementById('total_nominal');
+        var ppnNominalInput = document.getElementById('ppn_nominal');
 
         var paymentTermsInput = document.getElementById('payment_terms');
         const idPaymentTermsInput = document.getElementById('payment_terms_id');
@@ -567,7 +581,9 @@
                 (+retensiNominalInput.value.replace(/[^\d]/g, '') || 0);
 
             // Menampilkan nilai total nominal dengan format uang
-            totalNominalInput.value = totalNominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-';
+            ppnNominalInput.value = (totalNominal * 0.11).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-';
+            totalNominalInput.value = totalNominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
+                ppnNominalInput.value ',-';
 
             hargaInput.readOnly = true;
             console.log(totalNominal);
