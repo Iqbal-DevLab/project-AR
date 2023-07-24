@@ -15,6 +15,9 @@
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Rekap AR <small>Monitoring</small></h3>
+                <a href="{{ route('AR-Monitoring.pdf') }}" class="btn btn-sm btn-alt-primary" id="button_pdf"><i
+                        class="fa-solid fa-file-arrow-down"></i>
+                </a>
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">
@@ -53,7 +56,6 @@
                                 @php
                                     $AR = property_exists($customer, 'AR') ? $customer->AR : 0;
                                     $totalAR += property_exists($customer, 'AR') ? $customer->AR : 0;
-                                    
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>

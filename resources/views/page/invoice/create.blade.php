@@ -405,7 +405,6 @@
                     var testcomm = (testcomm_percentage * nilai_kontrak) / 100;
                     var retensi = (retensi_percentage * nilai_kontrak) / 100;
 
-
                     var ar = invoice.ar ? invoice.ar : 0;
                     console.log('ini ar', ar);
 
@@ -460,17 +459,17 @@
             // console.log('ini adaa', invoiceKodePro);
             // console.log('ini 2', data1);
 
-            // console.log('ini rs', result);
-            // console.log('ini rs2', data2);
+            console.log('ini rs', result);
+            console.log('ini rs2', data2);
 
-            // console.log("Different data:");
-            // console.log(differentData);
+            console.log("Different data:");
+            console.log(differentData);
             differentData.forEach(value => {
                 const key = Object.keys(result).find(key => result[key] === value);
 
                 // const cleanedValue = value.replace(/[0-9%]/g, "");
 
-                if (differentData) {
+                if (key) {
                     if (key == "DP") {
                         kodeDP.textContent = "DP" + value;
                         kodeDP.value = "DP" + value;
@@ -507,7 +506,7 @@
                         kodeRETENSI.style.display = "block";
                     }
                 }
-                // console.log(`Key: ${key}, Value: ${value}`);
+                console.log(`Key: ${key}, Value: ${value}`);
             });
         });
 

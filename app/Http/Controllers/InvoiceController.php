@@ -180,11 +180,16 @@ class InvoiceController extends Controller
         if ($invoice->status === 'DIBATALKAN') {
             return redirect()->back()->with('info', 'Invoice sudah dibatalkan sebelumnya.');
         }
+        // Generate a random number between 100 and 999
+        $randomNumber = rand(100, 999);
+
+        // Append the random number to the [Batal] tag
+        $newInvoiceNumber = $invoice->no_invoice . '[Batal-' . $randomNumber . ']';
 
         DB::table('invoice')->where('id', $id)->update([
             'status' => 'DIBATALKAN',
             'no_invoice_before' => $invoice->no_invoice,
-            'no_invoice' =>  $invoice->no_invoice . '[Batal]'
+            'no_invoice' =>  $invoice->no_invoice . '[Batal]' . $newInvoiceNumber
         ]);
 
         return redirect()->back()->with('success', 'Invoice berhasil dibatalkan.');

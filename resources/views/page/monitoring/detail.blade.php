@@ -242,6 +242,54 @@
                                                         $testcommPPN = $testcomm * $ppn;
                                                         $retensiPPN = $retensi * $ppn;
                                                         
+                                                        // if ($monitoringTable[$item->id]['tagihanDP'] == $monitoringTable[$item->id]['arDP']) {
+                                                        //     $dpNominal = $dpPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanDP'] - $monitoringTable[$item->id]['arDP'];
+                                                        //     $dpAR = $dpPPN - $diff;
+                                                        //     $dpNominal = $dpAR;
+                                                        // }
+                                                        
+                                                        // if ($monitoringTable[$item->id]['tagihanAPPROVAL'] == $monitoringTable[$item->id]['arAPPROVAL']) {
+                                                        //     $approvalNominal = $approvalPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanAPPROVAL'] - $monitoringTable[$item->id]['arAPPROVAL'];
+                                                        //     $approvalAR = $approvalPPN - $diff;
+                                                        //     $approvalNominal = $approvalAR;
+                                                        // }
+                                                        
+                                                        // if ($monitoringTable[$item->id]['tagihanBMOS'] == $monitoringTable[$item->id]['arBMOS']) {
+                                                        //     $bmosNominal = $bmosPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanBMOS'] - $monitoringTable[$item->id]['arBMOS'];
+                                                        //     $bmosAR = $bmosPPN - $diff;
+                                                        //     $bmosNominal = $bmosAR;
+                                                        // }
+                                                        
+                                                        // if ($monitoringTable[$item->id]['tagihanAMOS'] == $monitoringTable[$item->id]['arAMOS']) {
+                                                        //     $amosNominal = $amosPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanAMOS'] - $monitoringTable[$item->id]['arAMOS'];
+                                                        //     $amosAR = $amosPPN - $diff;
+                                                        //     $amosNominal = $amosAR;
+                                                        // }
+                                                        
+                                                        // if ($monitoringTable[$item->id]['tagihanTESTCOMM'] == $monitoringTable[$item->id]['arTESTCOMM']) {
+                                                        //     $testcommNominal = $testcommPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanTESTCOMM'] - $monitoringTable[$item->id]['arTESTCOMM'];
+                                                        //     $testcommAR = $testcommPPN - $diff;
+                                                        //     $testcommNominal = $testcommAR;
+                                                        // }
+                                                        
+                                                        // if ($monitoringTable[$item->id]['tagihanRETENSI'] == $monitoringTable[$item->id]['arRETENSI']) {
+                                                        //     $retensiNominal = $retensiPPN;
+                                                        // } else {
+                                                        //     $diff = $monitoringTable[$item->id]['tagihanRETENSI'] - $monitoringTable[$item->id]['arRETENSI'];
+                                                        //     $retensiAR = $retensiPPN - $diff;
+                                                        //     $retensiNominal = $retensiAR;
+                                                        // }
+                                                        
                                                         $tagihanDP = $monitoringTable[$item->id]['tagihanDP'];
                                                         $arDP = $monitoringTable[$item->id]['arDP'];
                                                         
@@ -266,6 +314,7 @@
                                                         $amosNominal = $tagihanAMOS == $arAMOS ? $amosPPN : $amosPPN - ($tagihanAMOS - $arAMOS);
                                                         $testcommNominal = $tagihanTESTCOMM == $arTESTCOMM ? $testcommPPN : $testcommPPN - ($tagihanTESTCOMM - $arTESTCOMM);
                                                         $retensiNominal = $tagihanRETENSI == $arRETENSI ? $retensiPPN : $retensiPPN - ($tagihanRETENSI - $arRETENSI);
+                                                        
                                                     @endphp
                                                     {{-- <table>
                                                         <tr>

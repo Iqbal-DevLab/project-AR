@@ -55,7 +55,6 @@ class PDFController extends Controller
         $options->setChroot(public_path());
         $options->setIsFontSubsettingEnabled(true);
 
-
         $dompdf = new Dompdf($options);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
@@ -99,12 +98,65 @@ class PDFController extends Controller
         $options->setChroot(public_path());
         $options->setIsFontSubsettingEnabled(true);
 
-
         $dompdf = new Dompdf($options);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
         $dompdf->loadHtml($html);
         $pdfName = 'invoice ' . request('tgl_awal') . '-' . request('tgl_akhir');
+
+        $dompdf->render();
+
+        $dompdf->stream($pdfName . ".pdf");
+    }
+
+    public function monitoringPDF()
+    {
+        $results = DB::table('invoice as i')
+            ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
+            ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
+            ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
+            ->where('i.ar', '<=', DB::raw('total_tagihan'))
+            ->where('i.ar', '<>', 0)
+            ->select(
+                'p.nama_customer',
+                'p.nama_proyek',
+                's.nama_sales',
+                'p.nilai_kontrak',
+                'pt.DP',
+                'pt.APPROVAL',
+                'pt.BMOS',
+                'pt.AMOS',
+                'pt.TESTCOMM',
+                'pt.RETENSI',
+                'p.kode_proyek',
+                'i.no_invoice',
+                'i.tgl_ttk',
+                'i.progress',
+                'i.ar',
+                'p.keterangan',
+                'i.batas_jatuh_tempo',
+                'i.tgl_jatuh_tempo',
+                DB::raw('CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar) AS pembayaranSudahDiterima')
+            )
+            ->orderBy('p.nama_customer')
+            ->get();
+        // dd($results);
+
+
+        $html = view('page.monitoring.export-pdf', compact('results'))->render();
+
+        $options = new Options();
+        $options->setDpi(72);
+        $options->setIsRemoteEnabled(true);
+        $options->setIsHtml5ParserEnabled(true);
+        $options->setChroot(public_path());
+        $options->setIsFontSubsettingEnabled(true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
+        $dompdf->loadHtml($html);
+        $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
 
         $dompdf->render();
 
