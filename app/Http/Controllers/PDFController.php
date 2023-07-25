@@ -115,6 +115,7 @@ class PDFController extends Controller
             ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
             ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
             ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
+            ->where('i.status', '!=', 'DIBATALKAN')
             ->where('i.ar', '<=', DB::raw('total_tagihan'))
             ->where('i.ar', '<>', 0)
             ->select(

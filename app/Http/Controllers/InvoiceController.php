@@ -189,7 +189,7 @@ class InvoiceController extends Controller
         DB::table('invoice')->where('id', $id)->update([
             'status' => 'DIBATALKAN',
             'no_invoice_before' => $invoice->no_invoice,
-            'no_invoice' =>  $invoice->no_invoice . '[Batal]' . $newInvoiceNumber
+            'no_invoice' => $newInvoiceNumber
         ]);
 
         return redirect()->back()->with('success', 'Invoice berhasil dibatalkan.');

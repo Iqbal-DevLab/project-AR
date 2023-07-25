@@ -425,89 +425,69 @@
                 tableBody.innerHTML = '';
             }
 
-            // console.log(paymentTermsIdInput.value);
-
             const paymentTermsData = {!! json_encode($payment_terms) !!};
-            const invoiceGet = {!! json_encode($invoice) !!};
-            var invoiceKodePro = invoiceGet.filter(item => item.kode_proyek === kodeProyekInput.value && item
-                .status !== 'DIBATALKAN');
             var result = paymentTermsData.find(item => item.id === parseInt(paymentTermsIdInput.value));
+            console.log('result:', result);
 
-            const data1 = invoiceKodePro.map(obj => obj.progress)
-            delete result['id'];
-            const data2 = Object.values(result);
-            // const newData2 = [data1 + data2[0]];
-            // console.log(data2);
-            // console.log("new", newData2);
-            // const columnNames = Object.keys(result);
-            // const data2 = [];
-            // columnNames.forEach(columnName => {
-            //     const value = result[columnName];
-            //     if (value !== null) {
-            //         const combinedValue = columnName.toUpperCase() + value;
-            //         console.log('combined:', combinedValue);
-            //         data2.push(combinedValue);
-            //     }
-            // });
+            // Function to show the selected option and set its value
+            function showOption(id, value, text) {
+                var option = document.getElementById(id);
+                option.style.display = 'block';
+                option.value = value;
+                option.text = text;
+            }
 
-            const differentData = [...data1, ...data2].filter(value =>
-                (value !== null) && (!data1.includes(value) || !data2.includes(value))
-            );
+            // Check if the result is not null and show the corresponding option
+            if (result) {
+                if (result.DP !== null) {
+                    showOption('DP', result.DP, 'DP' + result.DP);
+                }
+                if (result.APPROVAL !== null) {
+                    showOption('APPROVAL', result.APPROVAL, 'APPROVAL' + result.APPROVAL);
+                }
+                if (result.BMOS !== null) {
+                    showOption('BMOS', result.BMOS, 'BMOS' + result.BMOS);
+                }
+                if (result.AMOS !== null) {
+                    showOption('AMOS', result.AMOS, 'AMOS' + result.AMOS);
+                }
+                if (result.TESTCOMM !== null) {
+                    showOption('TESTCOMM', result.TESTCOMM, 'TESTCOMM' + result.TESTCOMM);
+                }
+                if (result.RETENSI !== null) {
+                    showOption('RETENSI', result.RETENSI, 'RETENSI' + result.RETENSI);
+                }
+            }
+
+            // const invoiceGet = {!! json_encode($invoice) !!};
+            // var invoiceKodePro = invoiceGet.filter(item => item.kode_proyek === kodeProyekInput.value && item
+            //     .status !== 'DIBATALKAN');
+
+            // const data1 = invoiceKodePro.map(obj => obj.progress)
+            // delete result['id'];
+            // const data2 = Object.values(result);
+
+            // const differentData = [...data1, ...data2].filter(value =>
+            //     (value !== null) && (!data1.includes(value) || !data2.includes(value))
+            // );
             // console.log(kodeProyekInput.value);
             // console.log(invoiceGet);
 
             // console.log('ini adaa', invoiceKodePro);
             // console.log('ini 2', data1);
 
-            console.log('ini rs', result);
-            console.log('ini rs2', data2);
+            // console.log('ini rs', result);
+            // console.log('ini rs2', data2);
 
-            console.log("Different data:");
-            console.log(differentData);
-            differentData.forEach(value => {
-                const key = Object.keys(result).find(key => result[key] === value);
+            // console.log("Different data:");
+            // console.log(differentData);
+            // differentData.forEach(value => {
+            //     const key = Object.keys(result).find(key => result[key] === value);
 
-                // const cleanedValue = value.replace(/[0-9%]/g, "");
 
-                if (key) {
-                    if (key == "DP") {
-                        kodeDP.textContent = "DP" + value;
-                        kodeDP.value = "DP" + value;
-                        kodeDP.style.display = "block";
-                    }
 
-                    if (key == "APPROVAL") {
-                        kodeAPPROVAL.textContent = "APPROVAL" + value;
-                        kodeAPPROVAL.value = "APPROVAL" + value;
-                        kodeAPPROVAL.style.display = "block";
-                    }
-
-                    if (key == "BMOS") {
-                        kodeBMOS.textContent = "BMOS" + value;
-                        kodeBMOS.value = "BMOS" + value;
-                        kodeBMOS.style.display = "block";
-                    }
-
-                    if (key == "AMOS") {
-                        kodeAMOS.textContent = "AMOS" + value;
-                        kodeAMOS.value = "AMOS" + value;
-                        kodeAMOS.style.display = "block";
-                    }
-
-                    if (key == "TESTCOMM") {
-                        kodeTESTCOMM.textContent = "TESTCOMM" + value;
-                        kodeTESTCOMM.value = "TESTCOMM" + value;
-                        kodeTESTCOMM.style.display = "block";
-                    }
-
-                    if (key == "RETENSI") {
-                        kodeRETENSI.textContent = "RETENSI" + value;
-                        kodeRETENSI.value = "RETENSI" + value;
-                        kodeRETENSI.style.display = "block";
-                    }
-                }
-                console.log(`Key: ${key}, Value: ${value}`);
-            });
+            // console.log(`Key: ${key}, Value: ${value}`);
+            // });
         });
 
         kodeProyekInput.addEventListener('change', () => {

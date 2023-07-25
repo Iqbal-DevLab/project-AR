@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" id="css-main" href="{{ asset('/') }}public/css/codebase.min.css">
     @php
         $tglAwal = request('tgl_awal');
         $tglAkhir = request('tgl_akhir');
@@ -16,6 +15,7 @@
         body {
             font-size: 7px;
             margin: auto;
+            background-color: white;
         }
 
         .small-row td,
@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="">
+    <div class="text-dark">
         <div class="header mb-2">
             <img src="{{ public_path('assets/images/simetri-logo.png') }}" style="height: 30px; width: 100px;"
                 alt="logo-simetri">
@@ -44,7 +44,7 @@
             <p>{{ $tglAwal }} - {{ $tglAkhir }}</p>
         </div>
         <div>
-            <table class="table table-bordered">
+            <table class="table table-bordered text-dark">
                 <thead>
                     <tr class="table-primary small-row">
                         <th class="text-center">No</th>
@@ -96,12 +96,7 @@
             </table>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
-    </script>
+    <script src="{{ asset('/') }}public/js/codebase.app.min.js"></script>
 </body>
 
 </html>
