@@ -440,25 +440,24 @@
             // Check if the result is not null and show the corresponding option
             if (result) {
                 if (result.DP !== null) {
-                    showOption('DP', result.DP, 'DP' + result.DP);
+                    showOption('DP', 'DP' + result.DP, 'DP: ' + result.DP);
                 }
                 if (result.APPROVAL !== null) {
-                    showOption('APPROVAL', result.APPROVAL, 'APPROVAL' + result.APPROVAL);
+                    showOption('APPROVAL', 'APPROVAL' + result.APPROVAL, 'APPROVAL: ' + result.APPROVAL);
                 }
                 if (result.BMOS !== null) {
-                    showOption('BMOS', result.BMOS, 'BMOS' + result.BMOS);
+                    showOption('BMOS', 'BMOS' + result.BMOS, 'BMOS: ' + result.BMOS);
                 }
                 if (result.AMOS !== null) {
-                    showOption('AMOS', result.AMOS, 'AMOS' + result.AMOS);
+                    showOption('AMOS', 'AMOS' + result.AMOS, 'AMOS: ' + result.AMOS);
                 }
                 if (result.TESTCOMM !== null) {
-                    showOption('TESTCOMM', result.TESTCOMM, 'TESTCOMM' + result.TESTCOMM);
+                    showOption('TESTCOMM', 'TESTCOMM' + result.TESTCOMM, 'TESTCOMM: ' + result.TESTCOMM);
                 }
                 if (result.RETENSI !== null) {
-                    showOption('RETENSI', result.RETENSI, 'RETENSI' + result.RETENSI);
+                    showOption('RETENSI', 'RETENSI' + result.RETENSI, 'RETENSI: ' + result.RETENSI);
                 }
             }
-
             // const invoiceGet = {!! json_encode($invoice) !!};
             // var invoiceKodePro = invoiceGet.filter(item => item.kode_proyek === kodeProyekInput.value && item
             //     .status !== 'DIBATALKAN');
