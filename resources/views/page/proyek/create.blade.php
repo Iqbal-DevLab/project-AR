@@ -483,6 +483,7 @@
         const amosInput = document.getElementById('amos');
         const testcommInput = document.getElementById('testcomm');
         const retensiInput = document.getElementById('retensi');
+        const ppnInput = document.getElementById('ppn');
         const totalInput = document.getElementById('total');
         const paymentTermsButton = document.getElementById('refresh_top');
 
@@ -507,7 +508,7 @@
             // Set nilai input field
             this.value = harga;
 
-            if (hargaInput.value === '') {
+            if (this.value === '') {
                 paymentTermsInput.readOnly = true;
 
             } else
@@ -549,8 +550,9 @@
             amosInput.value = amosValue ? amosValue + '%' : '';
             testcommInput.value = testcommValue ? testcommValue + '%' : '';
             retensiInput.value = retensiValue ? retensiValue + '%' : '';
+            ppnInput.value = 11 + '%';
 
-            // Menghitung nilai total
+            // Menghitung persentase total
             const total = (+dpValue || 0) + (+approvalValue || 0) + (+bmosValue || 0) + (+amosValue || 0) + (+
                 testcommValue || 0) + (+retensiValue || 0);
             totalInput.value = total + '%';
@@ -580,11 +582,12 @@
                 (+testcommNominalInput.value.replace(/[^\d]/g, '') || 0) +
                 (+retensiNominalInput.value.replace(/[^\d]/g, '') || 0);
 
-            // Menampilkan nilai total nominal dengan format uang
-            ppnNominalInput.value = (totalNominal * 0.11).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-';
-            totalNominalInput.value = totalNominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-                ppnNominalInput.value ',-';
+            // Menghitung nilai PPN (Value Added Tax) 11%
+            const ppnNominal = totalNominal * 0.11;
+            ppnNominalInput.value = ppnNominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
+            totalNominalInput.value = totalNominal + ppnNominal;
+            totalNominalInput.value = totalNominalInput.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             hargaInput.readOnly = true;
             console.log(totalNominal);
         });
