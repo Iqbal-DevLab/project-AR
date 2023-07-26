@@ -310,8 +310,6 @@ class MonitoringController extends Controller
             foreach ($invoiceData as $invoiceItem) {
                 $invoice[] = $invoiceItem;
             }
-            // dd($invoice);
-
             $transaksi = []; // Define an empty array for transactions
 
             $transaksiData = DB::table('transaksi')

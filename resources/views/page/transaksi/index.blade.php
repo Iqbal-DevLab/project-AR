@@ -144,9 +144,15 @@
                 <h3 class="block-title">Rekap Penerimaan <small>Transaksi</small></h3>
             </div>
             <div class="block-content block-content-full">
-                <table class="table table-striped table-responsive table-vcenter table-hover js-dataTable-full">
+                <table
+                    class="table table-striped table-responsive table-vcenter table-hover  js-dataTable-full-pagination no-pagination">
                     <thead>
                         <tr>
+                            @if (request('tgl_awal'))
+                                <p class="text-center font-weight-bold">Periode<br>{{ request('tgl_awal') }} -
+                                    {{ request('tgl_akhir') }}</p>
+                                <p class="text-center font-weight-bold">BERDASARKAN {{ request('filter_select') }}</p>
+                            @endif
                             <th class="text-center">#</th>
                             <th class="text-center" style="width: 15%;">NAMA PEMESAN</th>
                             <th class="text-center">INVOICE</th>
@@ -272,7 +278,7 @@
                             <th class="text-center" style="width: 15%;">DANA MASUK</th>
                             {{-- <th class="text-center" style="width: 15%;">AKUMULASI PENERIMAAN</th> --}}
                             <th class="text-center">STATUS</th>
-                            <th class="text-center">AKSI</th>
+                            <th class="text-center">TANGGAL DIBATALKAN</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -325,7 +331,7 @@
                                         {{ $t->status }}
                                     </span>
                                 </td>
-                                <td class="text-center">
+                                {{-- <td class="text-center">
                                     <div class="btn-group">
                                         <a href="{{ route('transaksi.edit', $t->id) }}" type="button"
                                             class="btn btn-sm btn-alt-secondary {{ $t->status === 'SUDAH DIBAYAR' || $t->status === 'DIBATALKAN' ? 'disabled' : '' }}"
@@ -338,6 +344,10 @@
                                             <i class="fa fa-times"></i>
                                         </a>
                                     </div>
+                                </td> --}}
+                                <td class="text-center font-weight-italic">
+                                    {{ Carbon\Carbon::parse($t->updated_at)->format('d-m-y H:i') }}
+
                                 </td>
                             </tr>
                             {{-- @php

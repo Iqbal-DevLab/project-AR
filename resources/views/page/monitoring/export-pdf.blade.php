@@ -105,6 +105,7 @@
                     @php
                         $prevCustomer = null;
                         $prevProyek = null;
+                        $prevKeterangan = null;
                         $totalNilaiKontrak = 0;
                         $totalAR = 0;
                         $totalPembayaranSudahDiterima = 0;
@@ -115,6 +116,8 @@
                             $prevCustomer = $i->nama_customer;
                             $sameProyek = $prevProyek === $i->nama_proyek;
                             $prevProyek = $i->nama_proyek;
+                            $sameKeterangan = $prevKeterangan === $i->keterangan;
+                            $prevKeterangan = $i->keterangan;
                             $details = '';
                             if (!$sameCustomer) {
                                 if ($prevCustomer !== null && $totalNilaiKontrak > 0 && $totalAR > 0) {
@@ -142,7 +145,11 @@
                                     {{ $i->nama_customer }}
                                 @endif
                             </td>
-                            <td class="text-center">{{ $i->nama_proyek }}</td>
+                            <td class="text-center">
+                                @if (!$sameProyek)
+                                    {{ $i->nama_proyek }}
+                                @endif
+                            </td>
                             <td class="text-center">{{ $i->nama_sales }}</td>
                             <td class="text-right">@currency($i->nilai_kontrak),-</td>
                             <td class="">
@@ -173,8 +180,16 @@
                             <td class="text-center font-italic">{{ $i->tgl_ttk }}</td>
                             <td class="text-center">{{ $i->progress }}</td>
                             <td class="text-right">@currency($i->ar),-</td>
-                            <td class="text-center">{{ $i->keterangan }}</td>
-                            <td class="text-center">{{ $i->batas_jatuh_tempo }}</td>
+                            <td class="text-center">
+                                @if (!$sameKeterangan)
+                                    {{ $i->keterangan }}
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if ($i->batas_jatuh_tempo != '')
+                                    {{ $i->batas_jatuh_tempo }} Hari
+                                @endif
+                            </td>
                             <td class="text-center font-italic">{{ $i->tgl_jatuh_tempo }}</td>
                             <td class="text-center">
                                 @if (isset($i->tgl_jatuh_tempo))

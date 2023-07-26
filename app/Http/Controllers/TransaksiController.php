@@ -126,14 +126,13 @@ class TransaksiController extends Controller
         }
 
         $getDibatalkan = DB::table('transaksi')
-            ->select('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')
-            ->groupBy('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')
+            ->select('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer', 'transaksi.updated_at')
+            ->groupBy('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer', 'transaksi.updated_at')
             ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
             ->where('transaksi.status',  'DIBATALKAN')
             ->whereNotNull('transaksi.invoice_id')
             ->get();
-
 
         return view('page.transaksi.index', compact('transaksi', 'notifications', 'getDibatalkan'));
     }
@@ -307,20 +306,12 @@ class TransaksiController extends Controller
         $transaksi = DB::table('transaksi')
             ->select('invoice.total_tagihan', 'transaksi.invoice_id', 'transaksi.total_dana_masuk', 'transaksi.status as transaksiStatus', 'invoice.status as invoiceStatus', 'invoice.id as invoiceId', 'transaksi.id as transaksiId')
             ->where('transaksi.id', $id)
-            ->where('transaksi.status', '!=', 'DIBATALKAN')
-            // ->groupBy('invoice.total_tagihan')
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
-            // ->get();
             ->first();
-        // dd($transaksi);
 
         if ($transaksi->transaksiStatus === 'DIBATALKAN') {
             return redirect()->back()->with('info', 'Transaksi sudah dibatalkan sebelumnya.');
         }
-
-        // Ambil nomor invoice
-        // $invoice = DB::table('invoice')->where('id', $transaksi->invoice_id)->first();
-
 
         $totalDanaMasuk = DB::table('transaksi')
             ->select(DB::raw('SUM(CAST(total_dana_masuk AS DECIMAL(12))) AS total_dana_masuk'), 'invoice.total_tagihan')
@@ -332,7 +323,6 @@ class TransaksiController extends Controller
         $invoice = DB::table('invoice')
             ->where('invoice.id', $transaksi->invoice_id)
             ->first();
-        // dd($totalDanaMasuk->total_dana_masuk, $transaksi->total_tagihan, $invoice->ar);
         $AR = $totalDanaMasuk->total_dana_masuk + $invoice->ar;
         if ($AR == 0) {
 
@@ -351,15 +341,10 @@ class TransaksiController extends Controller
                 ->update(['status' => 'TAGIHAN MENUNGGU PELUNASAN', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
         }
 
-
-
         // transaksi.update
-        DB::table('transaksi')->where('id', $id)->update(['status' => 'DIBATALKAN']);
-
+        DB::table('transaksi')->where('id', $id)->update(['status' => 'DIBATALKAN', 'updated_at' => Carbon::now()->toDateTimeString()]);
         return redirect()->back()->with('success', 'Transaksi berhasil dibatalkan.');
     }
-
-
 
     public function destroy($id)
     {

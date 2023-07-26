@@ -140,9 +140,8 @@ class PDFController extends Controller
                 DB::raw('CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar) AS pembayaranSudahDiterima')
             )
             ->orderBy('p.nama_customer')
+            ->orderBy('p.nama_proyek')
             ->get();
-        // dd($results);
-
 
         $html = view('page.monitoring.export-pdf', compact('results'))->render();
 

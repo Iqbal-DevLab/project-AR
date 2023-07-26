@@ -352,7 +352,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="col-form-label fs-6">STATUS PEMBAYARAN</label>
-                                <select class="form-control" name="status" id="status">
+                                <select class="form-control" disabled name="status" id="status">
                                     <option value="" hidden>--Pilih Status--</option>
                                     <option value="BELUM DIBAYAR">BELUM DIBAYAR</option>
                                     <option selected value="SUDAH DIBAYAR">SUDAH DIBAYAR</option>
@@ -396,7 +396,7 @@
                     "")) || 0; // Menghapus karakter selain digit
 
                 // Menghitung total dana masuk setelah dikurangi bank charge atau sama dengan dana masuk jika bank charge belum diisi
-                const totalDanaMasuk = bankCharge ? (danaMasuk - bankCharge) : danaMasuk;
+                const totalDanaMasuk = danaMasuk ? (danaMasuk + bankCharge) : danaMasuk;
 
                 // if (nilaiGiro) {
                 //     totalDanaMasukInput.value = nilaiGiro;
@@ -607,13 +607,12 @@
                 nonGiro.hidden = false;
                 giro.hidden = true;
                 statusPembayaranSelect.value = '';
+                statusSelect.value = 'SUDAH DIBAYAR'
                 noGiroInput.value = '';
                 tglTerimaGiroInput.value = '';
                 tglGiroCairInput.value = '';
                 nilaiGiroInput.value = '';
-                statusSelect.disabled = false;
                 totalDanaMasukInput.value = '';
-
             }
         });
 

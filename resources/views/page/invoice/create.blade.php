@@ -370,7 +370,8 @@
                     // Membuat baris HTML untuk setiap invoice
                     tableHTML += '<tr>';
                     tableHTML += '<td>' + invoice.nama_customer + '</td>';
-                    tableHTML += '<td class="text-center">' + invoice.no_invoice + '</td>';
+                    tableHTML += '<td class="text-center">' + (invoice.no_invoice_before ? invoice
+                        .no_invoice_before : invoice.no_invoice) + '</td>';
                     tableHTML += '<td class="text-center">' + invoice.progress + '</td>';
                     tableHTML += '<td class="text-center font-italic">' + (invoice.tgl_ttk ? invoice.tgl_ttk :
                         '-') + '</td>';
