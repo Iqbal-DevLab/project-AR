@@ -211,11 +211,6 @@
         </div>
     </div>
     @include('sweetalert::alert')
-    <script>
-        const total = document.getElementById('total');
-        const totalAR = document.getElementById('total_AR');
 
-        totalAR.value = total.textContent;
-        console.log(total.textContent);
-    </script>
+    <script src="{{ asset('/') }}resources/views/js/monitoring_index.js"></script>
 @endsection

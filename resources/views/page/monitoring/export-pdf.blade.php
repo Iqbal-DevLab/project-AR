@@ -14,7 +14,7 @@
     <title>AR Monitoring {{ $timeNow }}</title>
     <style>
         body {
-            font-size: 7px;
+            font-size: 4.5px;
             margin: auto;
             background-color: white;
         }
@@ -40,7 +40,7 @@
             width: 50px;
         }
 
-        /* Mengatur lebar kolom status menjadi 150px */
+        /* Mengatur lebar kolom status menjadi 50px */
         .status-td {
             width: 50px;
         }
@@ -56,43 +56,29 @@
         <div class="mb-3 text-center">
             <p class="fnt font-weight-bold" style="font-size: 9px;">Rekap AR Monitoring<br>{{ $tglSekarang }}</p>
         </div>
-        {{-- <div class="mb-3 text-left">
-            <table>
-                <tr>
-                    <td class="periode-td">Periode</td>
-                    <td>:</td>
-                    <td>
-                        @if (request('tgl_awal'))
-                            {{ $tglAwal }} - {{ $tglAkhir }}
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td class="status-td">Status</td>
-                    <td>:</td>
-                    <td>
-                        {{ request('status') }}
-                </tr>
-        </div> --}}
         <div>
             <table class="table table-bordered text-dark">
                 <thead>
-                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 8px;">
+                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 4.5px;">
                         <td>No</td>
                         <td class="text-center">Nama Customer</td>
                         <td class="text-center">Nama Proyek</td>
                         <td class="text-center">Sales</td>
-                        <td class="text-center" style="width: 9%;">Harga Kontrak</td>
-                        <td class="text-center" style="width: 8%;">Payment Terms</td>
+                        <td class="text-center" style="width: 7%;">Harga Kontrak</td>
+                        <td class="text-center" style="width: 6%;">Payment Terms</td>
                         <td class="text-center">Kode Proyek</td>
                         <td class="text-center">No Invoice</td>
-                        <td class="text-center" style="width: 6%;">Tanggal TTK</td>
+                        <td class="text-center" style="width: 4%;">Tanggal TTK</td>
                         <td class="text-center">Progress</td>
-                        <td class="text-center" style="width: 9%;">AR</td>
+                        <td class="text-center" style="width: 7%;">AR</td>
                         <td class="text-center" style="width: 11%;">Keterangan</td>
                         <td class="text-center">Jatuh Tempo</td>
-                        <td class="text-center" style="width: 6%;">Tanggal JT</td>
-                        <td class="text-center">Telat (Hari)</td>
+                        <td class="text-center" style="width: 4%;">Tanggal JT</td>
+                        <td class="text-center">Telat(Hari)</td>
+                        <td class="text-center" style="width: 6%;">RETENSI</td>
+                        <td class="text-center" style="width: 6%;">TESTCOMM</td>
+                        <td class="text-center" style="width: 6%;">MOS</td>
+                        <td class="text-center" style="width: 6%;">Total Sisa Tagihan</td>
                         <td class="text-center" style="width: 11%;">Pembayaran Sudah Diterima</td>
                     </tr>
                 </thead>
@@ -122,11 +108,10 @@
                             if (!$sameCustomer) {
                                 if ($prevCustomer !== null && $totalNilaiKontrak > 0 && $totalAR > 0) {
                                     echo '<tr class="small-row">';
-                                    echo '<td></td>';
-                                    echo '<td class="text-right font-weight-bold">Total</td>';
+                                    echo '<td class="text-right font-weight-bold" colspan="2">Total</td>';
                                     echo '<td class="text-right font-weight-bold" colspan="3">Rp. ' . number_format($totalNilaiKontrak, 0, '.', '.') . ',-</td>';
                                     echo '<td class="text-right font-weight-bold" colspan="6">Rp. ' . number_format($totalAR, 0, '.', '.') . ',-</td>';
-                                    echo '<td class="text-right font-weight-bold" colspan="5">Rp. ' . number_format($totalPembayaranSudahDiterima, 0, '.', '.') . ',-</td>';
+                                    echo '<td class="text-right font-weight-bold" colspan="9">Rp. ' . number_format($totalPembayaranSudahDiterima, 0, '.', '.') . ',-</td>';
                                     echo '</tr>';
                                 }
                             
@@ -210,13 +195,16 @@
                                     -
                                 @endif
                             </td>
+                            <td class="text-right">Rp. 999.999.999,-</td>
+                            <td class="text-right">Rp. 999.999.999,-</td>
+                            <td class="text-right">Rp. 999.999.999,-</td>
+                            <td class="text-right">Rp. 999.999.999,-</td>
                             <td class="text-right">@currency($i->pembayaranSudahDiterima),-</td>
                         </tr>
                     @endforeach
                     @if ($prevCustomer !== null)
                         <tr class="small-row">
-                            <td></td>
-                            <td class="text-right font-weight-bold">
+                            <td class="text-right font-weight-bold" colspan="2">
                                 Total
                             </td>
                             <td class="text-right font-weight-bold" colspan="3">Rp.
@@ -224,7 +212,7 @@
                             <td class="text-right font-weight-bold" colspan="6">Rp.
                                 {{ number_format($totalAR, 0, '.', '.') }},-
                             </td>
-                            <td class="text-right font-weight-bold" colspan="5">Rp.
+                            <td class="text-right font-weight-bold" colspan="9">Rp.
                                 {{ number_format($totalPembayaranSudahDiterima, 0, '.', '.') }},-</td>
                         </tr>
                     @endif
@@ -238,15 +226,14 @@
 
                     {{-- Tampilkan total keseluruhan --}}
                     <tr class="small-row">
-                        <td></td>
-                        <td class="text-right font-weight-bold">
+                        <td class="text-right font-weight-bold" colspan="2">
                             Total Keseluruhan
                         </td>
                         <td class="text-right font-weight-bold" colspan="3">Rp.
                             {{ number_format($totalHargaKontrakKeseluruhan, 0, '.', '.') }},-</td>
                         <td class="text-right font-weight-bold" colspan="6">Rp.
                             {{ number_format($totalARKeseluruhan, 0, '.', '.') }},-</td>
-                        <td class="text-right font-weight-bold" colspan="5">Rp.
+                        <td class="text-right font-weight-bold" colspan="9">Rp.
                             {{ number_format($totalPembayaranSudahDiterimaKeseluruhan, 0, '.', '.') }},-</td>
                     </tr>
                 </tbody>

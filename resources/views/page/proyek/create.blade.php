@@ -353,7 +353,7 @@
     @include('sweetalert::alert')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('/') }}resources/js/create_proyek.js"></script>
+    <script src="{{ asset('/') }}resources/views/js/proyek_create.js"></script>
 
     <script>
         const sales = {!! json_encode($sales) !!};

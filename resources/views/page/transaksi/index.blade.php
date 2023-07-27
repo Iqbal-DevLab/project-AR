@@ -326,8 +326,8 @@
                                 {{-- <td><span class="badge badge-info">@currency($total),-</span></td> --}}
                                 <td class="text-center">
                                     <span
-                                        class="badge
-                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
+                                        class="badge text-white
+                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'bg-gd-cherry' : 'badge-success') }}">
                                         {{ $t->status }}
                                     </span>
                                 </td>
@@ -347,7 +347,6 @@
                                 </td> --}}
                                 <td class="text-center font-weight-italic">
                                     {{ Carbon\Carbon::parse($t->updated_at)->format('d-m-y H:i') }}
-
                                 </td>
                             </tr>
                             {{-- @php
@@ -364,49 +363,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        const totalAkumulasi = document.getElementById('total');
-        const totalDanaMasuk = document.getElementById('akumulasi_penerimaan');
-
-        totalDanaMasuk.value = totalAkumulasi.textContent;
-        console.log(totalAkumulasi.textContent);
-    </script>
-
-    <script>
-        function confirmDelete(t, id, no_invoice) {
-
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin membatalkan transaksi dengan no. invoice ' + no_invoice + '?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = t;
-                }
-            });
-        }
-    </script>
-
-    <script>
-        const switchEl = document.getElementById('switch');
-        const nonGiro = document.getElementById('nonGiro');
-        const giro = document.getElementById('giro');
-
-        switchEl.addEventListener('change', function() {
-            if (this.checked) {
-                // Switch is on (GIRO)
-                nonGiro.hidden = true;
-                giro.hidden = false
-            } else {
-                // Switch is off (NON-GIRO)
-                nonGiro.hidden = false;
-                giro.hidden = true;
-            }
-        });
-    </script>
+    <script src="{{ asset('/') }}resources/views/js/transaksi_index.js"></script>
 @endsection
