@@ -132,7 +132,7 @@
                                                         class="badge badge-transparent">@currency($item->nilai_tagihan),-</span></td>
                                                 <td class="text-center font-small">
                                                     <span
-                                                        class="badge {{ $item->status == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($item->status == 'DIBATALKAN' ? 'badge-danger' : ($item->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($item->status == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
+                                                        class="badge {{ $item->status == 'Menunggu Pembayaran' ? 'badge-warning' : ($item->status == 'Dibatalkan' ? 'badge-danger' : ($item->status == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($item->status == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
                                                         {{ $item->status }}
                                                     </span>
                                                 </td>
@@ -185,16 +185,16 @@
                                                 </td>
                                                 <td class="text-center"><span
                                                         class="badge badge-transparent">@currency($item->nilai_tagihan),-</span></td>
-                                                @if ($item->nilai_giro != null && $item->transaksiStatus == 'BELUM DIBAYAR')
+                                                @if ($item->nilai_giro != null && $item->transaksiStatus == 'Belum Dibayar')
                                                     <td class="text-center font-small">
                                                         <span class="badge badge-pill bg-secondary text-white">
-                                                            GIRO MUNDUR SUDAH DITERIMA
+                                                            Giro Mundur Sudah Diterima
                                                         </span>
                                                     </td>
                                                 @else
                                                     <td class="text-center font-small">
                                                         <span
-                                                            class="badge {{ $item->invoiceStatus == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($item->invoiceStatus == 'DIBATALKAN' ? 'badge-danger' : ($item->invoiceStatus == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($item->invoiceStatus == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
+                                                            class="badge {{ $item->invoiceStatus == 'Menunggu Pembayaran' ? 'badge-warning' : ($item->invoiceStatus == 'Dibatalkan' ? 'badge-danger' : ($item->invoiceStatus == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($item->invoiceStatus == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
                                                             {{ $item->invoiceStatus }}
                                                         </span>
                                                     </td>

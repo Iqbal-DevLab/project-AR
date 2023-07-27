@@ -234,16 +234,16 @@
                                 <label for="bank" class="col-form-label fs-6">NAMA
                                     BANK</label>
                                 <select class="form-control" id="bank" required name="bank">
-                                    <option value="BANK BRI" @if ($transaksi->bank == 'BANK BRI') selected @endif>
-                                        BANK BRI</option>
-                                    <option value="BANK BCA" @if ($transaksi->bank == 'BANK BCA') selected @endif>
-                                        BANK BCA</option>
-                                    <option value="BANK MANDIRI" @if ($transaksi->bank == 'BANK MANDIRI') selected @endif>
-                                        BANK MANDIRI</option>
-                                    <option value="BANK BNI" @if ($transaksi->bank == 'BANK BNI') selected @endif>
-                                        BANK BNI</option>
-                                    <option value="BANK OCBC NISP" @if ($transaksi->bank == 'BANK OCBC NISP') selected @endif>
-                                        BANK OCBC NISP</option>
+                                    <option value="Bank BRI" @if ($transaksi->bank == 'Bank BRI') selected @endif>
+                                        Bank BRI</option>
+                                    <option value="Bank BCA" @if ($transaksi->bank == 'Bank BCA') selected @endif>
+                                        Bank BCA</option>
+                                    <option value="Bank MANDIRI" @if ($transaksi->bank == 'Bank MANDIRI') selected @endif>
+                                        Bank MANDIRI</option>
+                                    <option value="Bank BNI" @if ($transaksi->bank == 'Bank BNI') selected @endif>
+                                        Bank BNI</option>
+                                    <option value="Bank OCBC NISP" @if ($transaksi->bank == 'Bank OCBC NISP') selected @endif>
+                                        Bank OCBC NISP</option>
                                 </select>
                             </div>
                             <div id="nonGiro" {{ $transaksi->tgl_transfer ? '' : 'hidden' }}>
@@ -355,10 +355,10 @@
                                 <label for="status" class="col-form-label fs-6">STATUS <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" required name="status">
-                                    <option value="BELUM DIBAYAR" @if ($transaksi->status == 'BELUM DIBAYAR') selected @endif>
-                                        BELUM DIBAYAR</option>
-                                    <option value="SUDAH DIBAYAR" @if ($transaksi->status == 'SUDAH DIBAYAR') selected @endif>
-                                        SUDAH DIBAYAR</option>
+                                    <option value="Belum Dibayar" @if ($transaksi->status == 'Belum Dibayar') selected @endif>
+                                        Belum Dibayar</option>
+                                    <option value="Sudah Dibayar" @if ($transaksi->status == 'Sudah Dibayar') selected @endif>
+                                        Sudah Dibayar</option>
                                 </select>
                             </div>
                             <div class="text-right">

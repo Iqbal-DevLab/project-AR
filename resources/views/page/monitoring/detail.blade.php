@@ -488,7 +488,7 @@
                                                                         </td>
                                                                         <td class="text-center">
                                                                             <span
-                                                                                class="badge {{ $invoice->status == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($invoice->status == 'DIBATALKAN' ? 'badge-danger' : ($invoice->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($invoice->status == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
+                                                                                class="badge {{ $invoice->status == 'Menunggu Pembayaran' ? 'badge-warning' : ($invoice->status == 'Dibatalkan' ? 'badge-danger' : ($invoice->status == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($invoice->status == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
                                                                                 {{ $invoice->status }}
                                                                             </span>
                                                                         </td>
@@ -555,17 +555,17 @@
                                                                                 {{ isset($transaksi->total_dana_masuk) ? 'Rp. ' . number_format($transaksi->total_dana_masuk, 0, ',', '.') . ',-' : '-' }}
                                                                             </a>
                                                                         </td>
-                                                                        @if ($transaksi->nilai_giro != null && $transaksi->status == 'BELUM DIBAYAR')
+                                                                        @if ($transaksi->nilai_giro != null && $transaksi->status == 'Belum Dibayar')
                                                                             <td class="text-center">
                                                                                 <span
                                                                                     class="badge badge-pill bg-secondary text-white">
-                                                                                    GIRO MUNDUR SUDAH DITERIMA
+                                                                                    Giro Mundur Sudah Diterima
                                                                                 </span>
                                                                             </td>
                                                                         @else
                                                                             <td class="text-center">
                                                                                 <span
-                                                                                    class="badge {{ $transaksi->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($transaksi->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
+                                                                                    class="badge {{ $transaksi->status == 'Belum Dibayar' ? 'badge-warning' : ($transaksi->status == 'Dibatalkan' ? 'badge-danger' : 'badge-success') }}">
                                                                                     {{ $transaksi->status }}
                                                                                 </span>
                                                                             </td>

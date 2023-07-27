@@ -269,11 +269,11 @@
                                     BANK</label>
                                 <select class="form-control" id="bank" name="bank">
                                     <option value="" hidden>--Pilih Nama Bank--</option>
-                                    <option value="BANK BRI">BANK BRI</option>
-                                    <option value="BANK BCA">BANK BCA</option>
-                                    <option value="BANK MANDIRI">BANK MANDIRI</option>
-                                    <option value="BANK BNI">BANK BNI</option>
-                                    <option value="BANK OCBC NISP">BANK OCBC NISP</option>
+                                    <option value="Bank BRI">Bank BRI</option>
+                                    <option value="Bank BCA">Bank BCA</option>
+                                    <option value="Bank Mandiri">Bank Mandiri</option>
+                                    <option value="Bank BNI">Bank BNI</option>
+                                    <option value="Bank OCBC NISP">Bank OCBC NISP</option>
                                 </select>
                             </div>
                             <div id="nonGiro">
@@ -354,8 +354,8 @@
                                 <label for="status" class="col-form-label fs-6">STATUS PEMBAYARAN</label>
                                 <select class="form-control" disabled name="status" id="status">
                                     <option value="" hidden>--Pilih Status--</option>
-                                    <option value="BELUM DIBAYAR">BELUM DIBAYAR</option>
-                                    <option selected value="SUDAH DIBAYAR">SUDAH DIBAYAR</option>
+                                    <option value="Belum Dibayar">Belum Dibayar</option>
+                                    <option selected value="Sudah Dibayar">Sudah Dibayar</option>
                                 </select>
                             </div>
                             <div class="text-right">

@@ -61,7 +61,7 @@ class SalesTargetController extends Controller
                 DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan"),
                 DB::raw("SUM(CONVERT(DECIMAL(18), invoice.koreksi_dp)) as total_koreksi_dp")
             )
-            ->where('invoice.status', '!=', 'DIBATALKAN')
+            ->where('invoice.status', '!=', 'Dibatalkan')
             ->where('invoice.progress', 'NOT LIKE', '%DP%')
             ->orderBy('sales.nama_sales', 'asc')
             ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
@@ -107,7 +107,7 @@ class SalesTargetController extends Controller
         //         DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE)) as tahun"),
         //         DB::raw("SUM(CONVERT(invoice.nilai_tagihan, DECIMAL(18))) as total_nilai_tagihan")
         //     )
-        //     ->where('invoice.status', '!=', 'DIBATALKAN')
+        //     ->where('invoice.status', '!=', 'Dibatalkan')
         //     ->orderBy('sales.nama_sales', 'asc')
         //     ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(invoice.tgl_invoice, DATE))"), DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE))"))
         //     ->get();

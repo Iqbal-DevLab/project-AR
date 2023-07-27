@@ -17,13 +17,13 @@ var tableBody = document.getElementById("invoiceTableBody");
 
 //Fungsi Status invoice pada table invoice
 function getStatusBadgeClass(status) {
-    if (status === "MENUNGGU PEMBAYARAN") {
+    if (status === "Menunggu Pembayaran") {
         return "badge-warning";
-    } else if (status === "DIBATALKAN") {
+    } else if (status === "Dibatalkan") {
         return "badge-danger";
-    } else if (status === "TAGIHAN MENUNGGU PELUNASAN") {
+    } else if (status === "Tagihan Menunggu Pelunasan") {
         return "badge-info";
-    } else if (status === "KWITANSI BELUM DITERIMA") {
+    } else if (status === "Kwitansi Belum Diterima") {
         return "badge-secondary";
     } else {
         return "badge-primary";
@@ -204,7 +204,7 @@ kodeProyekInput.addEventListener("input", function () {
     }
     // const invoiceGet = {!! json_encode($invoice) !!};
     // var invoiceKodePro = invoiceGet.filter(item => item.kode_proyek === kodeProyekInput.value && item
-    //     .status !== 'DIBATALKAN');
+    //     .status !== 'Dibatalkan');
 
     // const data1 = invoiceKodePro.map(obj => obj.progress)
     // delete result['id'];

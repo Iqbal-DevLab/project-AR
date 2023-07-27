@@ -231,7 +231,7 @@ switchEl.addEventListener("change", function () {
         tglTransferInput.value = "";
         danaMasukInput.value = "";
         statusPembayaranSelect.value = "";
-        statusSelect.value = "BELUM DIBAYAR";
+        statusSelect.value = "Belum Dibayar";
         statusSelect.disabled = true;
         totalDanaMasukInput.value = "";
     } else {
@@ -239,7 +239,7 @@ switchEl.addEventListener("change", function () {
         nonGiro.hidden = false;
         giro.hidden = true;
         statusPembayaranSelect.value = "";
-        statusSelect.value = "SUDAH DIBAYAR";
+        statusSelect.value = "Sudah Dibayar";
         noGiroInput.value = "";
         tglTerimaGiroInput.value = "";
         tglGiroCairInput.value = "";

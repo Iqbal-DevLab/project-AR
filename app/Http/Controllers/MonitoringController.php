@@ -36,7 +36,7 @@ class MonitoringController extends Controller
                 'invoice.customer_id'
             )
             ->groupBy('customer.id')
-            ->where('invoice.status', '!=', 'DIBATALKAN')
+            ->where('invoice.status', '!=', 'Dibatalkan')
             ->select(
                 DB::raw('SUM(CAST(invoice.total_tagihan AS decimal(18))) as totalNilaiTagihan'),
                 'customer.id',
@@ -45,7 +45,7 @@ class MonitoringController extends Controller
 
         $customers3 = DB::table('customer')
             ->join('transaksi', 'transaksi.customer_id', '=', 'customer.id')
-            ->where('transaksi.status', '!=', 'DIBATALKAN')
+            ->where('transaksi.status', '!=', 'Dibatalkan')
             ->groupBy('customer.id')
             ->select(
                 DB::raw('SUM(CAST(transaksi.total_dana_masuk AS decimal(18))) as pembayaranSudahDiterima'),
@@ -62,7 +62,7 @@ class MonitoringController extends Controller
                 'invoice.customer_id'
             )
             ->groupBy('customer.id')
-            ->where('invoice.status', 'MENUNGGU PEMBAYARAN')
+            ->where('invoice.status', 'Menunggu Pembayaran')
             ->select(
                 DB::raw('SUM(CAST(invoice.total_tagihan AS decimal(18))) as pembayaranBelumDiterima'),
                 'customer.id',
@@ -81,7 +81,7 @@ class MonitoringController extends Controller
             ->where(
                 'invoice.status',
                 '!=',
-                'DIBATALKAN'
+                'Dibatalkan'
             )
             ->select(
                 DB::raw('SUM(CAST(invoice.ar AS decimal(18))) as AR'),
@@ -196,7 +196,7 @@ class MonitoringController extends Controller
         //         'customer.id',
         //         'customer.nama_customer'
         //     )
-        //     ->where('status', 'MENUNGGU PEMBAYARAN')
+        //     ->where('status', 'Menunggu Pembayaran')
         //     ->get();
 
         // $combinedCustomers = [];
@@ -249,8 +249,11 @@ class MonitoringController extends Controller
         $tableDP = DB::table('invoice')
             ->select('invoice.id', 'invoice.nilai_tagihan', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-            ->where('invoice.status', '!=', 'DIBATALKAN')
-            ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
+            ->where(function ($query) {
+                $query->where('invoice.status', '!=', 'Dibatalkan')
+                    ->where('invoice.status', '!=', 'Tagihan Telah Dilunasi');
+            })
+            ->where('invoice.progress', 'LIKE', '%DP%')
             ->orderBy('invoice.id', 'desc')
             ->get();
 
@@ -258,12 +261,19 @@ class MonitoringController extends Controller
             ->select('transaksi.nilai_giro', 'invoice.nilai_tagihan', 'transaksi.status as transaksiStatus', 'invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status as invoiceStatus', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nama_customer', 'invoice.no_invoice', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->leftJoin('transaksi', 'invoice.id', '=', 'transaksi.invoice_id')
-            ->where('invoice.status', '!=', 'DIBATALKAN')
-            ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
+            ->where(function ($query) {
+                $query->where('invoice.status', '!=', 'Dibatalkan')
+                    ->where('invoice.status', '!=', 'Tagihan Telah Dilunasi');
+            })
+            ->where('invoice.progress', 'LIKE', '%BMOS%')
+            ->where(function ($query) {
+                $query->where('transaksi.status', '!=', 'Dibatalkan')
+                    ->orWhereNull('transaksi.status');
+            })
             ->orderBy('invoice.id', 'desc')
             ->get();
 
-        // dd($tableDPdanBMOS);
+        // dd($tableDP);
 
         return view('page.monitoring.index', compact('combinedCustomers', 'tableDP', 'tableBMOS'));
     }
@@ -303,7 +313,7 @@ class MonitoringController extends Controller
                 ->where(
                     'invoice.status',
                     '!=',
-                    'DIBATALKAN'
+                    'Dibatalkan'
                 )
                 ->get();
 
@@ -317,11 +327,11 @@ class MonitoringController extends Controller
                 ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
                 ->join('invoice', 'invoice.id', '=', 'transaksi.invoice_id')
                 ->where('transaksi.kode_proyek', $item->kode_proyek)
-                ->whereIn('transaksi.status', ['SUDAH DIBAYAR', 'BELUM DIBAYAR'])
+                ->whereIn('transaksi.status', ['Sudah Dibayar', 'Belum Dibayar'])
                 ->where(
                     'transaksi.status',
                     '!=',
-                    'DIBATALKAN'
+                    'Dibatalkan'
                 )
                 ->get();
 
@@ -330,7 +340,7 @@ class MonitoringController extends Controller
             }
 
             $pembayaranSudahDiterima = DB::table('transaksi')
-                ->where('status', 'SUDAH DIBAYAR')
+                ->where('status', 'Sudah Dibayar')
                 ->where('kode_proyek', $item->kode_proyek)
                 ->select(DB::raw('SUM(CAST(total_dana_masuk AS decimal(18))) as totalPembayaranSudahDiterima'))
                 ->first()
@@ -340,7 +350,7 @@ class MonitoringController extends Controller
                 ->where(
                     'invoice.status',
                     '!=',
-                    'DIBATALKAN'
+                    'Dibatalkan'
                 )
                 ->where('kode_proyek', $item->kode_proyek)
                 ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as totalPembayaranBelumDiterima'))

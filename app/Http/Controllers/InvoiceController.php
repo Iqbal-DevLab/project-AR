@@ -21,7 +21,7 @@ class InvoiceController extends Controller
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-            ->where('status', '!=', 'DIBATALKAN')
+            ->where('status', '!=', 'Dibatalkan')
             ->orderBy('invoice.id', 'desc');
 
         if ($request->tgl_awal && $request->tgl_akhir) {
@@ -132,7 +132,7 @@ class InvoiceController extends Controller
             'total_tagihan' => $total_tagihan,
             'ar' => $total_tagihan,
             'progress' => $request->progress,
-            'status' => 'KWITANSI BELUM DITERIMA',
+            'status' => 'Kwitansi Belum Diterima',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -165,7 +165,7 @@ class InvoiceController extends Controller
             'keterangan' => $request->keterangan,
             'batas_jatuh_tempo' => $request->batas_jatuh_tempo ? $request->batas_jatuh_tempo : $request->batas_jatuh_tempo_lainnya,
             'tgl_jatuh_tempo' => $request->tgl_jatuh_tempo,
-            'status' => 'MENUNGGU PEMBAYARAN'
+            'status' => 'Menunggu Pembayaran'
         ]);
 
         // Redirect ke halaman yang sesuai atau kirimkan respons
@@ -177,8 +177,8 @@ class InvoiceController extends Controller
     {
         $invoice = DB::table('invoice')->where('id', $id)->first();
 
-        if ($invoice->status === 'DIBATALKAN') {
-            return redirect()->back()->with('info', 'Invoice sudah dibatalkan sebelumnya.');
+        if ($invoice->status === 'Dibatalkan') {
+            return redirect()->back()->with('info', 'Invoice sudah Dibatalkan sebelumnya.');
         }
         // Generate a random number between 100 and 999
         $randomNumber = rand(100, 999);
@@ -187,12 +187,12 @@ class InvoiceController extends Controller
         $newInvoiceNumber = $invoice->no_invoice . '[Batal-' . $randomNumber . ']';
 
         DB::table('invoice')->where('id', $id)->update([
-            'status' => 'DIBATALKAN',
+            'status' => 'Dibatalkan',
             'no_invoice_before' => $invoice->no_invoice,
             'no_invoice' => $newInvoiceNumber
         ]);
 
-        return redirect()->back()->with('success', 'Invoice berhasil dibatalkan.');
+        return redirect()->back()->with('success', 'Invoice berhasil Dibatalkan.');
     }
 
     public function destroy($id)

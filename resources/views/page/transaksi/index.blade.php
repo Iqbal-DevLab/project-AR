@@ -214,21 +214,21 @@
                                 {{-- <td class="text-center">
                                     <span
                                         class="badge
-                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
+                                        {{ $t->status == 'Belum Dibayar' ? 'badge-warning' : ($t->status == 'Dibatalkan' ? 'badge-danger' : 'badge-success') }}">
                                         {{ $t->status }}
                                     </span>
                                 </td> --}}
-                                @if ($t->nilai_giro != null && $t->status == 'BELUM DIBAYAR')
+                                @if ($t->nilai_giro != null && $t->status == 'Belum Dibayar')
                                     <td class="text-center">
                                         <span class="badge badge-pill bg-secondary text-white">
-                                            GIRO MUNDUR SUDAH DITERIMA
+                                            Giro Mundur Sudah Diterima
                                         </span>
                                     </td>
                                 @else
                                     <td class="text-center">
                                         <span
-                                            class="badge
-                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'badge-danger' : 'badge-success') }}">
+                                            class="badge text-white
+                                        {{ $t->status == 'Belum Dibayar' ? 'badge-warning' : ($t->status == 'Dibatalkan' ? 'badge-danger' : 'bg-earth') }}">
                                             {{ $t->status }}
                                         </span>
                                     </td>
@@ -236,7 +236,7 @@
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="{{ route('transaksi.edit', $t->id) }}" type="button"
-                                            class="btn btn-sm btn-alt-secondary {{ $t->status === 'SUDAH DIBAYAR' || $t->status === 'DIBATALKAN' ? 'disabled' : '' }}"
+                                            class="btn btn-sm btn-alt-secondary {{ $t->status === 'Sudah Dibayar' || $t->status === 'Dibatalkan' ? 'disabled' : '' }}"
                                             title="Edit">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
@@ -276,21 +276,12 @@
                             <th class="text-center" style="width: 18%;">TANGGAL GIRO
                                 CAIR</th>
                             <th class="text-center" style="width: 15%;">DANA MASUK</th>
-                            {{-- <th class="text-center" style="width: 15%;">AKUMULASI PENERIMAAN</th> --}}
                             <th class="text-center">STATUS</th>
-                            <th class="text-center">TANGGAL DIBATALKAN</th>
+                            <th class="text-center">TANGGAL Dibatalkan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @php
-                            $total = 0;
-                            $akumulasiAll = 0;
-                        @endphp --}}
-
                         @foreach ($getDibatalkan as $t)
-                            {{-- @php
-                                $total += $t->total_dana_masuk;
-                            @endphp --}}
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="text-center font-w600">{{ $t->nama_customer }}<br>[{{ $t->nama_proyek }}]</td>
@@ -327,34 +318,16 @@
                                 <td class="text-center">
                                     <span
                                         class="badge text-white
-                                        {{ $t->status == 'BELUM DIBAYAR' ? 'badge-warning' : ($t->status == 'DIBATALKAN' ? 'bg-gd-cherry' : 'badge-success') }}">
+                                        {{ $t->status == 'Belum Dibayar' ? 'badge-warning' : ($t->status == 'Dibatalkan' ? 'bg-gd-cherry' : 'badge-success') }}">
                                         {{ $t->status }}
                                     </span>
                                 </td>
-                                {{-- <td class="text-center">
-                                    <div class="btn-group">
-                                        <a href="{{ route('transaksi.edit', $t->id) }}" type="button"
-                                            class="btn btn-sm btn-alt-secondary {{ $t->status === 'SUDAH DIBAYAR' || $t->status === 'DIBATALKAN' ? 'disabled' : '' }}"
-                                            title="Edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            onclick="confirmDelete('{{ route('transaksi.cancel', ['id' => $t->id, 'no_invoice' => $t->no_invoice]) }}', {{ $t->id }}, '{{ $t->no_invoice }}')"
-                                            type="button" class="btn btn-sm btn-alt-danger" title="Batalkan">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
-                                </td> --}}
                                 <td class="text-center font-weight-italic">
                                     {{ Carbon\Carbon::parse($t->updated_at)->format('d-m-y H:i') }}
                                 </td>
                             </tr>
-                            {{-- @php
-                                $akumulasiAll += $t->total_dana_masuk;
-                            @endphp --}}
                         @endforeach
                     </tbody>
-                    {{-- <span hidden id="total">@currency($akumulasiAll),-</span> --}}
                 </table>
             </div>
         </div>

@@ -33,7 +33,7 @@ class PDFController extends Controller
                 'invoice.keterangan',
                 'sales.nama_sales'
             )
-            ->where('invoice.status', '!=', 'DIBATALKAN')
+            ->where('invoice.status', '!=', 'Dibatalkan')
             ->where('invoice.progress', 'NOT LIKE', '%DP%')
             ->orderBy('invoice.tgl_invoice', 'desc');
 
@@ -73,7 +73,7 @@ class PDFController extends Controller
             ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('sales', 'proyek.sales_id', '=', 'sales.id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-            ->where('status', '!=', 'DIBATALKAN')
+            ->where('status', '!=', 'Dibatalkan')
             ->orderBy('invoice.id', 'desc');
 
         if (request('tgl_awal') && request('tgl_akhir')) {
@@ -115,7 +115,7 @@ class PDFController extends Controller
             ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
             ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
             ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
-            ->where('i.status', '!=', 'DIBATALKAN')
+            ->where('i.status', '!=', 'Dibatalkan')
             ->where('i.ar', '<=', DB::raw('total_tagihan'))
             ->where('i.ar', '<>', 0)
             ->select(

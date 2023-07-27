@@ -82,22 +82,22 @@
                         <div class="col-md-2 input-group date align-items-center">
                             <select class="custom-select align-self-center" style="font-size: 0.875rem; height:28px;"
                                 id="status" name="status">
-                                <option value="SEMUA STATUS" {{ request('status') == 'SEMUA STATUS' ? 'selected' : '' }}>
-                                    SEMUA STATUS</option>
-                                <option value="KWITANSI BELUM DITERIMA"
-                                    {{ request('status') == 'KWITANSI BELUM DITERIMA' ? 'selected' : '' }}>KWITANSI BELUM
-                                    DITERIMA</option>
-                                <option value="MENUNGGU PEMBAYARAN"
-                                    {{ request('status') == 'MENUNGGU PEMBAYARAN' ? 'selected' : '' }}>MENUNGGU PEMBAYARAN
+                                <option value="Semua Status" {{ request('status') == 'Semua Status' ? 'selected' : '' }}>
+                                    Semua Status</option>
+                                <option value="Kwitansi Belum Diterima"
+                                    {{ request('status') == 'Kwitansi Belum Diterima' ? 'selected' : '' }}>Kwitansi Belum
+                                    Diterima</option>
+                                <option value="Menunggu Pembayaran"
+                                    {{ request('status') == 'Menunggu Pembayaran' ? 'selected' : '' }}>Menunggu Pembayaran
                                 </option>
-                                <option value="TAGIHAN MENUNGGU PELUNASAN"
-                                    {{ request('status') == 'TAGIHAN MENUNGGU PELUNASAN' ? 'selected' : '' }}>TAGIHAN
-                                    MENUNGGU PELUNASAN</option>
-                                <option value="TAGIHAN TELAH DILUNASI"
-                                    {{ request('status') == 'TAGIHAN TELAH DILUNASI' ? 'selected' : '' }}>TAGIHAN TELAH
-                                    DILUNASI</option>
-                                <option value="DIBATALKAN" {{ request('status') == 'DIBATALKAN' ? 'selected' : '' }}>
-                                    DIBATALKAN</option>
+                                <option value="Tagihan Menunggu Pelunasan"
+                                    {{ request('status') == 'Tagihan Menunggu Pelunasan' ? 'selected' : '' }}>Tagihan
+                                    Menunggu Pelunasan</option>
+                                <option value="Tagihan Telah Dilunasi"
+                                    {{ request('status') == 'Tagihan Telah Dilunasi' ? 'selected' : '' }}>Tagihan Telah
+                                    Dilunasi</option>
+                                <option value="Dibatalkan" {{ request('status') == 'Dibatalkan' ? 'selected' : '' }}>
+                                    Dibatalkan</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-sm btn-alt-primary align-self-center"><i
@@ -199,7 +199,7 @@
                                 </td>
                                 <td class="text-center">
                                     <span
-                                        class="badge {{ $i->status == 'MENUNGGU PEMBAYARAN' ? 'badge-warning' : ($i->status == 'DIBATALKAN' ? 'badge-danger' : ($i->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'badge-info' : ($i->status == 'KWITANSI BELUM DITERIMA' ? 'badge-secondary' : 'badge-primary'))) }}">
+                                        class="badge {{ $i->status == 'Menunggu Pembayaran' ? 'badge-warning' : ($i->status == 'Dibatalkan' ? 'badge-danger' : ($i->status == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($i->status == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
                                         {{ $i->status }}
                                     </span>
                                 </td>
@@ -209,7 +209,7 @@
                                         <a href="javascript:void(0)"
                                             onclick="confirmDelete('{{ route('invoice.cancel', ['id' => $i->id, 'no_invoice' => $i->no_invoice]) }}', {{ $i->id }}, '{{ $i->no_invoice }}')"
                                             type="button"
-                                            class="btn btn-square btn-alt-danger rounded-2 {{ $i->status == 'TAGIHAN TELAH DILUNASI' || $i->status == 'TAGIHAN MENUNGGU PELUNASAN' ? 'disabled' : '' }}"
+                                            class="btn btn-square btn-alt-danger rounded-2 {{ $i->status == 'Tagihan Telah Dilunasi' || $i->status == 'Tagihan Menunggu Pelunasan' ? 'disabled' : '' }}"
                                             title="Batalkan Invoice"><i class="fa fa-close"></i>
                                         </a>
                                     </div>
@@ -338,7 +338,7 @@
                     <tr>
                         {{-- <td colspan="6" class="font-w600">Total AR</td>
                         <td colspan="7"><span class="badge badge-transparent" id="total_AR"></span></td> --}}
-                        <th colspan="13" class="text-center ">
+                        <th colspan="13" class="text-center bg-primary">
                             <div class=" d-flex justify-content-center">
                                 <div class="input-group" style="width: 15%;">
                                     <div class="input-group-prepend">

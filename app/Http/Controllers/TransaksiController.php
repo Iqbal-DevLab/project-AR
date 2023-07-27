@@ -30,7 +30,7 @@ class TransaksiController extends Controller
             ->groupBy('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')
             ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
-            ->where('transaksi.status', '!=', 'DIBATALKAN')
+            ->where('transaksi.status', '!=', 'Dibatalkan')
             ->whereNotNull('transaksi.invoice_id');
 
         if ($request->tgl_awal && $request->tgl_akhir) {
@@ -59,23 +59,23 @@ class TransaksiController extends Controller
         $transaksi = $get->get();
 
         foreach ($transaksi as $t) {
-            if ($t->status == 'SUDAH DIBAYAR') {
+            if ($t->status == 'Sudah Dibayar') {
                 $totalDanaMasuk = DB::table('transaksi')
                     ->select(DB::raw('SUM(CAST(total_dana_masuk AS DECIMAL(12))) AS total_dana_masuk'))
                     ->where('invoice_id', $t->invoice_id)
-                    ->where('status', '!=', 'DIBATALKAN')
+                    ->where('status', '!=', 'Dibatalkan')
                     ->first();
 
                 if ($totalDanaMasuk->total_dana_masuk >= $t->total_tagihan) {
                     DB::table('invoice')
                         ->where('id', $t->invoice_id)
-                        ->where('status', '!=', 'DIBATALKAN')
-                        ->update(['status' => 'TAGIHAN TELAH DILUNASI', 'tgl_lunas' => $t->tgl_transfer]);
+                        ->where('status', '!=', 'Dibatalkan')
+                        ->update(['status' => 'Tagihan Telah Dilunasi', 'tgl_lunas' => $t->tgl_transfer]);
                 } elseif ($totalDanaMasuk->total_dana_masuk <= $t->total_tagihan) {
                     DB::table('invoice')
                         ->where('id', $t->invoice_id)
-                        ->where('status', '!=', 'DIBATALKAN')
-                        ->update(['status' => 'TAGIHAN MENUNGGU PELUNASAN']);
+                        ->where('status', '!=', 'Dibatalkan')
+                        ->update(['status' => 'Tagihan Menunggu Pelunasan']);
                 }
             }
         }
@@ -83,7 +83,7 @@ class TransaksiController extends Controller
         $notifications = [];
 
         foreach ($transaksi as $t2) {
-            if ($t2->status === 'BELUM DIBAYAR' && !empty($t2->tgl_giro_cair) && empty($t2->tgl_transfer)) {
+            if ($t2->status === 'Belum Dibayar' && !empty($t2->tgl_giro_cair) && empty($t2->tgl_transfer)) {
                 $tglGiroCair = Carbon::createFromFormat('d-m-Y', $t2->tgl_giro_cair);
 
                 if ($tglGiroCair instanceof Carbon) {
@@ -130,7 +130,7 @@ class TransaksiController extends Controller
             ->groupBy('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer', 'transaksi.updated_at')
             ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
-            ->where('transaksi.status',  'DIBATALKAN')
+            ->where('transaksi.status',  'Dibatalkan')
             ->whereNotNull('transaksi.invoice_id')
             ->get();
 
@@ -147,8 +147,8 @@ class TransaksiController extends Controller
         $proyek = DB::table('invoice')
             ->join('proyek', 'proyek.kode_proyek', '=', 'invoice.kode_proyek')
             ->select('invoice.id', 'invoice.customer_id', 'invoice.no_invoice', 'proyek.nama_proyek', 'invoice.ar', 'invoice.tgl_ttk', 'invoice.batas_jatuh_tempo', 'invoice.tgl_jatuh_tempo', 'invoice.koreksi_dp', 'invoice.nilai_tagihan', 'invoice.progress', 'proyek.kode_proyek', 'invoice.tagihan', 'invoice.pph', 'invoice.pph_nominal', 'invoice.ppn_nominal', 'invoice.lain_lain', 'invoice.total_tagihan')
-            ->where('invoice.status', '!=', 'DIBATALKAN')
-            ->where('invoice.status', '!=', 'TAGIHAN TELAH DILUNASI')
+            ->where('invoice.status', '!=', 'Dibatalkan')
+            ->where('invoice.status', '!=', 'Tagihan Telah Dilunasi')
             ->whereNotNull('invoice.tgl_ttk')
             ->get();
 
@@ -309,14 +309,14 @@ class TransaksiController extends Controller
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
             ->first();
 
-        if ($transaksi->transaksiStatus === 'DIBATALKAN') {
-            return redirect()->back()->with('info', 'Transaksi sudah dibatalkan sebelumnya.');
+        if ($transaksi->transaksiStatus === 'Dibatalkan') {
+            return redirect()->back()->with('info', 'Transaksi sudah Dibatalkan sebelumnya.');
         }
 
         $totalDanaMasuk = DB::table('transaksi')
             ->select(DB::raw('SUM(CAST(total_dana_masuk AS DECIMAL(12))) AS total_dana_masuk'), 'invoice.total_tagihan')
             ->where('transaksi.id', $transaksi->transaksiId)
-            ->where('transaksi.status', '!=', 'DIBATALKAN')
+            ->where('transaksi.status', '!=', 'Dibatalkan')
             ->groupBy('transaksi.total_dana_masuk', 'invoice.total_tagihan')
             ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
             ->first();
@@ -328,22 +328,22 @@ class TransaksiController extends Controller
 
             DB::table('invoice')
                 ->where('invoice.id', $transaksi->invoice_id)
-                ->update(['status' => 'TAGIHAN TELAH DILUNASI', 'tgl_lunas' => $transaksi->tgl_transfer]);
+                ->update(['status' => 'Tagihan Telah Dilunasi', 'tgl_lunas' => $transaksi->tgl_transfer]);
         } elseif ($AR == $transaksi->total_tagihan) {
 
             DB::table('invoice')
                 ->where('invoice.id', $transaksi->invoice_id)
-                ->update(['status' => 'MENUNGGU PEMBAYARAN', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
+                ->update(['status' => 'Menunggu Pembayaran', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
         } elseif ($AR != $transaksi->total_tagihan) {
 
             DB::table('invoice')
                 ->where('invoice.id', $transaksi->invoice_id)
-                ->update(['status' => 'TAGIHAN MENUNGGU PELUNASAN', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
+                ->update(['status' => 'Tagihan Menunggu Pelunasan', 'ar' => $invoice->ar + $transaksi->total_dana_masuk]);
         }
 
         // transaksi.update
-        DB::table('transaksi')->where('id', $id)->update(['status' => 'DIBATALKAN', 'updated_at' => Carbon::now()->toDateTimeString()]);
-        return redirect()->back()->with('success', 'Transaksi berhasil dibatalkan.');
+        DB::table('transaksi')->where('id', $id)->update(['status' => 'Dibatalkan', 'updated_at' => Carbon::now()->toDateTimeString()]);
+        return redirect()->back()->with('success', 'Transaksi berhasil Dibatalkan.');
     }
 
     public function destroy($id)
