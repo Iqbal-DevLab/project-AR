@@ -199,9 +199,11 @@
                             <td class="text-right">Rp. 999.999.999,-</td>
                             <td class="text-right">Rp. 999.999.999,-</td>
                             <td class="text-right">Rp. 999.999.999,-</td>
-                            <td class="text-right">@currency($i->pembayaranSudahDiterima),-</td>
-                        </tr>
                     @endforeach
+                    @foreach ($total as $i)
+                        <td class="text-right">@currency($i->pembayaranSudahDiterima),-</td>
+                    @endforeach
+                    </tr>
                     @if ($prevCustomer !== null)
                         <tr class="small-row">
                             <td class="text-right font-weight-bold" colspan="2">
