@@ -188,7 +188,7 @@ class PDFController extends Controller
             ->orderBy('a.nama_customer')
             ->get();
 
-        dd($result);
+        // dd($result);
         $html = view('page.monitoring.export-pdf', compact('result'))->render();
 
         $options = new Options();
