@@ -199,7 +199,7 @@
                                 </td>
                                 <td class="text-center">
                                     <span
-                                        class="badge {{ $i->status == 'Menunggu Pembayaran' ? 'badge-warning' : ($i->status == 'Dibatalkan' ? 'badge-danger' : ($i->status == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($i->status == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
+                                        class="badge text-white {{ $i->status == 'Menunggu Pembayaran' ? 'badge-warning' : ($i->status == 'Dibatalkan' ? 'bg-gd-cherry' : ($i->status == 'Tagihan Menunggu Pelunasan' ? 'badge-info' : ($i->status == 'Kwitansi Belum Diterima' ? 'badge-secondary' : 'badge-primary'))) }}">
                                         {{ $i->status }}
                                     </span>
                                 </td>

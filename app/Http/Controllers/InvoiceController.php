@@ -31,8 +31,16 @@ class InvoiceController extends Controller
             $get->whereBetween(DB::raw("CONVERT(DATE, invoice.tgl_invoice, 105)"), [$tgl_awal, $tgl_akhir]);
         }
 
-        if ($request->status && $request->status !== 'SEMUA STATUS') {
+        if ($request->status && $request->status !== 'Semua Status' && $request->status !== 'Dibatalkan') {
             $get->where('invoice.status', '=', $request->status);
+        } else if ($request->status == 'Dibatalkan') {
+            $get = DB::table('invoice')
+                ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
+                ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
+                ->join('sales', 'proyek.sales_id', '=', 'sales.id')
+                ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+                ->where('status', '=', 'Dibatalkan')
+                ->orderBy('invoice.id', 'desc');
         }
 
         $result = $get->get();

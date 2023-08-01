@@ -111,37 +111,37 @@ class PDFController extends Controller
 
     public function monitoringPDF()
     {
-        $results = DB::table('invoice as i')
-            ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
-            ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
-            ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
-            ->where('i.status', '!=', 'Dibatalkan')
-            ->where('i.ar', '<=', DB::raw('total_tagihan'))
-            ->where('i.ar', '<>', 0)
-            ->select(
-                'p.nama_customer',
-                'p.nama_proyek',
-                's.nama_sales',
-                'p.nilai_kontrak',
-                'pt.DP',
-                'pt.APPROVAL',
-                'pt.BMOS',
-                'pt.AMOS',
-                'pt.TESTCOMM',
-                'pt.RETENSI',
-                'p.kode_proyek',
-                'i.no_invoice',
-                'i.tgl_ttk',
-                'i.progress',
-                'i.ar',
-                'p.keterangan',
-                'i.batas_jatuh_tempo',
-                'i.tgl_jatuh_tempo',
-                DB::raw('CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar) AS pembayaranSudahDiterima')
-            )
-            ->orderBy('p.nama_customer')
-            ->orderBy('p.nama_proyek')
-            ->get();
+        // $results = DB::table('invoice as i')
+        //     ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
+        //     ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
+        //     ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
+        //     ->where('i.status', '!=', 'Dibatalkan')
+        //     ->where('i.ar', '<=', DB::raw('total_tagihan'))
+        //     ->where('i.ar', '<>', 0)
+        //     ->select(
+        //         'p.nama_customer',
+        //         'p.nama_proyek',
+        //         's.nama_sales',
+        //         'p.nilai_kontrak',
+        //         'pt.DP',
+        //         'pt.APPROVAL',
+        //         'pt.BMOS',
+        //         'pt.AMOS',
+        //         'pt.TESTCOMM',
+        //         'pt.RETENSI',
+        //         'p.kode_proyek',
+        //         'i.no_invoice',
+        //         'i.tgl_ttk',
+        //         'i.progress',
+        //         'i.ar',
+        //         'p.keterangan',
+        //         'i.batas_jatuh_tempo',
+        //         'i.tgl_jatuh_tempo',
+        //         DB::raw('CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar) AS pembayaranSudahDiterima')
+        //     )
+        //     ->orderBy('p.nama_customer')
+        //     ->orderBy('p.nama_proyek')
+        //     ->get();
 
         $mainQuery = DB::table('invoice AS i')
             ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
