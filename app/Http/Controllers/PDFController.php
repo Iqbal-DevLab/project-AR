@@ -188,24 +188,136 @@ class PDFController extends Controller
             ->orderBy('a.nama_customer')
             ->get();
 
-        // dd($result);
-        $html = view('page.monitoring.export-pdf', compact('result'))->render();
+        $proyek = DB::table('proyek')
+            ->join('customer', 'proyek.nama_customer', '=', 'customer.nama_customer')
+            ->join('sales', 'sales.id', '=', 'proyek.sales_id')
+            ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+            ->select(
+                'proyek.*',
+                'sales.nama_sales',
+                'payment_terms.DP',
+                'payment_terms.APPROVAL',
+                'payment_terms.BMOS',
+                'payment_terms.AMOS',
+                'payment_terms.TESTCOMM',
+                'payment_terms.RETENSI'
+            )
+            ->orderBy('customer.nama_customer')
+            // ->where('proyek.nama_customer', $customer->nama_customer)
+            ->get();
 
-        $options = new Options();
-        $options->setDpi(72);
-        $options->setIsRemoteEnabled(true);
-        $options->setIsHtml5ParserEnabled(true);
-        $options->setChroot(public_path());
-        $options->setIsFontSubsettingEnabled(true);
+        $monitoringTable = [];
+        foreach ($proyek as $item) {
 
-        $dompdf = new Dompdf($options);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
-        $dompdf->loadHtml($html);
-        $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
+            $invoice = [];
 
-        $dompdf->render();
+            $invoiceData = DB::table('invoice')
+                ->select('invoice.tgl_lunas', 'invoice.id', 'invoice.ar', 'invoice.tgl_ttk', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.batas_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at')
+                ->where('invoice.kode_proyek', $item->kode_proyek)
+                ->where(
+                    'invoice.status',
+                    '!=',
+                    'Dibatalkan'
+                )
+                ->get();
 
-        $dompdf->stream($pdfName . ".pdf");
+            foreach ($invoiceData as $invoiceItem) {
+                $invoice[] = $invoiceItem;
+            }
+            $transaksi = []; // Define an empty array for transactions
+
+            $transaksiData = DB::table('transaksi')
+                ->select('invoice.no_invoice', 'invoice.tagihan', 'invoice.nilai_tagihan', 'invoice.total_tagihan', 'invoice.progress', 'invoice.tgl_ttk', 'transaksi.ar', 'transaksi.dana_masuk', 'transaksi.bank', 'transaksi.nilai_giro', 'transaksi.total_dana_masuk', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'transaksi.tgl_transfer', 'transaksi.status')
+                ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
+                ->join('invoice', 'invoice.id', '=', 'transaksi.invoice_id')
+                ->where('transaksi.kode_proyek', $item->kode_proyek)
+                ->whereIn('transaksi.status', ['Sudah Dibayar', 'Belum Dibayar'])
+                ->where(
+                    'transaksi.status',
+                    '!=',
+                    'Dibatalkan'
+                )
+                ->get();
+
+            foreach ($transaksiData as $transaksiItem) {
+                $transaksi[] = $transaksiItem; // Append each transaction data to the $transaksi array
+            }
+
+            $pembayaranSudahDiterima = DB::table('transaksi')
+                ->where('status', 'Sudah Dibayar')
+                ->where('kode_proyek', $item->kode_proyek)
+                ->select(DB::raw('SUM(CAST(total_dana_masuk AS decimal(18))) as totalPembayaranSudahDiterima'))
+                ->first()
+                ->totalPembayaranSudahDiterima;
+
+            $pembayaranBelumDiterima = DB::table('invoice')
+                ->where(
+                    'invoice.status',
+                    '!=',
+                    'Dibatalkan'
+                )
+                ->where('kode_proyek', $item->kode_proyek)
+                ->select(DB::raw('SUM(CAST(ar AS decimal(18))) as totalPembayaranBelumDiterima'))
+                ->first()
+                ->totalPembayaranBelumDiterima;
+
+            $sisaTagihan = max(0, $item->nilai_kontrak * 111 / 100 - $pembayaranSudahDiterima - $pembayaranBelumDiterima);
+
+            $totalNilaiTagihan = DB::table('invoice')
+                ->where('kode_proyek', $item->kode_proyek)
+                ->select(DB::raw('SUM(CAST(total_tagihan AS decimal(18))) as totalNilaiTagihan'))
+                ->first()
+                ->totalNilaiTagihan;
+
+            $progressTypes = ['DP', 'APPROVAL', 'BMOS', 'AMOS', 'TESTCOMM', 'RETENSI'];
+
+            $monitoringTable[$item->id] = [
+                'proyek' => $item,
+                'invoice' => $invoice,
+                'transaksi' => $transaksi,
+                'pembayaranSudahDiterima' => $pembayaranSudahDiterima,
+                'pembayaranBelumDiterima' => $pembayaranBelumDiterima,
+                'sisaTagihan' => $sisaTagihan,
+                'totalNilaiTagihan' => $totalNilaiTagihan,
+            ];
+
+            foreach ($progressTypes as $type) {
+                $tagihanColumn = "tagihan{$type}";
+                $arColumn = "ar{$type}";
+
+                $monitoringTable[$item->id][$tagihanColumn] = DB::table('invoice')
+                    ->where('kode_proyek', $item->kode_proyek)
+                    ->where('progress', 'LIKE', "%{$type}%")
+                    ->select(DB::raw("SUM(CAST(total_tagihan AS decimal(18))) as {$tagihanColumn}"))
+                    ->first()
+                    ->$tagihanColumn;
+
+                $monitoringTable[$item->id][$arColumn] = DB::table('invoice')
+                    ->where('kode_proyek', $item->kode_proyek)
+                    ->where('progress', 'LIKE', "%{$type}%")
+                    ->select(DB::raw("SUM(CAST(ar AS decimal(18))) as {$arColumn}"))
+                    ->first()
+                    ->$arColumn;
+            }
+        }
+        return view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable'));
+        // $html = view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable'))->render();
+
+        // $options = new Options();
+        // $options->setDpi(72);
+        // $options->setIsRemoteEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $options->setChroot(public_path());
+        // $options->setIsFontSubsettingEnabled(true);
+
+        // $dompdf = new Dompdf($options);
+        // $dompdf->setPaper('A4', 'landscape');
+        // $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
+        // $dompdf->loadHtml($html);
+        // $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
+
+        // $dompdf->render();
+
+        // $dompdf->stream($pdfName . ".pdf");
     }
 }

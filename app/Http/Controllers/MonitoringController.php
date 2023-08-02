@@ -299,7 +299,7 @@ class MonitoringController extends Controller
             ->join('sales', 'sales.id', '=', 'proyek.sales_id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
             ->select('proyek.*', 'sales.nama_sales', 'payment_terms.DP', 'payment_terms.APPROVAL', 'payment_terms.BMOS', 'payment_terms.AMOS', 'payment_terms.TESTCOMM', 'payment_terms.RETENSI')
-            ->where('proyek.nama_customer', $customer->nama_customer)
+            // ->where('proyek.nama_customer', $customer->nama_customer)
             ->get();
 
         $monitoringTable = [];
@@ -364,6 +364,37 @@ class MonitoringController extends Controller
                 ->select(DB::raw('SUM(CAST(total_tagihan AS decimal(18))) as totalNilaiTagihan'))
                 ->first()
                 ->totalNilaiTagihan;
+
+            $progressTypes = ['DP', 'APPROVAL', 'BMOS', 'AMOS', 'TESTCOMM', 'RETENSI'];
+
+            $monitoringTable[$item->id] = [
+                'proyek' => $item,
+                'invoice' => $invoice,
+                'transaksi' => $transaksi,
+                'pembayaranSudahDiterima' => $pembayaranSudahDiterima,
+                'pembayaranBelumDiterima' => $pembayaranBelumDiterima,
+                'sisaTagihan' => $sisaTagihan,
+                'totalNilaiTagihan' => $totalNilaiTagihan,
+            ];
+
+            foreach ($progressTypes as $type) {
+                $tagihanColumn = "tagihan{$type}";
+                $arColumn = "ar{$type}";
+
+                $monitoringTable[$item->id][$tagihanColumn] = DB::table('invoice')
+                    ->where('kode_proyek', $item->kode_proyek)
+                    ->where('progress', 'LIKE', "%{$type}%")
+                    ->select(DB::raw("SUM(CAST(total_tagihan AS decimal(18))) as {$tagihanColumn}"))
+                    ->first()
+                    ->$tagihanColumn;
+
+                $monitoringTable[$item->id][$arColumn] = DB::table('invoice')
+                    ->where('kode_proyek', $item->kode_proyek)
+                    ->where('progress', 'LIKE', "%{$type}%")
+                    ->select(DB::raw("SUM(CAST(ar AS decimal(18))) as {$arColumn}"))
+                    ->first()
+                    ->$arColumn;
+            }
 
             // $tagihanDP = DB::table('invoice')
             //     ->where('kode_proyek', $item->kode_proyek)
@@ -449,37 +480,6 @@ class MonitoringController extends Controller
             //     ->first()
             //     ->arRETENSI;
 
-            $progressTypes = ['DP', 'APPROVAL', 'BMOS', 'AMOS', 'TESTCOMM', 'RETENSI'];
-
-            $monitoringTable[$item->id] = [
-                'proyek' => $item,
-                'invoice' => $invoice,
-                'transaksi' => $transaksi,
-                'pembayaranSudahDiterima' => $pembayaranSudahDiterima,
-                'pembayaranBelumDiterima' => $pembayaranBelumDiterima,
-                'sisaTagihan' => $sisaTagihan,
-                'totalNilaiTagihan' => $totalNilaiTagihan,
-            ];
-
-            foreach ($progressTypes as $type) {
-                $tagihanColumn = "tagihan{$type}";
-                $arColumn = "ar{$type}";
-
-                $monitoringTable[$item->id][$tagihanColumn] = DB::table('invoice')
-                    ->where('kode_proyek', $item->kode_proyek)
-                    ->where('progress', 'LIKE', "%{$type}%")
-                    ->select(DB::raw("SUM(CAST(total_tagihan AS decimal(18))) as {$tagihanColumn}"))
-                    ->first()
-                    ->$tagihanColumn;
-
-                $monitoringTable[$item->id][$arColumn] = DB::table('invoice')
-                    ->where('kode_proyek', $item->kode_proyek)
-                    ->where('progress', 'LIKE', "%{$type}%")
-                    ->select(DB::raw("SUM(CAST(ar AS decimal(18))) as {$arColumn}"))
-                    ->first()
-                    ->$arColumn;
-            }
-
             // $monitoringTable[$item->id] = [
             //     'proyek' => $item,
             //     'invoice' => $invoice,
@@ -502,7 +502,7 @@ class MonitoringController extends Controller
             //     'arRETENSI' => $arRETENSI,
             // ];
         }
-
+        dd($customer, $proyek, $monitoringTable);
         return view('page.monitoring.detail', compact('proyek', 'customer', 'monitoringTable'));
     }
 
