@@ -79,55 +79,61 @@
                         <td class="text-center" style="width: 11%;">Pembayaran Sudah Diterima</td>
                     </tr>
                 </thead>
+                @php
+                    $totalHargaKontrakKeseluruhan = 0;
+                    $totalARKeseluruhan = 0;
+                    $totalPembayaranSudahDiterimaKeseluruhan = 0;
+                @endphp
                 <tbody>
                     @php
                         $no = 1;
-                        $prevCustomer = null;
+                        $totalNilaiKontrak = 0;
                         $totalAR = 0;
                         $totalPembayaranSudahDiterima = 0;
                     @endphp
                     @foreach ($monitoringTable as $data)
-                        @php
-                            $sameCustomer = $prevCustomer === $data['proyek']->nama_customer;
-                            $prevCustomer = $data['proyek']->nama_customer;
-                            $invoiceCount = count($data['invoice']);
-                        @endphp
-                        @if ($invoiceCount > 0)
-                            @foreach ($data['invoice'] as $index => $invoice)
+                        @foreach ($data['invoice'] as $index => $invoice)
+                            @php
+                                $prevCustomer = null;
+                                $prevProyek = null;
+                                $prevKeterangan = null;
+                                $totalNilaiKontrak = 0;
+                                $totalAR = 0;
+                                $totalPembayaranSudahDiterima = 0;
+                            @endphp
+                            @if ($invoice->ar != 0)
                                 <tr>
-                                    @if ($index === 0)
-                                        <td rowspan="{{ $invoiceCount }}">{{ $no++ }}</td>
-                                        <td rowspan="{{ $invoiceCount }}">
-                                            @if (!$sameCustomer)
-                                                {{ $data['proyek']->nama_customer }}
-                                            @endif
-                                        </td>
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['proyek']->nama_proyek }}</td>
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['proyek']->nama_sales }}</td>
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['proyek']->nilai_kontrak }}
-                                        </td>
-                                        <td rowspan="{{ $invoiceCount }}">
-                                            @php
-                                                $details = 'DP: ' . $data['proyek']->DP;
-                                                if ($data['proyek']->APPROVAL) {
-                                                    $details .= '<br>APPROVAL: ' . $data['proyek']->APPROVAL;
-                                                }
-                                                if ($data['proyek']->BMOS) {
-                                                    $details .= '<br>BMOS: ' . $data['proyek']->BMOS;
-                                                }
-                                                if ($data['proyek']->AMOS) {
-                                                    $details .= '<br>AMOS: ' . $data['proyek']->AMOS;
-                                                }
-                                                if ($data['proyek']->TESTCOMM) {
-                                                    $details .= '<br>TESTCOMM: ' . $data['proyek']->TESTCOMM;
-                                                }
-                                                if ($data['proyek']->RETENSI) {
-                                                    $details .= '<br>RETENSI: ' . $data['proyek']->RETENSI;
-                                                }
-                                            @endphp
-                                            {!! $details !!}</td>
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['proyek']->kode_proyek }}</td>
-                                    @endif
+                                    <td>{{ $no++ }}</td>
+                                    <td>
+
+                                        {{ $data['proyek']->nama_customer }}
+                                    </td>
+                                    <td>{{ $data['proyek']->nama_proyek }}</td>
+                                    <td>{{ $data['proyek']->nama_sales }}</td>
+                                    <td>{{ $data['proyek']->nilai_kontrak }}
+                                    </td>
+                                    <td>
+                                        @php
+                                            $details = 'DP: ' . $data['proyek']->DP;
+                                            if ($data['proyek']->APPROVAL) {
+                                                $details .= '<br>APPROVAL: ' . $data['proyek']->APPROVAL;
+                                            }
+                                            if ($data['proyek']->BMOS) {
+                                                $details .= '<br>BMOS: ' . $data['proyek']->BMOS;
+                                            }
+                                            if ($data['proyek']->AMOS) {
+                                                $details .= '<br>AMOS: ' . $data['proyek']->AMOS;
+                                            }
+                                            if ($data['proyek']->TESTCOMM) {
+                                                $details .= '<br>TESTCOMM: ' . $data['proyek']->TESTCOMM;
+                                            }
+                                            if ($data['proyek']->RETENSI) {
+                                                $details .= '<br>RETENSI: ' . $data['proyek']->RETENSI;
+                                            }
+                                        @endphp
+                                        {!! $details !!}</td>
+                                    <td>{{ $data['proyek']->kode_proyek }}</td>
+
                                     <td>{{ $invoice->no_invoice }}</td>
                                     <td>{{ $invoice->tgl_ttk }}</td>
                                     <td>{{ $invoice->progress }}</td>
@@ -155,30 +161,12 @@
                                             -
                                         @endif
                                     </td>
-                                    @if ($index === 0)
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['sisaTagihan'] }}</td>
-                                    @endif
-                                    @if ($index === 0)
-                                        <td rowspan="{{ $invoiceCount }}">{{ $data['pembayaranSudahDiterima'] }}
-                                        </td>
-                                    @endif
+                                    <td>{{ $data['sisaTagihan'] }}</td>
+                                    <td>{{ $data['pembayaranSudahDiterima'] }}
+                                    </td>
                                 </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $data['proyek']->nama_customer }}</td>
-                                <td>{{ $data['proyek']->nama_proyek }}</td>
-                                <td>{{ $data['proyek']->nama_sales }}</td>
-                                <td>{{ $data['proyek']->nilai_kontrak }}</td>
-                                <td></td>
-                                <td>{{ $data['proyek']->kode_proyek }}</td>
-                                <td colspan="7">No invoices available</td>
-                                <td></td>
-                                <td>{{ $data['sisaTagihan'] }}</td>
-                                <td>{{ $data['pembayaranSudahDiterima'] }}</td>
-                            </tr>
-                        @endif
+                            @endif
+                        @endforeach
                     @endforeach
                 </tbody>
 

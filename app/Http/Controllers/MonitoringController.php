@@ -299,7 +299,7 @@ class MonitoringController extends Controller
             ->join('sales', 'sales.id', '=', 'proyek.sales_id')
             ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
             ->select('proyek.*', 'sales.nama_sales', 'payment_terms.DP', 'payment_terms.APPROVAL', 'payment_terms.BMOS', 'payment_terms.AMOS', 'payment_terms.TESTCOMM', 'payment_terms.RETENSI')
-            // ->where('proyek.nama_customer', $customer->nama_customer)
+            ->where('proyek.nama_customer', $customer->nama_customer)
             ->get();
 
         $monitoringTable = [];
@@ -502,7 +502,7 @@ class MonitoringController extends Controller
             //     'arRETENSI' => $arRETENSI,
             // ];
         }
-        dd($customer, $proyek, $monitoringTable);
+        // dd($customer, $proyek, $monitoringTable);
         return view('page.monitoring.detail', compact('proyek', 'customer', 'monitoringTable'));
     }
 

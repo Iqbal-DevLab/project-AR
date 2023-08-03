@@ -110,7 +110,7 @@
                                 <footer id="page-footer" class="opacity-0">
                                     <div class="content py-20 font-size-xs clearfix tableLarge">
                                         <div class="float-right">
-                                            Ver. 0.1 (beta) <a class="font-w600" href="#" target="_blank"></a>
+                                            Ver. 1.0 <a class="font-w600" href="#" target="_blank"></a>
                                         </div>
                                         <div class="float-left">
                                             <a class="font-w600" href="https://sinarmetrindo.co.id" target="_blank">PT.

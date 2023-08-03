@@ -300,7 +300,55 @@ class PDFController extends Controller
                     ->$arColumn;
             }
         }
-        return view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable'));
+
+        $results = DB::table(function ($query) {
+            $query->select(
+                'p.nama_customer',
+                'p.nama_proyek',
+                's.nama_sales',
+                'p.nilai_kontrak',
+                'pt.DP',
+                'pt.APPROVAL',
+                'pt.BMOS',
+                'pt.AMOS',
+                'pt.TESTCOMM',
+                'pt.RETENSI',
+                'p.kode_proyek',
+                'i.no_invoice',
+                'i.tgl_ttk',
+                'i.progress',
+                'i.ar',
+                'p.keterangan',
+                'i.batas_jatuh_tempo',
+                'i.tgl_jatuh_tempo',
+                'i.total_tagihan',
+                DB::raw("CASE WHEN i.progress like '%RETENSI%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end RET"),
+                DB::raw("CASE WHEN i.progress like '%TESCOMM%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end TESTC"),
+                DB::raw("CASE WHEN i.progress like '%MOS%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end MOS")
+            )
+                ->from('invoice AS i')
+                ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
+                ->leftJoin('payment_terms AS pt', 'pt.id', '=', 'p.payment_terms_id')
+                ->leftJoin('sales AS s', 's.id', '=', 'p.sales_id')
+                ->where('i.status', '!=', 'DIBATALKAN')
+                ->whereColumn('i.ar', '<=', 'total_tagihan')
+                ->where('i.ar', '<>', 0);
+        }, 'a')
+            ->joinSub(function ($query) {
+                $query->select(
+                    'p.nama_proyek',
+                    DB::raw("SUM(CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar)) AS pembayaranSudahDiterima")
+                )
+                    ->from('invoice AS i')
+                    ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
+                    ->where('i.status', '!=', 'DIBATALKAN')
+                    ->groupBy('p.nama_proyek');
+            }, 'b', 'a.nama_proyek', '=', 'b.nama_proyek')
+            ->orderBy('a.nama_customer')
+            ->get();
+
+        // dd($results);
+        return view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable', 'results'));
         // $html = view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable'))->render();
 
         // $options = new Options();

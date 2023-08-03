@@ -40,18 +40,14 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="font-w600 text-center">{{ $p->nama_proyek }}</td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-alt-primary w-100 rounded-2">
-                                            {{ $p->kode_proyek }}
-                                        </button>
-                                    </td>
+                                    <td class="text-center">{{ $p->kode_proyek }}</td>
                                     <td class="font-w600 text-center">{{ $p->nama_customer }}</td>
                                     <td class="text-center">{{ $p->kategori_proyek }}</td>
                                     <td class="text-center">{{ $p->nama_sales }}</td>
                                     <td class="text-center">@currency($p->nilai_kontrak),-</td>
                                     <td class="text-center"><span
                                             class="badge {{ $p->status_po == 'BELUM DITERIMA' ? 'badge-warning' : 'badge-success' }}">{{ $p->status_po }}
-                                            </>
+                                        </span>
                                     </td>
                                     <td class="text-center">{{ $p->keterangan ? $p->keterangan : '-' }}</td>
                                     <td class="text-center">
