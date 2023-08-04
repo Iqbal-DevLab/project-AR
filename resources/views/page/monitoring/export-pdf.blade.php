@@ -14,7 +14,7 @@
     <title>AR Monitoring {{ $timeNow }}</title>
     <style>
         body {
-            font-size: 4.5px;
+            font-size: 5.5px;
             margin: auto;
             background-color: white;
         }
@@ -59,7 +59,7 @@
         <div>
             <table class="table table-bordered text-dark">
                 <thead>
-                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 4.5px;">
+                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 5.5px;">
                         <td>No</td>
                         <td class="text-center">Nama Customer</td>
                         <td class="text-center">Nama Proyek</td>
@@ -82,6 +82,7 @@
                 @php
                     $totalHargaKontrakKeseluruhan = 0;
                     $totalARKeseluruhan = 0;
+                    $totalSisaTagihanKeseluruhan = 0;
                     $totalPembayaranSudahDiterimaKeseluruhan = 0;
                 @endphp
                 <tbody>
@@ -89,56 +90,105 @@
                         $no = 1;
                         $totalNilaiKontrak = 0;
                         $totalAR = 0;
+                        $totalSisaTagihan = 0;
                         $totalPembayaranSudahDiterima = 0;
+                        $prevCustomer = null;
+                        $prevProyek = null;
                     @endphp
                     @foreach ($monitoringTable as $data)
                         @foreach ($data['invoice'] as $index => $invoice)
-                            @php
-                                $prevCustomer = null;
-                                $prevProyek = null;
-                                $prevKeterangan = null;
-                                $totalNilaiKontrak = 0;
-                                $totalAR = 0;
-                                $totalPembayaranSudahDiterima = 0;
-                            @endphp
                             @if ($invoice->ar != 0)
+                                @php
+                                    $sameCustomer = $prevCustomer === $data['proyek']->nama_customer;
+                                    $prevCustomer = $data['proyek']->nama_customer;
+                                    $sameProyek = $prevProyek === $data['proyek']->nama_proyek;
+                                    $prevProyek = $data['proyek']->nama_proyek;
+                                    $details = '';
+                                    if (!$sameCustomer) {
+                                        if ($prevCustomer !== null && $totalNilaiKontrak > 0 && $totalAR > 0) {
+                                            echo '<tr class="small-row">';
+                                            echo '<td class="text-right font-weight-bold" colspan="2">Total</td>';
+                                            echo '<td class="text-right font-weight-bold" colspan="3">Rp. ' . number_format($totalNilaiKontrak, 0, '.', '.') . ',-</td>';
+                                            echo '<td class="text-right font-weight-bold" colspan="6">Rp. ' . number_format($totalAR, 0, '.', '.') . ',-</td>';
+                                            echo '<td class="text-right font-weight-bold" colspan="5">Rp. ' . number_format($totalSisaTagihan, 0, '.', '.') . ',-</td>';
+                                            echo '<td class="text-right font-weight-bold" colspan="1">Rp. ' . number_format($totalPembayaranSudahDiterima, 0, '.', '.') . ',-</td>';
+                                            echo '</tr>';
+                                        }
+                                    
+                                        $totalNilaiKontrak = 0;
+                                        $totalAR = 0;
+                                        $totalSisaTagihan = 0;
+                                        $totalPembayaranSudahDiterima = 0;
+                                    }
+                                    if (!$sameProyek) {
+                                        $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
+                                    }
+                                    $totalSisaTagihan += $data['sisaTagihan'];
+                                    $totalAR += $invoice->ar;
+                                    
+                                    if (!$sameProyek) {
+                                        $totalPembayaranSudahDiterima += $data['pembayaranSudahDiterima'];
+                                    }
+                                @endphp
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>
-
-                                        {{ $data['proyek']->nama_customer }}
-                                    </td>
-                                    <td>{{ $data['proyek']->nama_proyek }}</td>
-                                    <td>{{ $data['proyek']->nama_sales }}</td>
-                                    <td>{{ $data['proyek']->nilai_kontrak }}
+                                    <td class="border-0">
+                                        @if (!$sameCustomer)
+                                            {{ $data['proyek']->nama_customer }}
+                                        @endif
                                     </td>
                                     <td>
-                                        @php
-                                            $details = 'DP: ' . $data['proyek']->DP;
-                                            if ($data['proyek']->APPROVAL) {
-                                                $details .= '<br>APPROVAL: ' . $data['proyek']->APPROVAL;
-                                            }
-                                            if ($data['proyek']->BMOS) {
-                                                $details .= '<br>BMOS: ' . $data['proyek']->BMOS;
-                                            }
-                                            if ($data['proyek']->AMOS) {
-                                                $details .= '<br>AMOS: ' . $data['proyek']->AMOS;
-                                            }
-                                            if ($data['proyek']->TESTCOMM) {
-                                                $details .= '<br>TESTCOMM: ' . $data['proyek']->TESTCOMM;
-                                            }
-                                            if ($data['proyek']->RETENSI) {
-                                                $details .= '<br>RETENSI: ' . $data['proyek']->RETENSI;
-                                            }
-                                        @endphp
-                                        {!! $details !!}</td>
-                                    <td>{{ $data['proyek']->kode_proyek }}</td>
-
+                                        @if (!$sameProyek)
+                                            {{ $data['proyek']->nama_proyek }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (!$sameProyek)
+                                            {{ $data['proyek']->nama_sales }}
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if (!$sameProyek)
+                                            @currency($data['proyek']->nilai_kontrak),-
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (!$sameProyek)
+                                            @php
+                                                $details = 'DP: ' . $data['proyek']->DP;
+                                                if ($data['proyek']->APPROVAL) {
+                                                    $details .= '<br>APPROVAL: ' . $data['proyek']->APPROVAL;
+                                                }
+                                                if ($data['proyek']->BMOS) {
+                                                    $details .= '<br>BMOS: ' . $data['proyek']->BMOS;
+                                                }
+                                                if ($data['proyek']->AMOS) {
+                                                    $details .= '<br>AMOS: ' . $data['proyek']->AMOS;
+                                                }
+                                                if ($data['proyek']->TESTCOMM) {
+                                                    $details .= '<br>TESTCOMM: ' . $data['proyek']->TESTCOMM;
+                                                }
+                                                if ($data['proyek']->RETENSI) {
+                                                    $details .= '<br>RETENSI: ' . $data['proyek']->RETENSI;
+                                                }
+                                            @endphp
+                                            {!! $details !!}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (!$sameProyek)
+                                            {{ $data['proyek']->kode_proyek }}
+                                        @endif
+                                    </td>
                                     <td>{{ $invoice->no_invoice }}</td>
                                     <td>{{ $invoice->tgl_ttk }}</td>
                                     <td>{{ $invoice->progress }}</td>
-                                    <td>{{ $invoice->ar }}</td>
-                                    <td>{{ $data['proyek']->keterangan }}</td>
+                                    <td class="text-right">@currency($invoice->ar),-</td>
+                                    <td>
+                                        @if (!$sameProyek)
+                                            {{ $data['proyek']->keterangan }}
+                                        @endif
+                                    </td>
                                     <td>{{ $invoice->batas_jatuh_tempo ? $invoice->batas_jatuh_tempo . 'Hari' : '-' }}
                                     </td>
                                     <td>{{ $invoice->tgl_jatuh_tempo }}</td>
@@ -161,15 +211,77 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>{{ $data['sisaTagihan'] }}</td>
-                                    <td>{{ $data['pembayaranSudahDiterima'] }}
+                                    <td class="text-right">
+                                        @if (!$sameProyek)
+                                            @currency($data['sisaTagihan']),-
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if (!$sameProyek)
+                                            @currency($data['pembayaranSudahDiterima']),-
+                                        @endif
                                     </td>
                                 </tr>
                             @endif
                         @endforeach
                     @endforeach
-                </tbody>
+                    @if ($prevCustomer !== null)
+                        <tr class="small-row">
+                            <td class="text-right font-weight-bold" colspan="2">
+                                Total
+                            </td>
+                            <td class="text-right font-weight-bold" colspan="3">
+                                @if (!$sameProyek)
+                                    Rp.
+                                    {{ number_format($totalNilaiKontrak, 0, '.', '.') }},-
+                                @endif
+                            </td>
+                            <td class="text-right font-weight-bold" colspan="6">Rp.
+                                {{ number_format($totalAR, 0, '.', '.') }},-
+                            </td>
+                            <td class="text-right font-weight-bold" colspan="5">
+                                Rp.
+                                {{ number_format($data['sisaTagihan'], 0, '.', '.') }},-
+                            </td>
+                            <td class="text-right font-weight-bold" colspan="1">
+                                @if (!$sameProyek)
+                                    Rp.
+                                    {{ number_format($data['pembayaranSudahDiterima'], 0, '.', '.') }},-
+                                @endif
+                            </td>
+                        </tr>
+                    @endif
+                    @foreach ($monitoringTable as $data)
+                        @foreach ($data['invoice'] as $index => $invoice)
+                            @php
+                                $totalHargaKontrakKeseluruhan += $data['proyek']->nilai_kontrak;
+                                $totalSisaTagihanKeseluruhan += $totalSisaTagihan;
+                                $totalARKeseluruhan += $invoice->ar;
+                                
+                                $totalPembayaranSudahDiterimaKeseluruhan += $totalPembayaranSudahDiterima;
+                            @endphp
+                        @endforeach
+                    @endforeach
 
+                    {{-- Tampilkan total keseluruhan --}}
+                    <tr class="small-row">
+                        <td class="text-right font-weight-bold" colspan="2">
+                            Total Keseluruhan
+                        </td>
+                        <td class="text-right font-weight-bold" colspan="3">Rp.
+                            {{ number_format($totalHargaKontrakKeseluruhan, 0, '.', '.') }},-
+                        </td>
+                        <td class="text-right font-weight-bold" colspan="6">Rp.
+                            {{ number_format($totalARKeseluruhan, 0, '.', '.') }},-
+                        </td>
+                        <td class="text-right font-weight-bold" colspan="5">Rp.
+                            {{ number_format($totalSisaTagihanKeseluruhan, 0, '.', '.') }},-
+                        </td>
+                        <td class="text-right font-weight-bold" colspan="1">Rp.
+                            {{ number_format($totalPembayaranSudahDiterimaKeseluruhan, 0, '.', '.') }},-
+                        </td>
+                    </tr>
+                </tbody>
             </table>
 
         </div>
