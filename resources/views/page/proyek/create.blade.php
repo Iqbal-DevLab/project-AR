@@ -321,8 +321,9 @@
                                     <div class="row text-monospace">
                                         <div class="col input-group">
                                             <label for="TOTAL" class="col-form-label col-md-4 fs-6">Total</label>
-                                            <input type="text" class="form-control-plaintext col-md-3" id="total"
-                                                readonly placeholder="0%" name="TOTAL" value="{{ old('TOTAL') }}">
+                                            <input type="text" hidden class="form-control-plaintext col-md-3"
+                                                id="total" readonly placeholder="0%" name="TOTAL"
+                                                value="{{ old('TOTAL') }}">
                                         </div>
                                         <div class="col input-group">
                                             <span class="align-self-center">Rp.</span>
