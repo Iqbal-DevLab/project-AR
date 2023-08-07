@@ -33,7 +33,6 @@ function submitFunction(id) {
         // Mencegah pengiriman form ke server
         event.preventDefault();
     } else {
-        // Input valid, form dapat di-submit ke server (jika Anda ingin mengirimkan formulir setelah validasi)
         // event.target.submit();
     }
 }
@@ -51,6 +50,7 @@ function jatuhTempo(jatuhTempo, id, i) {
         tglTtkParts[1] - 1,
         tglTtkParts[0]
     );
+
     if (jatuhTempo !== "" && i == false) {
         var selectedOptionValue = parseInt(jatuhTempo);
         tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);

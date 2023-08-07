@@ -7,15 +7,9 @@ use App\Models\SalesTarget;
 use App\Models\Sales;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class SalesTargetController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $salesname = Sales::all();
@@ -93,45 +87,6 @@ class SalesTargetController extends Controller
             $dataTarget[$namaSales]['total_sales_volume'] += $salesVolume;
         }
 
-
-        // $salesTarget = DB::table('invoice')
-        //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-        //     ->join('sales', 'proyek.sales_id', '=', 'sales.id')
-        //     ->leftJoin('sales_target', 'sales.id', '=', 'sales_target.sales_id')
-        //     ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-        //     ->select(
-        //         'sales.nama_sales',
-        //         'sales_target.target',
-        //         'sales.type',
-        //         DB::raw("MONTH(CONVERT(invoice.tgl_invoice, DATE)) as bulan"),
-        //         DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE)) as tahun"),
-        //         DB::raw("SUM(CONVERT(invoice.nilai_tagihan, DECIMAL(18))) as total_nilai_tagihan")
-        //     )
-        //     ->where('invoice.status', '!=', 'Dibatalkan')
-        //     ->orderBy('sales.nama_sales', 'asc')
-        //     ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(invoice.tgl_invoice, DATE))"), DB::raw("YEAR(CONVERT(invoice.tgl_invoice, DATE))"))
-        //     ->get();
-
-        // $dataTarget = [];
-        // foreach ($salesTarget as $data) {
-        //     $namaSales = $data->nama_sales;
-        //     $bulanInvoice = "bulan_" . $data->bulan;
-
-        //     // Mengecek apakah data sudah ada dalam grup
-        //     if (!isset($dataTarget[$namaSales])) {
-        //         $dataTarget[$namaSales] = [
-        //             'nama_sales' => $namaSales,
-        //             'target' => $data->target,
-        //             'type' => $data->type,
-        //             'tahun' => $data->tahun
-        //         ];
-        //     }
-
-        //     // Menambahkan data total_nilai_tagihan ke dalam grup
-        //     $dataTarget[$namaSales][$bulanInvoice] = $data->total_nilai_tagihan;
-        // }
-
-        // dd($dataTarget);
         return view('page.salestarget.index', compact('salesTarget', 'dataTarget'));
     }
 

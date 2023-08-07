@@ -5,19 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PaymentTerms;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
-
 
 class PaymentTermsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-
         $payment_terms = PaymentTerms::all();
         return view('page.payment_terms.index', compact('payment_terms'));
     }

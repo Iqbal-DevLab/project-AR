@@ -3,18 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SalesTarget;
-use App\Models\Sales;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class SalesVolumeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index(Request $request)
     {
         $get = DB::table('invoice')
@@ -34,7 +27,6 @@ class SalesVolumeController extends Controller
         }
 
         $result = $get->get();
-
 
         $total_sales_volume = DB::table('invoice')
             ->where('kode_proyek', $request->kode_proyek)

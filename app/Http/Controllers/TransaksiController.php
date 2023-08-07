@@ -10,20 +10,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class TransaksiController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index(Request $request)
     {
-
-        // $transaksi = DB::table('transaksi')
-        //     ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
-        //     ->join('invoice', 'transaksi.invoice_id', '=', 'invoice.id')
-        //     ->select('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'transaksi.progress', 'transaksi.bank', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')
-        //     ->groupBy('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'transaksi.progress', 'transaksi.bank', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')
-        //     ->where('transaksi.invoice_id', '!=', null)
-        //     ->get();
 
         $get = DB::table('transaksi')
             ->select('transaksi.id', 'transaksi.invoice_id', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tagihan', 'invoice.total_tagihan', 'transaksi.progress', 'transaksi.bank', 'transaksi.total_dana_masuk', 'transaksi.tgl_transfer', 'transaksi.no_giro', 'transaksi.nilai_giro', 'transaksi.tgl_terima_giro', 'transaksi.tgl_giro_cair', 'transaksi.dana_masuk', 'transaksi.status', 'transaksi.kode_proyek', 'proyek.nama_proyek', 'proyek.nama_customer')

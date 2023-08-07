@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
-use App\Models\invoice;
-use App\Models\Customer;
-use App\Models\Proyek;
-use App\Models\Salestarget;
+
 use App\Models\PaymentTerms;
 
 class InvoiceController extends Controller
@@ -44,25 +40,6 @@ class InvoiceController extends Controller
         }
 
         $result = $get->get();
-
-        // $get = DB::table('invoice')
-        //     ->select('invoice.id', 'invoice.tgl_ttk', 'invoice.ar', 'invoice.total_tagihan', 'invoice.status', 'invoice.progress', 'proyek.nama_proyek', 'proyek.kode_proyek', 'proyek.nilai_kontrak', 'invoice.no_invoice', 'invoice.no_invoice_before', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'invoice.keterangan', 'invoice.created_at', 'sales.nama_sales')
-        //     ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-        //     ->join('sales', 'proyek.sales_id', '=', 'sales.id')
-        //     ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-        //     ->orderBy('invoice.id', 'desc');
-
-        // $bulan = $request->input('bulan');
-        // $tahun = $request->input('tahun');
-
-        // if ($bulan && $tahun) {
-        //     $tgl_awal = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->startOfMonth();
-        //     $tgl_akhir = Carbon::createFromFormat('Y-m-d', "{$tahun}-{$bulan}-01")->endOfMonth();
-
-        //     $get->whereBetween(DB::raw("CONVERT(DATE, invoice.tgl_invoice, 105)"), [$tgl_awal, $tgl_akhir]);
-        // }
-
-        // $result = $get->get();
 
         return view('page.invoice.index', compact('result'));
     }
@@ -160,14 +137,7 @@ class InvoiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi data yang dikirim melalui permintaan (request)
-        // $request = $request->validate([
-        //     'tgl_ttk' => 'required|date_format:d-m-Y',
-        //     'batas_jatuh_tempo' => 'required',
-        //     'keterangan' => 'required',
-        // ]);
 
-        // Perbarui data faktur menggunakan DB::table
         DB::table('invoice')->where('id', $id)->update([
             'tgl_ttk' => $request->tgl_ttk,
             'keterangan' => $request->keterangan,
@@ -176,8 +146,6 @@ class InvoiceController extends Controller
             'status' => 'Menunggu Pembayaran'
         ]);
 
-        // Redirect ke halaman yang sesuai atau kirimkan respons
-        // Misalnya, Anda dapat mengalihkan kembali ke halaman indeks dengan pesan sukses
         return redirect()->back()->with('success', 'Tanggal TTK berhasil diperbarui');
     }
 
@@ -188,10 +156,9 @@ class InvoiceController extends Controller
         if ($invoice->status === 'Dibatalkan') {
             return redirect()->back()->with('info', 'Invoice sudah Dibatalkan sebelumnya.');
         }
-        // Generate a random number between 100 and 999
+        // Generate angka random pada no invoice
         $randomNumber = rand(100, 999);
 
-        // Append the random number to the [Batal] tag
         $newInvoiceNumber = $invoice->no_invoice . '[Batal-' . $randomNumber . ']';
 
         DB::table('invoice')->where('id', $id)->update([

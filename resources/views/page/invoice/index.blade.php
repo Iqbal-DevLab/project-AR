@@ -298,7 +298,8 @@
                                                                     class="col-form-label fs-6">TANGGAL
                                                                     JATUH TEMPO</label>
                                                                 <div class="input-group date align-items-center">
-                                                                    <input type="text" disabled
+                                                                    <input type="text" readonly
+                                                                        style="pointer-events: none;"
                                                                         class="js-datepicker form-control"
                                                                         id="tgl_jatuh_tempo{{ $i->id }}"
                                                                         name="tgl_jatuh_tempo" autocomplete="off"

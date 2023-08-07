@@ -12,10 +12,8 @@ const kodeAMOS = document.getElementById("AMOS");
 const kodeTESTCOMM = document.getElementById("TESTCOMM");
 const kodeRETENSI = document.getElementById("RETENSI");
 
-// Mendapatkan referensi ke elemen tbody di dalam tabel
 var tableBody = document.getElementById("invoiceTableBody");
 
-//Fungsi Status invoice pada table invoice
 function getStatusBadgeClass(status) {
     if (status === "Menunggu Pembayaran") {
         return "badge-warning";
@@ -30,7 +28,7 @@ function getStatusBadgeClass(status) {
     }
 }
 
-// Fungsi untuk memformat nilai sebagai mata uang dalam format Rupiah tanpa angka desimal yang bernilai nol di belakangnya
+// Fungsi untuk memformat nilai sebagai mata uang dalam format Rupiah
 function formatCurrency(amount) {
     const formattedAmount = new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -56,7 +54,7 @@ kodeProyekInput.addEventListener("input", function () {
 
         // Membuat variabel untuk menyimpan markup HTML tabel
         let tableHTML = "";
-        //Deklarasi variable TOP
+        // variable TOP
         var dp = 0;
         var approval = 0;
         var bmos = 0;
@@ -144,15 +142,12 @@ kodeProyekInput.addEventListener("input", function () {
         // Menambahkan markup HTML ke dalam tbody
         tableBody.innerHTML = tableHTML;
         console.log("ini dp", dp);
-
-        // console.log("datainvoice", filteredInvoices);
     } else {
         namaProyekInput.value = "";
         paymentTermsIdInput.value = "";
         customerIdInput.value = "";
         keteranganInput.value = "";
 
-        // Jika tidak ada kode proyek yang cocok, hapus isi tabel
         tableBody.innerHTML = "";
     }
 
@@ -327,7 +322,7 @@ tagihanInput.addEventListener("change", () => {
 let selectedPphValue = "";
 
 pphSelect.addEventListener("change", () => {
-    selectedPphValue = pphSelect.value; // Simpan nilai yang dipilih
+    selectedPphValue = pphSelect.value;
     pphSelect.disabled = true;
     divideButton.style.display = "inline-block";
     buatInvoiceButton.disabled = false;

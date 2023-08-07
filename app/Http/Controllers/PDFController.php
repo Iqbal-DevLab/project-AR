@@ -100,7 +100,7 @@ class PDFController extends Controller
 
         $dompdf = new Dompdf($options);
         $dompdf->setPaper('A4', 'landscape');
-        $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
+        $dompdf->getOptions()->set('renderer', 'gd');
         $dompdf->loadHtml($html);
         $pdfName = 'invoice ' . request('tgl_awal') . '-' . request('tgl_akhir');
 
@@ -111,38 +111,6 @@ class PDFController extends Controller
 
     public function monitoringPDF()
     {
-        // $results = DB::table('invoice as i')
-        //     ->leftJoin('proyek as p', 'p.kode_proyek', '=', 'i.kode_proyek')
-        //     ->leftJoin('payment_terms as pt', 'pt.id', '=', 'p.payment_terms_id')
-        //     ->leftJoin('sales as s', 's.id', '=', 'p.sales_id')
-        //     ->where('i.status', '!=', 'Dibatalkan')
-        //     ->where('i.ar', '<=', DB::raw('total_tagihan'))
-        //     ->where('i.ar', '<>', 0)
-        //     ->select(
-        //         'p.nama_customer',
-        //         'p.nama_proyek',
-        //         's.nama_sales',
-        //         'p.nilai_kontrak',
-        //         'pt.DP',
-        //         'pt.APPROVAL',
-        //         'pt.BMOS',
-        //         'pt.AMOS',
-        //         'pt.TESTCOMM',
-        //         'pt.RETENSI',
-        //         'p.kode_proyek',
-        //         'i.no_invoice',
-        //         'i.tgl_ttk',
-        //         'i.progress',
-        //         'i.ar',
-        //         'p.keterangan',
-        //         'i.batas_jatuh_tempo',
-        //         'i.tgl_jatuh_tempo',
-        //         DB::raw('CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar) AS pembayaranSudahDiterima')
-        //     )
-        //     ->orderBy('p.nama_customer')
-        //     ->orderBy('p.nama_proyek')
-        //     ->get();
-
         $mainQuery = DB::table('invoice AS i')
             ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
             ->leftJoin('payment_terms AS pt', 'pt.id', '=', 'p.payment_terms_id')
@@ -224,8 +192,8 @@ class PDFController extends Controller
             foreach ($invoiceData as $invoiceItem) {
                 $invoice[] = $invoiceItem;
             }
-            $transaksi = []; // Define an empty array for transactions
 
+            $transaksi = [];
             $transaksiData = DB::table('transaksi')
                 ->select('invoice.no_invoice', 'invoice.tagihan', 'invoice.nilai_tagihan', 'invoice.total_tagihan', 'invoice.progress', 'invoice.tgl_ttk', 'transaksi.ar', 'transaksi.dana_masuk', 'transaksi.bank', 'transaksi.nilai_giro', 'transaksi.total_dana_masuk', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'transaksi.tgl_transfer', 'transaksi.status')
                 ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
@@ -240,7 +208,7 @@ class PDFController extends Controller
                 ->get();
 
             foreach ($transaksiData as $transaksiItem) {
-                $transaksi[] = $transaksiItem; // Append each transaction data to the $transaksi array
+                $transaksi[] = $transaksiItem;
             }
 
             $pembayaranSudahDiterima = DB::table('transaksi')
@@ -360,7 +328,7 @@ class PDFController extends Controller
 
         $dompdf = new Dompdf($options);
         $dompdf->setPaper('A4', 'landscape');
-        $dompdf->getOptions()->set('renderer', 'gd'); // Menggunakan GD sebagai renderer gambar
+        $dompdf->getOptions()->set('renderer', 'gd');
         $dompdf->loadHtml($html);
         $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
 

@@ -5,15 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Models\Sales;
 
 class SalesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
         $sales = DB::table('sales')
@@ -47,16 +41,6 @@ class SalesController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
-
-        // $targets = str_replace([','], '', $request->target);
-
-        // DB::table('sales_target')->insert([
-        //     'sales_id' => $request->sales_id,
-        //     'target' => $targets,
-        //     'tahun' => $request->tahun,
-        //     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        //     'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        // ]);
 
         return redirect('/sales')->with('success', 'Berhasil menambahkan Sales!');
     }
