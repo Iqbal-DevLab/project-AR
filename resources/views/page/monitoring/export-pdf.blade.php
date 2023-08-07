@@ -14,7 +14,7 @@
     <title>AR Monitoring {{ $timeNow }}</title>
     <style>
         body {
-            font-size: 5.5px;
+            font-size: 5.0px;
             margin: auto;
             background-color: white;
         }
@@ -23,6 +23,7 @@
             font-family: Arial, sans-serif !important;
         }
 
+        /* lebar td */
         .small-row td,
         {
         padding: 2px;
@@ -34,15 +35,6 @@
             height: 20px;
             padding: 2px;
             padding-bottom: 10px;
-        }
-
-        .periode-td {
-            width: 50px;
-        }
-
-        /* Mengatur lebar kolom status menjadi 50px */
-        .status-td {
-            width: 50px;
         }
     </style>
 </head>
@@ -59,19 +51,19 @@
         <div>
             <table class="table table-bordered text-dark">
                 <thead>
-                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 5.5px;">
+                    <tr class="table-primary small-row fnt font-weight-bold" style="font-size: 5.0px;">
                         <td>No</td>
                         <td class="text-center">Nama Customer</td>
                         <td class="text-center">Nama Proyek</td>
                         <td class="text-center">Sales</td>
-                        <td class="text-center" style="width: 7%;">Harga Kontrak</td>
+                        <td class="text-center" style="width: 8%;">Harga Kontrak</td>
                         <td class="text-center" style="width: 6%;">Payment Terms</td>
                         <td class="text-center">Kode Proyek</td>
                         <td class="text-center">No Invoice</td>
                         <td class="text-center" style="width: 4%;">Tanggal TTK</td>
                         <td class="text-center">Progress</td>
-                        <td class="text-center" style="width: 7%;">AR Invoice</td>
-                        <td class="text-center" style="width: 11%;">Keterangan</td>
+                        <td class="text-center" style="width: 8%;">AR Invoice</td>
+                        <td class="text-center" style="width: 10%;">Keterangan</td>
                         <td class="text-center">Jatuh Tempo</td>
                         <td class="text-center" style="width: 4%;">Tanggal JT</td>
                         <td class="text-center">Telat(Hari)</td>
@@ -130,7 +122,7 @@
                                         $totalPembayaranSudahDiterima += $data['pembayaranSudahDiterima'];
                                     }
                                 @endphp
-                                <tr>
+                                <tr class="small-row">
                                     <td>{{ $no++ }}</td>
                                     <td class="border-0">
                                         @if (!$sameCustomer)
@@ -181,7 +173,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $invoice->no_invoice }}</td>
-                                    <td>{{ $invoice->tgl_ttk }}</td>
+                                    <td>{{ $invoice->tgl_ttk ? $invoice->tgl_ttk : '-' }}</td>
                                     <td>{{ $invoice->progress }}</td>
                                     <td class="text-right">@currency($invoice->ar),-</td>
                                     <td>
@@ -191,7 +183,7 @@
                                     </td>
                                     <td>{{ $invoice->batas_jatuh_tempo ? $invoice->batas_jatuh_tempo . 'Hari' : '-' }}
                                     </td>
-                                    <td>{{ $invoice->tgl_jatuh_tempo }}</td>
+                                    <td>{{ $invoice->tgl_jatuh_tempo ? $invoice->tgl_jatuh_tempo : '-' }}</td>
                                     <td>
                                         @if (isset($invoice->tgl_jatuh_tempo))
                                             @php
