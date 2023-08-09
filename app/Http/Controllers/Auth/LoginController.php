@@ -47,7 +47,7 @@ class LoginController extends Controller
                 // update last login
                 $user->last_login = Carbon::now();
                 $user->save();
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/monitoring');
             }
             return back()->with('error', 'Username atau Password salah!');
         }

@@ -30,7 +30,7 @@ use App\Http\Controllers\PDFController;
 Route::get('/', function () {
     if (Auth::check()) {
         if (Auth::user()->role_id == 1) {
-            return redirect('/dashboard');
+            return redirect('/monitoring');
         } elseif (Auth::user()->role_id == 2) {
             return redirect('/sales');
         } elseif (Auth::user()->role_id == 3) {
@@ -54,7 +54,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::group(['middleware' => ['finance']], function () {
 
     //route index
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
 
     //route proyek
     Route::get('proyek', [ProyekController::class, 'index'])->name('proyek.index');

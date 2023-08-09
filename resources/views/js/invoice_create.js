@@ -151,7 +151,7 @@ kodeProyekInput.addEventListener("input", function () {
         tableBody.innerHTML = "";
     }
 
-    var result = paymentTermsData.find(
+    let result = paymentTermsData.find(
         (item) => item.id === parseInt(paymentTermsIdInput.value)
     );
     console.log("result:", result);
@@ -249,7 +249,15 @@ kodeProyekButton.addEventListener("click", () => {
     namaProyekInput.value = "";
     paymentTermsIdInput.value = "";
     keteranganInput.value = "";
-    progressSelect.disabled = true;
+    // progressSelect.disabled = true;
+    // Reset the selected index of the <select> element
+    progressSelect.selectedIndex = 0;
+
+    // Hide all options and set their style to "display: none"
+    var options = progressSelect.getElementsByTagName("option");
+    for (var i = 0; i < options.length; i++) {
+        options[i].style.display = "none";
+    }
     tableBody.innerHTML =
         '<tr class="odd"><td valign="top" colspan="9" class="dataTables_empty">No data available in table</td></tr>';
 });
@@ -257,41 +265,51 @@ kodeProyekButton.addEventListener("click", () => {
 var tagihanInput;
 var koreksidDpInput;
 var biayaLainInput;
-document.addEventListener("DOMContentLoaded", function () {
-    tagihanInput = document.getElementById("tagihan");
-    koreksidDpInput = document.getElementById("koreksi_dp");
-    biayaLainInput = document.getElementById("biayalain");
 
-    if (tagihanInput) {
-        tagihanInput.addEventListener("input", function (event) {
-            var tagihan = this.value.replace(/\D/g, "");
+// document.addEventListener("DOMContentLoaded", function () {
+//     tagihanInput = document.getElementById("tagihan");
+//     koreksidDpInput = document.getElementById("koreksi_dp");
+//     biayaLainInput = document.getElementById("biayalain");
 
-            tagihan = tagihan.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//     if (tagihanInput) {
+//         tagihanInput.addEventListener("input", function (event) {
+//             var tagihan = this.value.replace(/\D/g, "");
 
-            this.value = tagihan;
-        });
-    }
+//             tagihan = tagihan.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-    if (koreksidDpInput) {
-        koreksidDpInput.addEventListener("input", function (event) {
-            var koreksiDp = this.value.replace(/\D/g, "");
+//             this.value = tagihan;
+//         });
+//     }
 
-            koreksiDp = koreksiDp.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//     if (koreksidDpInput) {
+//         koreksidDpInput.addEventListener("input", function (event) {
+//             var koreksiDp = this.value.replace(/\D/g, "");
 
-            this.value = koreksiDp;
-        });
-    }
+//             koreksiDp = koreksiDp.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-    if (biayaLainInput) {
-        biayaLainInput.addEventListener("input", function (event) {
-            var biayaLain = this.value.replace(/\D/g, "");
+//             this.value = koreksiDp;
+//         });
+//     }
 
-            biayaLain = biayaLain.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//     if (biayaLainInput) {
+//         biayaLainInput.addEventListener("input", function (event) {
+//             var biayaLain = this.value.replace(/\D/g, "");
 
-            this.value = biayaLain;
-        });
-    }
-});
+//             biayaLain = biayaLain.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+//             this.value = biayaLain;
+//         });
+//     }
+// });
+
+function formatCurrency(value) {
+    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function formatCurrencyInput(inputElement) {
+    var inputValue = inputElement.value;
+    inputElement.value = formatCurrency(inputValue);
+}
 
 var tagihanInput = document.getElementById("tagihan");
 var koreksidDpInput = document.getElementById("koreksi_dp");

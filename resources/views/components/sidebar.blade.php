@@ -61,11 +61,11 @@
         <div class="content-side content-side-full">
             @if (Auth()->user()->role_id == 1)
                 <ul class="nav-main">
-                    <li>
+                    {{-- <li>
                         <a class="{{ request()->route()->getName() == 'dashboard'? 'active': '' }}"
                             href="{{ route('dashboard') }}"><i class="si si-home"></i><span
                                 class="sidebar-mini-hide">Dashboard</span></a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="{{ request()->route()->getName() == 'monitoring.index'? 'active': '' }}"
                             href="{{ route('monitoring.index') }}"><i class="fa fa-clipboard"></i><span
