@@ -19,16 +19,3 @@ function updateTotalPercentage() {
     });
     document.getElementById("TOTAL").value = totalPercentage + "%";
 }
-
-function updateTotalPercentage() {
-    var totalPercentage = 0;
-    percentageInputs.forEach(function (input) {
-        var percentage = parseFloat(input.value);
-        if (!isNaN(percentage)) {
-            // Add "%" to the input value
-            input.value = percentage + "%";
-            totalPercentage += percentage;
-        }
-    });
-    document.getElementById("TOTAL").value = totalPercentage + "%";
-}

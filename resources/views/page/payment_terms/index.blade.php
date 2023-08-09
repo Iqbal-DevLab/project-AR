@@ -127,7 +127,6 @@
                                 <th class="text-center">AMOS</th>
                                 <th class="text-center">TESTCOMM</th>
                                 <th class="text-center">Retensi</th>
-                                {{-- <th class="text-center">Aksi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -150,18 +149,6 @@
                                     <td class="text-center font-w600">
                                         {{ $payment_terms->RETENSI ? $payment_terms->RETENSI : '-' }}
                                     </td>
-                                    {{-- <td class="text-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip"
-                                                title="Edit">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="tooltip"
-                                                title="Delete">
-                                                <i class="fa fa-trash-o"></i>
-                                            </button>
-                                        </div>
-                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
