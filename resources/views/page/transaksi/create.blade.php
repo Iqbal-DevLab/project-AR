@@ -260,8 +260,11 @@
                                 </div>
                             </div>
                             <div class="custom-control custom-switch">
+                                <label class="text-primary" style="margin-right:40px; font-weight:bold;"
+                                    id="transfer_switch">PEMBAYARAN
+                                    TRANSFER</label>
                                 <input class="custom-control-input" type="checkbox" id="switch" name="switch">
-                                <label class="custom-control-label fs-6" for="switch">PEMBAYARAN
+                                <label class="custom-control-label fs-6" for="switch" id="giro_switch">PEMBAYARAN
                                     DENGAN GIRO</label>
                             </div>
                             <div class="mb-3">

@@ -212,6 +212,8 @@ submitBtn.addEventListener("click", function () {
 
 const switchEl = document.getElementById("switch");
 const nonGiro = document.getElementById("nonGiro");
+const giroSwitch = document.getElementById("giro_switch");
+const transferSwitch = document.getElementById("transfer_switch");
 const tglTransferInput = document.getElementById("tgl_transfer");
 const danaMasukInput = document.getElementById("dana_masuk");
 const statusPembayaranSelect = document.getElementById("status");
@@ -234,6 +236,10 @@ switchEl.addEventListener("change", function () {
         statusSelect.value = "Belum Dibayar";
         statusSelect.disabled = true;
         totalDanaMasukInput.value = "";
+        giroSwitch.style.fontWeight = "bold";
+        giroSwitch.classList.add("text-primary");
+        transferSwitch.classList.remove("text-primary");
+        transferSwitch.style.fontWeight = "normal";
     } else {
         // Switch is off (NON-GIRO)
         nonGiro.hidden = false;
@@ -245,10 +251,13 @@ switchEl.addEventListener("change", function () {
         tglGiroCairInput.value = "";
         nilaiGiroInput.value = "";
         totalDanaMasukInput.value = "";
+        transferSwitch.style.fontWeight = "bold";
+        transferSwitch.classList.add("text-primary");
+        giroSwitch.classList.remove("text-primary");
+        giroSwitch.style.fontWeight = "normal";
     }
 });
 
 submitBtn.addEventListener("click", function () {
-    // Set disabled menjadi false untuk elemen select sebelum mengirim data ke database
     statusSelect.disabled = false;
 });
