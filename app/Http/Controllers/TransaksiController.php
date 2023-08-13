@@ -39,7 +39,6 @@ class TransaksiController extends Controller
                     case 'TANGGAL_GIRO_CAIR':
                         $get->whereBetween(DB::raw("CONVERT(DATE, transaksi.tgl_giro_cair, 105)"), [$tgl_awal, $tgl_akhir]);
                         break;
-                        // Tambahkan case untuk pilihan filter lainnya jika diperlukan
                 }
             }
         }
@@ -80,7 +79,7 @@ class TransaksiController extends Controller
                     // Hitung perbedaan hari antara tgl_giro_cair dan tanggal sekarang
                     $daysDiff = $currentDate->diffInDays($tglGiroCair, false);
 
-                    // Buat notifikasi berdasarkan perbedaan hari
+                    // Buat notifikasi
                     if ($daysDiff == 0) {
                         $notification = [
                             'no_invoice' => $t2->no_invoice,
@@ -212,7 +211,7 @@ class TransaksiController extends Controller
         // Menghitung sisa pembayaran
         $total_tagihan = str_replace(['.', ',-'], '', $request->total_tagihan);
         $ar = str_replace(['.', ',-'], '', $request->ar);
-        $total_nilai = $total_dana_masuk ? $total_dana_masuk : $nilai_giro;
+        // $total_nilai = $total_dana_masuk ? $total_dana_masuk : $nilai_giro;
 
         //Pembayaran Transfer
         if ($ar) {
