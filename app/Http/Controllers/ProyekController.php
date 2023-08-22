@@ -132,8 +132,6 @@ class ProyekController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
 
-        // Lakukan sesuatu setelah berhasil memperbarui data
-
         return redirect()->back()->with('success', 'Berhasil diperbaui!');
     }
 }
