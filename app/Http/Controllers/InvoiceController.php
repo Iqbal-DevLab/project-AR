@@ -92,14 +92,15 @@ class InvoiceController extends Controller
             'total_tagihan.required' => 'Total tagihan tidak boleh kosong!',
         ]);
 
-        $tagihan = $request->tagihan ? str_replace(['.', ',-'], '', $request->tagihan) : null;
-        $nilai_tagihan = $request->nilai_tagihan ? str_replace(['.', ',-'], '', $request->nilai_tagihan) : null;
-        $koreksi_dp = $request->koreksi_dp ? str_replace(['.', ',-'], '', $request->koreksi_dp) : null;
-        $total_tagihan = $request->total_tagihan ? str_replace(['.', ',-'], '', $request->total_tagihan) : null;
-        $ppn_nominal = $request->ppn_nominal ? str_replace(['.', ',-'], '', $request->ppn_nominal) : null;
-        $pph_nominal = $request->pph_nominal ? str_replace(['.', ',-'], '', $request->pph_nominal) : null;
-        $lain_lain = $request->lain_lain ? str_replace(['.', ',-'], '', $request->lain_lain) : null;
+        $tagihan = $request->tagihan ? str_replace(['.', '-'], '', $request->tagihan) : null;
+        $nilai_tagihan = $request->nilai_tagihan ? str_replace([',', '-'], '', $request->nilai_tagihan) : null;
+        $koreksi_dp = $request->koreksi_dp ? str_replace(['.', '-'], '', $request->koreksi_dp) : null;
+        $total_tagihan = $request->total_tagihan ? str_replace([',', '-'], '', $request->total_tagihan) : null;
+        $ppn_nominal = $request->ppn_nominal ? str_replace([',', '-'], '', $request->ppn_nominal) : null;
+        $pph_nominal = $request->pph_nominal ? str_replace([',', '-'], '', $request->pph_nominal) : null;
+        $lain_lain = $request->lain_lain ? str_replace([',', '-'], '', $request->lain_lain) : null;
 
+        // return dd($total_tagihan);
         DB::table('invoice')->insert([
             'kode_proyek' => $request->kode_proyek,
             'customer_id' => $request->customer_id,

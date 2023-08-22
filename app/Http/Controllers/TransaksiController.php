@@ -184,10 +184,10 @@ class TransaksiController extends Controller
         ]);
 
         $dana = $request->dana_masuk ? str_replace(['.', ',-'], '', $request->dana_masuk) : null;
-        $total_dana_masuk = $request->total_dana_masuk ? str_replace(['.', ',-'], '', $request->total_dana_masuk) : null;
+        $total_dana_masuk = $request->total_dana_masuk ? str_replace([',', '-'], '', $request->total_dana_masuk) : null;
         $bank_charge = $request->bank_charge ? str_replace(['.', ',-'], '', $request->bank_charge) : null;
         $nilai_giro = $request->nilai_giro ? str_replace(['.', ',-'], '', $request->nilai_giro) : null;
-        $ar = $request->ar ? str_replace(['.', ',-'], '', $request->ar) : null;
+        $ar = $request->ar ? str_replace([',', '-'], '', $request->ar) : null;
 
         DB::table('transaksi')->insert([
             'kode_proyek' => $request->kode_proyek,
@@ -210,8 +210,8 @@ class TransaksiController extends Controller
         ]);
 
         // Menghitung sisa pembayaran
-        $total_tagihan = str_replace(['.', ',-'], '', $request->total_tagihan);
-        $ar = str_replace(['.', ',-'], '', $request->ar);
+        $total_tagihan = str_replace([',', '-'], '', $request->total_tagihan);
+        $ar = str_replace([',', '-'], '', $request->ar);
         $total_nilai = $total_dana_masuk ? $total_dana_masuk : $nilai_giro;
 
         //Pembayaran Transfer
@@ -251,7 +251,7 @@ class TransaksiController extends Controller
     {
         $dana =  $request->dana_masuk ?  str_replace(['.', 'Rp', ' '], '', $request->dana_masuk) : null;
         $nilai_giro = $request->nilai_giro ? str_replace(['.', 'Rp', ' '], '', $request->nilai_giro) : null;
-        $total_dana_masuk = $request->total_dana_masuk ? str_replace(['.', 'Rp', ' '], '', $request->total_dana_masuk) : null;
+        $total_dana_masuk = $request->total_dana_masuk ? str_replace([',', '-', 'Rp', ' '], '', $request->total_dana_masuk) : null;
 
         DB::table('transaksi')->where('id', $id)->update([
             'kode_proyek' => $request->kode_proyek,

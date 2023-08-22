@@ -207,57 +207,44 @@ paymentTermsInput.addEventListener("input", function () {
         (+retensiValue || 0);
     totalInput.value = total + "%";
 
+    function formatCurrency(value) {
+        return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+    }
     // Menghitung Nominal DP, APPROVAL, BMOS, AMOS, TESTCOMM, dan RETENSI pada input field masing-masing
     dpNominalInput.value = dpValue
-        ? ((dpValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((dpValue * totalharga) / 100)
         : "";
     approvalNominalInput.value = approvalValue
-        ? ((approvalValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((approvalValue * totalharga) / 100)
         : "";
     bmosNominalInput.value = bmosValue
-        ? ((bmosValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((bmosValue * totalharga) / 100)
         : "";
     amosNominalInput.value = amosValue
-        ? ((amosValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((amosValue * totalharga) / 100)
         : "";
     testcommNominalInput.value = testcommValue
-        ? ((testcommValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((testcommValue * totalharga) / 100)
         : "";
     retensiNominalInput.value = retensiValue
-        ? ((retensiValue * totalharga) / 100)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-"
+        ? formatCurrency((retensiValue * totalharga) / 100)
         : "";
 
     // Menghitung nilai total nominal
     const totalNominal =
-        (+dpNominalInput.value.replace(/[^\d]/g, "") || 0) +
-        (+approvalNominalInput.value.replace(/[^\d]/g, "") || 0) +
-        (+bmosNominalInput.value.replace(/[^\d]/g, "") || 0) +
-        (+amosNominalInput.value.replace(/[^\d]/g, "") || 0) +
-        (+testcommNominalInput.value.replace(/[^\d]/g, "") || 0) +
-        (+retensiNominalInput.value.replace(/[^\d]/g, "") || 0);
+        (+dpNominalInput.value.replace(/[^\d.]/g, "") || 0) +
+        (+approvalNominalInput.value.replace(/[^\d.]/g, "") || 0) +
+        (+bmosNominalInput.value.replace(/[^\d.]/g, "") || 0) +
+        (+amosNominalInput.value.replace(/[^\d.]/g, "") || 0) +
+        (+testcommNominalInput.value.replace(/[^\d.]/g, "") || 0) +
+        (+retensiNominalInput.value.replace(/[^\d.]/g, "") || 0);
 
     // Menghitung nilai PPN (Value Added Tax) 11%
     const ppnNominal = totalNominal * 0.11;
-    ppnNominalInput.value = ppnNominal
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    ppnNominalInput.value = formatCurrency(ppnNominal);
 
-    totalNominalInput.value = totalNominal + ppnNominal;
-    totalNominalInput.value = totalNominalInput.value
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const grandTotal = totalNominal + ppnNominal;
+    totalNominalInput.value = formatCurrency(grandTotal);
     hargaInput.readOnly = true;
     console.log(totalNominal);
 });
@@ -297,6 +284,7 @@ paymentTermsButton.addEventListener("click", () => {
     amosNominalInput.value = "";
     testcommNominalInput.value = "";
     retensiNominalInput.value = "";
+    ppnNominalInput.value = "";
     totalNominalInput.value = "";
     hargaInput.readOnly = false;
 });

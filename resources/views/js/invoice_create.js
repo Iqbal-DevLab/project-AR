@@ -266,50 +266,50 @@ var tagihanInput;
 var koreksidDpInput;
 var biayaLainInput;
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     tagihanInput = document.getElementById("tagihan");
-//     koreksidDpInput = document.getElementById("koreksi_dp");
-//     biayaLainInput = document.getElementById("biayalain");
+document.addEventListener("DOMContentLoaded", function () {
+    tagihanInput = document.getElementById("tagihan");
+    koreksidDpInput = document.getElementById("koreksi_dp");
+    biayaLainInput = document.getElementById("biayalain");
 
-//     if (tagihanInput) {
-//         tagihanInput.addEventListener("input", function (event) {
-//             var tagihan = this.value.replace(/\D/g, "");
+    if (tagihanInput) {
+        tagihanInput.addEventListener("input", function (event) {
+            var tagihan = this.value.replace(/\D/g, "");
 
-//             tagihan = tagihan.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            tagihan = tagihan.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-//             this.value = tagihan;
-//         });
-//     }
+            this.value = tagihan;
+        });
+    }
 
-//     if (koreksidDpInput) {
-//         koreksidDpInput.addEventListener("input", function (event) {
-//             var koreksiDp = this.value.replace(/\D/g, "");
+    if (koreksidDpInput) {
+        koreksidDpInput.addEventListener("input", function (event) {
+            var koreksiDp = this.value.replace(/\D/g, "");
 
-//             koreksiDp = koreksiDp.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            koreksiDp = koreksiDp.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-//             this.value = koreksiDp;
-//         });
-//     }
+            this.value = koreksiDp;
+        });
+    }
 
-//     if (biayaLainInput) {
-//         biayaLainInput.addEventListener("input", function (event) {
-//             var biayaLain = this.value.replace(/\D/g, "");
+    // if (biayaLainInput) {
+    //     biayaLainInput.addEventListener("input", function (event) {
+    //         var biayaLain = this.value.replace(/\D/g, "");
 
-//             biayaLain = biayaLain.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    //         biayaLain = biayaLain.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-//             this.value = biayaLain;
-//         });
-//     }
-// });
+    //         this.value = biayaLain;
+    //     });
+    // }
+});
 
-function formatCurrency(value) {
-    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
+// function formatCurrency(value) {
+//     return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+// }
 
-function formatCurrencyInput(inputElement) {
-    var inputValue = inputElement.value;
-    inputElement.value = formatCurrency(inputValue);
-}
+// function formatCurrencyInput(inputElement) {
+//     var inputValue = inputElement.value;
+//     inputElement.value = formatCurrency(inputValue);
+// }
 
 var tagihanInput = document.getElementById("tagihan");
 var koreksidDpInput = document.getElementById("koreksi_dp");
@@ -402,29 +402,53 @@ divideButton.addEventListener("click", function () {
         pph = 0.02 * nilaiTagihan;
     }
 
-    document.getElementById("ppn_nominal").value =
-        ppn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("ppn_nominal").value = formatCurrency(ppn);
 
-    document.getElementById("pph_nominal").value =
-        pph.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("pph_nominal").value = formatCurrency(pph);
 
     var biayaLainnya =
-        parseFloat(biayaLainnyaInput.value.replace(/\D/g, "")) || 0;
+        parseFloat(biayaLainnyaInput.value.replace(/[^\d.,]/g, "")) || 0;
 
     if (biayaLainnya === 0) {
         document.getElementById("biayalain").value = "";
     } else {
         document.getElementById("biayalain").value =
-            biayaLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
-            ",-";
+            formatCurrency(biayaLainnya);
     }
 
     var total = nilaiTagihan + ppn + biayaLainnya - pph;
-    document.getElementById("total_nominal").value =
-        total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("total_nominal").value = formatCurrency(total);
 
     document.getElementById("nilai_tagihan").value =
-        nilaiTagihan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+        formatCurrency(nilaiTagihan);
+
+    function formatCurrency(value) {
+        return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+    }
+
+    // document.getElementById("ppn_nominal").value =
+    //     ppn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // document.getElementById("pph_nominal").value =
+    //     pph.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // var biayaLainnya =
+    //     parseFloat(biayaLainnyaInput.value.replace(/\D/g, "")) || 0;
+
+    // if (biayaLainnya === 0) {
+    //     document.getElementById("biayalain").value = "";
+    // } else {
+    //     document.getElementById("biayalain").value =
+    //         biayaLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
+    //         ",-";
+    // }
+
+    // var total = nilaiTagihan + ppn + biayaLainnya - pph;
+    // document.getElementById("total_nominal").value =
+    //     total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // document.getElementById("nilai_tagihan").value =
+    //     nilaiTagihan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
 
     divideButton.style.display = "none";
     updateButton.style.display = "none";
@@ -451,30 +475,53 @@ updateButton.addEventListener("click", function () {
         pph = 0.02 * nilaiTagihan;
     }
 
-    document.getElementById("ppn_nominal").value =
-        ppn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("ppn_nominal").value = formatCurrency(ppn);
 
-    document.getElementById("pph_nominal").value =
-        pph.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("pph_nominal").value = formatCurrency(pph);
 
     var biayaLainnya =
-        parseFloat(biayaLainnyaInput.value.replace(/\D/g, "")) || 0;
+        parseFloat(biayaLainnyaInput.value.replace(/[^\d.,]/g, "")) || 0;
 
     if (biayaLainnya === 0) {
         document.getElementById("biayalain").value = "";
     } else {
         document.getElementById("biayalain").value =
-            biayaLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
-            ",-";
+            formatCurrency(biayaLainnya);
     }
 
     var total = nilaiTagihan + ppn + biayaLainnya - pph;
-    document.getElementById("total_nominal").value =
-        total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    document.getElementById("total_nominal").value = formatCurrency(total);
 
     document.getElementById("nilai_tagihan").value =
-        nilaiTagihan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+        formatCurrency(nilaiTagihan);
 
+    function formatCurrency(value) {
+        return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+    }
+
+    // document.getElementById("ppn_nominal").value =
+    //     ppn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // document.getElementById("pph_nominal").value =
+    //     pph.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // var biayaLainnya =
+    //     parseFloat(biayaLainnyaInput.value.replace(/\D/g, "")) || 0;
+
+    // if (biayaLainnya === 0) {
+    //     document.getElementById("biayalain").value = "";
+    // } else {
+    //     document.getElementById("biayalain").value =
+    //         biayaLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
+    //         ",-";
+    // }
+
+    // var total = nilaiTagihan + ppn + biayaLainnya - pph;
+    // document.getElementById("total_nominal").value =
+    //     total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+
+    // document.getElementById("nilai_tagihan").value =
+    //     nilaiTagihan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
     updateButton.style.display = "none";
     refreshAllButton.style.display = "inline-block";
     biayaLainnyaInput.readOnly = true;

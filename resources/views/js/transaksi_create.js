@@ -1,10 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // var danaMasukInput = document.getElementById("dana_masuk");
+    // var nilaiGiroInput = document.getElementById("nilai_giro");
+    // var bankChargeInput = document.getElementById("bank_charge");
+    // var totalDanaMasukInput = document.getElementById("total_dana_masuk_i");
+
+    // function updateTotalDanaMasuk(Transfer) {
+    //     // Mendapatkan nilai dana masuk
+    //     const danaMasuk =
+    //         parseFloat(danaMasukInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
+
+    //     // Mendapatkan nilai bank charge
+    //     const bankCharge =
+    //         parseFloat(bankChargeInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
+
+    //     // Menghitung total dana masuk setelah dikurangi bank charge atau sama dengan dana masuk jika bank charge belum diisi
+    //     const totalDanaMasuk = danaMasuk ? danaMasuk + bankCharge : danaMasuk;
+
+    //     totalDanaMasukInput.value =
+    //         totalDanaMasuk >= 0
+    //             ? (totalDanaMasuk = formatCurrency(totalDanaMasukInput))
+    //             : 0;
+
+    //     function formatCurrency(value) {
+    //         return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+    //     }
+    // }
+
     var danaMasukInput = document.getElementById("dana_masuk");
     var nilaiGiroInput = document.getElementById("nilai_giro");
     var bankChargeInput = document.getElementById("bank_charge");
     var totalDanaMasukInput = document.getElementById("total_dana_masuk_i");
 
-    function updateTotalDanaMasuk(Transfer) {
+    function updateTotalDanaMasuk() {
         // Mendapatkan nilai dana masuk
         const danaMasuk =
             parseFloat(danaMasukInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
@@ -14,17 +41,18 @@ document.addEventListener("DOMContentLoaded", function () {
             parseFloat(bankChargeInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
 
         // Menghitung total dana masuk setelah dikurangi bank charge atau sama dengan dana masuk jika bank charge belum diisi
-        const totalDanaMasuk = danaMasuk ? danaMasuk + bankCharge : danaMasuk;
+        const totalDanaMasuk = danaMasuk + bankCharge;
 
-        // if (nilaiGiro) {
-        //     totalDanaMasukInput.value = nilaiGiro;
-
-        // } else {
-        // Memperbarui nilai total dana masuk
-        totalDanaMasukInput.value =
-            totalDanaMasuk >= 0 ? totalDanaMasuk.toLocaleString("id-ID") : 0; // Menampilkan format angka dengan tanda titik sebagai pemisah ribuan dan mengatur nilai default menjadi 0 jika negatif
-        // }
+        totalDanaMasukInput.value = formatCurrency(totalDanaMasuk);
     }
+
+    function formatCurrency(value) {
+        return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+    }
+
+    // Panggil fungsi updateTotalDanaMasuk saat input dana masuk atau bank charge berubah
+    danaMasukInput.addEventListener("input", updateTotalDanaMasuk);
+    bankChargeInput.addEventListener("input", updateTotalDanaMasuk);
 
     if (danaMasukInput) {
         danaMasukInput.addEventListener("input", function (event) {
@@ -51,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Set nilai input field
             this.value = nilaiGiro;
             console.log(nilaiGiro);
-            // updateTotalDanaMasuk(nilaiGiro);
         });
     }
 
@@ -108,8 +135,66 @@ cariDataButton.addEventListener("click", function () {
 
     setTimeout(function () {
         hideLoadingIndicator();
+
         // Sembunyikan indikator loading
         // Jika opsi yang dipilih ditemukan
+        // if (selectedOption) {
+        //     namaProyekInput.value = selectedOption.textContent.trim();
+        //     invoiceIdInput.value = selectedOption.dataset.invoiceId;
+        //     customerIdInput.value = selectedOption.dataset.customerId;
+        //     kodeProyekInput.value = selectedOption.dataset.kodeProyek;
+        //     progressInput.value = selectedOption.dataset.progress;
+        //     tglTtkInput.value = selectedOption.dataset.tglTtk;
+        //     batasJatuhTempoInput.value = selectedOption.dataset.batasJatuhTempo;
+        //     tglJatuhTempoInput.value = selectedOption.dataset.tglJatuhTempo;
+        //     batasJatuhTempoInput.value = selectedOption.dataset.batasJatuhTempo;
+        //     tagihanInput.value =
+        //         selectedOption.dataset.tagihan.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     pphSelect.value = selectedOption.dataset.pph;
+        //     pphNominalInput.value =
+        //         selectedOption.dataset.pphNominal.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     pphSelect.disabled = true;
+        //     ppnNominalInput.value =
+        //         selectedOption.dataset.ppnNominal.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     biayaLainnyaInput.value =
+        //         selectedOption.dataset.lainLain.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     totalNominalInput.value =
+        //         selectedOption.dataset.totalTagihan.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     koreksiDpInput.value =
+        //         selectedOption.dataset.koreksiDp.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     nilaiTagihanInput.value =
+        //         selectedOption.dataset.nilaiTagihan.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+        //     arInput.value =
+        //         selectedOption.dataset.ar.replace(
+        //             /\B(?=(\d{3})+(?!\d))/g,
+        //             "."
+        //         ) + ",-";
+
+        //}
+        function formatCurrency(value) {
+            return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
+        }
         if (selectedOption) {
             namaProyekInput.value = selectedOption.textContent.trim();
             invoiceIdInput.value = selectedOption.dataset.invoiceId;
@@ -120,48 +205,50 @@ cariDataButton.addEventListener("click", function () {
             batasJatuhTempoInput.value = selectedOption.dataset.batasJatuhTempo;
             tglJatuhTempoInput.value = selectedOption.dataset.tglJatuhTempo;
             batasJatuhTempoInput.value = selectedOption.dataset.batasJatuhTempo;
-            tagihanInput.value =
-                selectedOption.dataset.tagihan.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
+
+            // Pastikan selectedOption.dataset.tagihan adalah angka sebelum memformat
+            const tagihanValue = parseFloat(selectedOption.dataset.tagihan);
+            tagihanInput.value = formatCurrency(tagihanValue);
             pphSelect.value = selectedOption.dataset.pph;
-            pphNominalInput.value =
-                selectedOption.dataset.pphNominal.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
+            // Pastikan selectedOption.dataset.pphNominal adalah angka sebelum memformat
+            const pphNominalValue = parseFloat(
+                selectedOption.dataset.pphNominal
+            );
+            pphNominalInput.value = formatCurrency(pphNominalValue);
             pphSelect.disabled = true;
-            ppnNominalInput.value =
-                selectedOption.dataset.ppnNominal.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
-            biayaLainnyaInput.value =
-                selectedOption.dataset.lainLain.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
-            totalNominalInput.value =
-                selectedOption.dataset.totalTagihan.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
-            koreksiDpInput.value =
-                selectedOption.dataset.koreksiDp.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
-            nilaiTagihanInput.value =
-                selectedOption.dataset.nilaiTagihan.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
-            arInput.value =
-                selectedOption.dataset.ar.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    "."
-                ) + ",-";
+            // Pastikan selectedOption.dataset.ppnNominal adalah angka sebelum memformat
+            const ppnNominalValue = parseFloat(
+                selectedOption.dataset.ppnNominal
+            );
+            ppnNominalInput.value = formatCurrency(ppnNominalValue);
+
+            // Pastikan selectedOption.dataset.lainLain adalah angka sebelum memformat
+            const biayaLainnyaValue = parseFloat(
+                selectedOption.dataset.lainLain
+            );
+            biayaLainnyaInput.value = formatCurrency(biayaLainnyaValue);
+
+            // Pastikan selectedOption.dataset.totalTagihan adalah angka sebelum memformat
+            const totalTagihanValue = parseFloat(
+                selectedOption.dataset.totalTagihan
+            );
+            totalNominalInput.value = formatCurrency(totalTagihanValue);
+
+            // Pastikan selectedOption.dataset.koreksiDp adalah angka sebelum memformat
+            const koreksiDpValue = parseFloat(selectedOption.dataset.koreksiDp);
+            koreksiDpInput.value = koreksiDpInput.value
+                ? formatCurrency(koreksiDpValue)
+                : "0.00,-";
+
+            // Pastikan selectedOption.dataset.nilaiTagihan adalah angka sebelum memformat
+            const nilaiTagihanValue = parseFloat(
+                selectedOption.dataset.nilaiTagihan
+            );
+            nilaiTagihanInput.value = formatCurrency(nilaiTagihanValue);
+
+            // Pastikan selectedOption.dataset.ar adalah angka sebelum memformat
+            const arValue = parseFloat(selectedOption.dataset.ar);
+            arInput.value = formatCurrency(arValue);
         } else {
             let validasiNoInvoice = noInvoice.find(
                 (item) => item.no_invoice === noInvoiceInput.value

@@ -11,13 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Menghitung total dana masuk setelah dikurangi bank charge atau sama dengan dana masuk jika bank charge belum diisi
         const totalDanaMasuk = danaMasuk;
+        totalDanaMasukInput.value = formatCurrency(totalDanaMasuk);
+    }
 
-        // Memperbarui nilai total dana masuk
-        totalDanaMasukInput.value =
-            totalDanaMasuk >= 0
-                ? "Rp. " + totalDanaMasuk.toLocaleString("id-ID")
-                : 0; // Menampilkan format angka dengan tanda titik sebagai pemisah ribuan dan mengatur nilai default menjadi 0 jika negatif
-        // }
+    function formatCurrency(value) {
+        return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
     }
 
     if (danaMasukInput) {
