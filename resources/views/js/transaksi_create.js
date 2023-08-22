@@ -226,7 +226,9 @@ cariDataButton.addEventListener("click", function () {
             const biayaLainnyaValue = parseFloat(
                 selectedOption.dataset.lainLain
             );
-            biayaLainnyaInput.value = formatCurrency(biayaLainnyaValue);
+            biayaLainnyaInput.value = biayaLainnyaInput
+                ? formatCurrency(biayaLainnyaValue)
+                : 0;
 
             // Pastikan selectedOption.dataset.totalTagihan adalah angka sebelum memformat
             const totalTagihanValue = parseFloat(
