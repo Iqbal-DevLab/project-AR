@@ -76,6 +76,13 @@
                                                             <div class="modal-body">
                                                                 @csrf
                                                                 @method('PUT')
+                                                                <div class="mb-3">
+                                                                    <label for="harga" class="col-form-label fs-6">HARGA
+                                                                        KONTRAK</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="harga" name="nilai_kontrak"
+                                                                        placeholder="Masukkan Harga Kontrak">
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col mb-3">
                                                                         <label for="status_po"
