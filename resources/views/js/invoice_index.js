@@ -11,32 +11,6 @@ function ttkFunction(id) {
     tglJatuhTempoSelect.disabled = false;
 }
 
-function submitFunction(id) {
-    var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
-    var tglJatuhTempoInput = document.getElementById(`tgl_jatuh_tempo${id}`);
-    var tglJatuhTempoSelect = document.getElementById(`batas_jatuh_tempo${id}`);
-
-    // Periksa apakah ada input yang kosong
-    if (
-        tglTtkInput.value.trim() === "" ||
-        tglJatuhTempoInput.value.trim() === "" ||
-        tglJatuhTempoSelect.value.trim() === "" ||
-        tglJatuhTempoSelect.value.trim() === "Tidak Diisi"
-    ) {
-        // Tampilkan pesan kesalahan menggunakan Swal
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Mohon lengkapi semua input sebelum submit!",
-        });
-
-        // Mencegah pengiriman form ke server
-        event.preventDefault();
-    } else {
-        // event.target.submit();
-    }
-}
-
 function jatuhTempo(jatuhTempo, id, i) {
     var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
     var tglJatuhTempoInput = document.getElementById(`tgl_jatuh_tempo${id}`);
@@ -66,6 +40,27 @@ function jatuhTempo(jatuhTempo, id, i) {
     var yyyy = tanggalTtk.getFullYear();
 
     tglJatuhTempoInput.value = dd + "-" + mm + "-" + yyyy;
+}
+
+function submitFunction(event, id) {
+    var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
+    var tglJatuhTempoInput = document.getElementById(`tgl_jatuh_tempo${id}`);
+    var tglJatuhTempoSelect = document.getElementById(`batas_jatuh_tempo${id}`);
+
+    // Periksa apakah ada input yang kosong
+    if (tglTtkInput.value == "" || tglJatuhTempoInput.value == "") {
+        // Tampilkan pesan kesalahan menggunakan Swal
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Mohon lengkapi semua input sebelum submit!",
+        });
+
+        // Mencegah pengiriman form ke server
+        event.preventDefault();
+    } else {
+        event.target.submit();
+    }
 }
 
 function confirmDelete(i, id, no_invoice) {

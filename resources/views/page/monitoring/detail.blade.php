@@ -441,7 +441,7 @@
                                                                     <tr>
                                                                         <td class="text-center">
                                                                             <button type="button"
-                                                                                class="btn btn-sm btn-alt-primary rounded-2 w-100"
+                                                                                class="btn btn-sm btn-alt-primary rounded-2"
                                                                                 style="cursor: default">
                                                                                 {{ $invoice->no_invoice }}
                                                                             </button>
@@ -529,7 +529,7 @@
                                                                     <tr>
                                                                         <td class="text-center">
                                                                             <button type="button"
-                                                                                class="btn btn-sm btn-alt-primary rounded-2 w-100"
+                                                                                class="btn btn-sm btn-alt-primary rounded-2"
                                                                                 style="cursor: default">
                                                                                 {{ $transaksi->no_invoice }}
                                                                             </button>

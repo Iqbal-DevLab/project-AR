@@ -289,8 +289,8 @@
                                                 data-autoclose="true" data-today-highlight="true"
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_transfer" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>
@@ -326,8 +326,8 @@
                                                 data-autoclose="true" data-today-highlight="true"
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_terima_giro" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>
@@ -340,8 +340,8 @@
                                                 data-autoclose="true" data-today-highlight="true"
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_giro_cair" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>

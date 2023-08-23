@@ -248,7 +248,7 @@
                             </div>
                             <div id="nonGiro" {{ $transaksi->tgl_transfer ? '' : 'hidden' }}>
                                 <div class="row">
-                                    <div class="col mb-3">
+                                    {{-- <div class="col mb-3">
                                         <label for="tgl_transfer" class="col-form-label fs-6">TANGGAL
                                             TRANSFER</label>
                                         <div class="input-group date align-items-center">
@@ -258,11 +258,11 @@
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy"
                                                 value="{{ $transaksi->tgl_transfer ? \Carbon\Carbon::parse($transaksi->tgl_transfer)->format('d-m-Y') : '' }}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_transfer" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col mb-3">
                                         <label for="dana_masuk" class="col-form-label fs-6">DANA MASUK
                                             (Rp)</label>
@@ -296,8 +296,8 @@
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy"
                                                 value="{{ $transaksi->tgl_terima_giro ? \Carbon\Carbon::parse($transaksi->tgl_terima_giro)->format('d-m-Y') : '' }}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_terima_giro" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>
@@ -311,8 +311,8 @@
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy"
                                                 value="{{ $transaksi->tgl_giro_cair ? \Carbon\Carbon::parse($transaksi->tgl_giro_cair)->format('d-m-Y') : '' }}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_giro_cair" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>
@@ -336,8 +336,8 @@
                                                 data-date-format="dd-mm-yyyy" placeholder="dd-MM-yyyy"
                                                 value="{{ $transaksi->tgl_transfer ? \Carbon\Carbon::parse($transaksi->tgl_transfer)->format('d-m-Y') : '' }}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text align-self-center" style="cursor:pointer"><i
-                                                        class="fa fa-calendar"></i></span>
+                                                <label for="tgl_transfer" class="input-group-text align-self-center"
+                                                    style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                             </div>
                                         </div>
                                     </div>

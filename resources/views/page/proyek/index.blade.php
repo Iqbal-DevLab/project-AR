@@ -29,7 +29,7 @@
                                 <th class="text-center">Nama Pemesan</th>
                                 <th class="text-center">Kategori</th>
                                 <th class="text-center">Sales</th>
-                                <th class="text-center">Harga Kontrak</th>
+                                <th class="text-center">Harga Kontrak (DPP)</th>
                                 <th class="text-center">Status PO</th>
                                 <th class="text-center">Ket</th>
                                 <th class="text-center">Aksi</th>

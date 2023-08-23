@@ -43,7 +43,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Pemesan</th>
-                                <th class="text-center">Harga Kontrak</th>
+                                <th class="text-center">Harga Kontrak + PPN(11%)</th>
                                 <th class="text-center">Nilai Tagihan Yang Dibuat</th>
                                 <th class="text-center">AR</th>
                                 <th class="text-center">Sisa Tagihan Yang Belum Dibuat</th>

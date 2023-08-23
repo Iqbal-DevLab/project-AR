@@ -128,9 +128,8 @@
                                             data-date-format="dd-mm-yyyy" value="{{ old('tgl_invoice') }}"
                                             placeholder="dd-MM-yyyy">
                                         <div class="input-group-append">
-                                            <button class="btn btn-secondary fw-bold" type="button"><i
-                                                    class="fa fa-calendar"></i>
-                                            </button>
+                                            <label for="tgl_invoice" class="input-group-text align-self-center"
+                                                style="cursor:pointer"><i class="fa fa-calendar"></i></label>
                                         </div>
                                     </div>
                                 </div>

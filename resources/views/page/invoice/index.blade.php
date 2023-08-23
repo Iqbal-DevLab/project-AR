@@ -237,7 +237,9 @@
                                                             @csrf
                                                             @method('PUT')
                                                             <div class="mb-3">
-                                                                <label for="tgl_ttk" class="col-form-label fs-6">TANGGAL
+                                                                <label for="tgl_ttk{{ $i->id }}"
+                                                                    class="col-form-label
+                                                                    fs-6">TANGGAL
                                                                     TTK</label>
                                                                 <div class="input-group date align-items-center">
                                                                     <input type="text"
@@ -249,9 +251,10 @@
                                                                         data-date-format="dd-mm-yyyy"
                                                                         placeholder="dd-MM-yyyy">
                                                                     <div class="input-group-append">
-                                                                        <button class="btn btn-secondary fw-bold"
-                                                                            type="button"><i class="fa fa-calendar"></i>
-                                                                        </button>
+                                                                        <label for="tgl_ttk{{ $i->id }}"
+                                                                            class="input-group-text align-self-center"
+                                                                            style="cursor:pointer"><i
+                                                                                class="fa fa-calendar"></i></label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -322,7 +325,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit"
-                                                                    onclick="submitFunction({{ $i->id }})"
+                                                                    onclick="submitFunction(event,{{ $i->id }})"
                                                                     class="btn btn-alt-success">
                                                                     <i class="fa fa-check"></i> Simpan
                                                                 </button>
