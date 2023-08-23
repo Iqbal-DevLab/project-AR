@@ -1,9 +1,16 @@
 @extends('layouts.dashboard')
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item"><a href="/simetri-ar/transaksi">Rekap Penerimaan</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Update Transaksi</li>
+        </ol>
+    </nav>
     <!-- Page Content -->
     <div class="content">
         <!-- Bootstrap Forms Validation -->
-        <h2 class="content-heading">Halaman Transaksi</h2>
+        {{-- <h2 class="content-heading">Halaman Transaksi</h2> --}}
         <div class="block shadow bg-white">
             <div class="block-header block-header-default">
                 <h3 class="block-title text-center">Form Edit Transaksi</h3>

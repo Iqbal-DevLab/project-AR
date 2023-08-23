@@ -6,6 +6,12 @@
             font-size: 0.875rem;
         }
     </style>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item active" aria-current="page">List Proyek</li>
+        </ol>
+    </nav>
     <div class="content tableLarge">
         {{-- <h2 class="content-heading">Halaman Proyek</h2> --}}
         <div class="text-left">
@@ -76,6 +82,13 @@
                                                             <div class="modal-body">
                                                                 @csrf
                                                                 @method('PUT')
+                                                                <div class="mb-3">
+                                                                    <label for="harga" class="col-form-label fs-6">HARGA
+                                                                        KONTRAK</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="harga" name="nilai_kontrak"
+                                                                        placeholder="Masukkan Harga Kontrak">
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col mb-3">
                                                                         <label for="status_po"

@@ -1,5 +1,12 @@
 @extends('layouts.dashboard')
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item"><a href="/simetri-ar/transaksi">Rekap Penerimaan</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Buat Transaksi</li>
+        </ol>
+    </nav>
     <div class="content">
         {{-- <h2 class="content-heading">Halaman Transaksi</h2> --}}
         <div class="block shadow bg-white">
