@@ -6,6 +6,12 @@
             font-size: 0.875rem;
         }
     </style>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Rekap Penerimaan</li>
+        </ol>
+    </nav>
     <div class="content tableExtraLarge">
         <div class="text-right">
             <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-notifications"
@@ -46,7 +52,6 @@
                 </ul>
             </div>
         </div>
-        {{-- <h2 class="content-heading">Halaman Rekap Penerimaan</h2> --}}
         <div class="text-left">
             <a type="button" class="btn btn-alt-primary min-width-125 mb-10" href="{{ route('transaksi.create') }}">
                 <i class="fa-solid fa-plus"></i>

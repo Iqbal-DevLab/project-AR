@@ -38,6 +38,12 @@
             width: 150px;
         }
     </style>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail</li>
+        </ol>
+    </nav>
     <div class="tableExtraLarge content">
 
         <div class="block" style="padding-bottom: 15px;">

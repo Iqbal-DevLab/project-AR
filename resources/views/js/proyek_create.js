@@ -143,14 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 hargaInput.addEventListener("keyup", function (event) {
-    // Hilangkan semua karakter selain angka
     var harga = this.value.replace(/\D/g, "");
     totalharga = harga;
 
-    // Format harga dengan tanda koma setiap 3 angka
     harga = harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-    // Set nilai input field
     this.value = harga;
 
     if (this.value === "") {

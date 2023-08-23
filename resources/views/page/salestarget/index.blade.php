@@ -6,6 +6,12 @@
             font-size: 0.875rem;
         }
     </style>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sales Target</li>
+        </ol>
+    </nav>
     <div class="content tableExtraLarge">
         <div class="block shadow bg-white mt-3">
             <div class="block-header block-header-default">
