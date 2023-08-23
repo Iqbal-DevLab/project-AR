@@ -6,6 +6,12 @@
             font-size: 0.875rem;
         }
     </style>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/simetri-ar/monitoring">Monitoring</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sales Volume</li>
+        </ol>
+    </nav>
     <div class="content tableLarge">
         {{-- <h2 class="content-heading">Halaman Sales Volume</h2> --}}
         <div class="row row-deck gutters-tiny mb-3">
