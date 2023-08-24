@@ -226,9 +226,12 @@ cariDataButton.addEventListener("click", function () {
             const biayaLainnyaValue = parseFloat(
                 selectedOption.dataset.lainLain
             );
-            biayaLainnyaInput.value = biayaLainnyaInput
-                ? formatCurrency(biayaLainnyaValue)
-                : 0;
+
+            if (!isNaN(biayaLainnyaValue)) {
+                biayaLainnyaInput.value = formatCurrency(biayaLainnyaValue);
+            } else {
+                biayaLainnyaInput.value = "0.00,-";
+            }
 
             // Pastikan selectedOption.dataset.totalTagihan adalah angka sebelum memformat
             const totalTagihanValue = parseFloat(

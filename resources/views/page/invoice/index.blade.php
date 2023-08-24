@@ -291,7 +291,7 @@
                                                                         class="col-form-label fs-6">LAINNYA
                                                                     </label>
                                                                     <div class="input-group">
-                                                                        <input type="text"
+                                                                        <input type="text" maxlength="5"
                                                                             oninput="jatuhTempo(this.value, '{{ $i->id }}',true)"
                                                                             name="batas_jatuh_tempo_lainnya"
                                                                             id="batas_jatuh_tempo_lainnya{{ $i->id }}"

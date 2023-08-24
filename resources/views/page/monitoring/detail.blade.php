@@ -348,42 +348,78 @@
                                                             @if (!empty($item->DP))
                                                                 <span class="col"> DP {{ $item->DP }}
                                                                     @currency($dpPPN),-</span>
-                                                                <span class="col">Sisa @currency($dpNominal),-</span><br>
+                                                                @if ($dpNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($dpNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($dpNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->APPROVAL))
                                                                 <span class="col"> APPROVAL {{ $item->APPROVAL }}
                                                                     @currency($approvalPPN),-</span>
-                                                                <span class="col">Sisa @currency($approvalNominal),-</span><br>
+                                                                @if ($approvalNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($approvalNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($approvalNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->BMOS))
                                                                 <span class="col"> BMOS {{ $item->BMOS }}
                                                                     @currency($bmosPPN),-</span>
-                                                                <span class="col">Sisa @currency($bmosNominal),-</span><br>
+                                                                @if ($bmosNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($bmosNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($bmosNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->AMOS))
                                                                 <span class="col"> AMOS {{ $item->AMOS }}
                                                                     @currency($amosPPN),-</span>
-                                                                <span class="col">Sisa @currency($amosNominal),-</span><br>
+                                                                @if ($amossNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($amossNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($amossNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->TESTCOMM))
                                                                 <span class="col"> TESTCOMM {{ $item->TESTCOMM }}
                                                                     @currency($testcommPPN),-</span>
-                                                                <span class="col">Sisa @currency($testcommNominal),-</span><br>
+                                                                @if ($testcommNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($testcommNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($testcommNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->RETENSI))
                                                                 <p class="col"> RETENSI {{ $item->RETENSI }}
                                                                     @currency($retensiPPN),-</p>
-                                                                <p class="col">Sisa @currency($retensiNominal),-</p><br>
+                                                                @if ($retensiNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($retensiNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($retensiNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </address>
