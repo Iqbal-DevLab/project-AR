@@ -111,50 +111,50 @@ class PDFController extends Controller
 
     public function monitoringPDF()
     {
-        $mainQuery = DB::table('invoice AS i')
-            ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
-            ->leftJoin('payment_terms AS pt', 'pt.id', '=', 'p.payment_terms_id')
-            ->leftJoin('sales AS s', 's.id', '=', 'p.sales_id')
-            ->where('i.status', '!=', 'Dibatalkan')
-            ->where('i.ar', '<=', DB::raw('TRY_CONVERT(INT, total_tagihan)'))
-            ->where('i.ar', '<>', '0')
-            ->select(
-                'p.nama_customer',
-                'p.nama_proyek',
-                's.nama_sales',
-                'p.nilai_kontrak',
-                'pt.DP',
-                'pt.APPROVAL',
-                'pt.BMOS',
-                'pt.AMOS',
-                'pt.TESTCOMM',
-                'pt.RETENSI',
-                'p.kode_proyek',
-                'i.no_invoice',
-                'i.tgl_ttk',
-                'i.progress',
-                'i.ar',
-                'p.keterangan',
-                'i.batas_jatuh_tempo',
-                'i.tgl_jatuh_tempo'
-            );
+        // $mainQuery = DB::table('invoice AS i')
+        //     ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
+        //     ->leftJoin('payment_terms AS pt', 'pt.id', '=', 'p.payment_terms_id')
+        //     ->leftJoin('sales AS s', 's.id', '=', 'p.sales_id')
+        //     ->where('i.status', '!=', 'Dibatalkan')
+        //     ->where('i.ar', '<=', DB::raw('TRY_CONVERT(INT, total_tagihan)'))
+        //     ->where('i.ar', '<>', '0')
+        //     ->select(
+        //         'p.nama_customer',
+        //         'p.nama_proyek',
+        //         's.nama_sales',
+        //         'p.nilai_kontrak',
+        //         'pt.DP',
+        //         'pt.APPROVAL',
+        //         'pt.BMOS',
+        //         'pt.AMOS',
+        //         'pt.TESTCOMM',
+        //         'pt.RETENSI',
+        //         'p.kode_proyek',
+        //         'i.no_invoice',
+        //         'i.tgl_ttk',
+        //         'i.progress',
+        //         'i.ar',
+        //         'p.keterangan',
+        //         'i.batas_jatuh_tempo',
+        //         'i.tgl_jatuh_tempo'
+        //     );
 
-        $subQuery = DB::table('invoice AS i')
-            ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
-            ->where('i.status', '!=', 'Dibatalkan')
-            ->groupBy('p.nama_proyek')
-            ->select(
-                'p.nama_proyek',
-                DB::raw('SUM(TRY_CONVERT(INT, total_tagihan) - TRY_CONVERT(INT, i.ar)) AS pembayaranSudahDiterima')
-            );
+        // $subQuery = DB::table('invoice AS i')
+        //     ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
+        //     ->where('i.status', '!=', 'Dibatalkan')
+        //     ->groupBy('p.nama_proyek')
+        //     ->select(
+        //         'p.nama_proyek',
+        //         DB::raw('SUM(TRY_CONVERT(INT, total_tagihan) - TRY_CONVERT(INT, i.ar)) AS pembayaranSudahDiterima')
+        //     );
 
-        $result = DB::table(DB::raw("({$mainQuery->toSql()}) AS a"))
-            ->mergeBindings($mainQuery)
-            ->joinSub($subQuery, 'b', function ($join) {
-                $join->on('a.nama_proyek', '=', 'b.nama_proyek');
-            })
-            ->orderBy('a.nama_customer')
-            ->get();
+        // $result = DB::table(DB::raw("({$mainQuery->toSql()}) AS a"))
+        //     ->mergeBindings($mainQuery)
+        //     ->joinSub($subQuery, 'b', function ($join) {
+        //         $join->on('a.nama_proyek', '=', 'b.nama_proyek');
+        //     })
+        //     ->orderBy('a.nama_customer')
+        //     ->get();
 
         $proyek = DB::table('proyek')
             ->join('customer', 'proyek.nama_customer', '=', 'customer.nama_customer')
@@ -290,22 +290,22 @@ class PDFController extends Controller
                 'i.batas_jatuh_tempo',
                 'i.tgl_jatuh_tempo',
                 'i.total_tagihan',
-                DB::raw("CASE WHEN i.progress like '%RETENSI%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end RET"),
-                DB::raw("CASE WHEN i.progress like '%TESCOMM%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end TESTC"),
-                DB::raw("CASE WHEN i.progress like '%MOS%' then CONVERT(INT, i.total_tagihan) - CONVERT(INT, i.ar) end MOS")
+                DB::raw("CASE WHEN i.progress like '%RETENSI%' then CONVERT(decimal(18,2), i.total_tagihan) - CONVERT(decimal(18,2), i.ar) end RET"),
+                DB::raw("CASE WHEN i.progress like '%TESCOMM%' then CONVERT(decimal(18,2), i.total_tagihan) - CONVERT(decimal(18,2), i.ar) end TESTC"),
+                DB::raw("CASE WHEN i.progress like '%MOS%' then CONVERT(decimal(18,2), i.total_tagihan) - CONVERT(decimal(18,2), i.ar) end MOS")
             )
                 ->from('invoice AS i')
                 ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')
                 ->leftJoin('payment_terms AS pt', 'pt.id', '=', 'p.payment_terms_id')
                 ->leftJoin('sales AS s', 's.id', '=', 'p.sales_id')
                 ->where('i.status', '!=', 'DIBATALKAN')
-                ->whereColumn('i.ar', '<=', 'total_tagihan')
-                ->where('i.ar', '<>', 0);
+                ->whereColumn(DB::raw('CONVERT(decimal(18,2), i.ar)'), '<=', DB::raw('CONVERT(decimal(18,2), i.total_tagihan)'))
+                ->where(DB::raw('CONVERT(decimal(18,2), i.ar)'), '<>', 0);
         }, 'a')
             ->joinSub(function ($query) {
                 $query->select(
                     'p.nama_proyek',
-                    DB::raw("SUM(CONVERT(INT, total_tagihan) - CONVERT(INT, i.ar)) AS pembayaranSudahDiterima")
+                    DB::raw("SUM(CONVERT(decimal(18,2), total_tagihan) - CONVERT(decimal(18,2), i.ar)) AS pembayaranSudahDiterima")
                 )
                     ->from('invoice AS i')
                     ->leftJoin('proyek AS p', 'p.kode_proyek', '=', 'i.kode_proyek')

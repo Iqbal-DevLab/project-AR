@@ -93,6 +93,27 @@
     .content2 {
         font-size: 0.875rem;
     }
+
+    /* .breadcrumb {
+        background: #f5f5f5;
+        padding: 10px;
+        font-size: 14px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .breadcrumb a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+
+    .breadcrumb a:hover {
+        color: #0056b3;
+    }
+
+    .breadcrumb span {
+        color: #333;
+    } */
 </style>
 
 <body>
