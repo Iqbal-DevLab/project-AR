@@ -322,27 +322,6 @@
                                                         $retensiNominal = $tagihanRETENSI == $arRETENSI ? $retensiPPN : $retensiPPN - ($tagihanRETENSI - $arRETENSI);
                                                         
                                                     @endphp
-                                                    {{-- <table>
-                                                        <tr>
-                                                            @if (!empty($item->DP))
-                                                                <td class="top-td">DP {{ $item->DP }}</td>
-                                                                <td>:</td>
-                                                                <td class="nominal-top-td">@currency($dpPPN),-</td>
-                                                                <td class="top-td">Sisa</td>
-                                                                <td>:</td>
-                                                                <td>@currency($dpNominal),-</td>
-                                                            @endif
-                                                        <tr>
-                                                            @if (!empty($item->APPROVAL))
-                                                                <td class="top-td">APPROVAL {{ $item->APPROVAL }}</td>
-                                                                <td>:</td>
-                                                                <td class="nominal-top-td">@currency($approvalPPN),-</td>
-                                                                <td class="top-td">Sisa</td>
-                                                                <td>:</td>
-                                                                <td>@currency($approvalNominal),-</td>
-                                                            @endif
-                                                        </tr>
-                                                    </table> --}}
                                                     <address>
                                                         <div class="row">
                                                             @if (!empty($item->DP))
