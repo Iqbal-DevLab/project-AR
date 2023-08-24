@@ -216,13 +216,6 @@
                                     @endif
                                 </td>
                                 <td><span class="badge badge-info">@currency($total),-</span></td>
-                                {{-- <td class="text-center">
-                                    <span
-                                        class="badge
-                                        {{ $t->status == 'Belum Dibayar' ? 'badge-warning' : ($t->status == 'Dibatalkan' ? 'badge-danger' : 'badge-success') }}">
-                                        {{ $t->status }}
-                                    </span>
-                                </td> --}}
                                 @if ($t->nilai_giro != null && $t->status == 'Belum Dibayar')
                                     <td class="text-center">
                                         <span class="badge badge-pill bg-secondary text-white">

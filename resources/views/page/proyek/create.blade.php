@@ -52,8 +52,9 @@
                                 <div class="mb-3">
                                     <label for="harga" class="col-form-label fs-6">HARGA
                                         KONTRAK</label>
-                                    <input type="text" class="form-control" id="harga" name="nilai_kontrak"
-                                        placeholder="Masukkan Harga Kontrak" value="{{ old('nilai_kontrak') }}"
+                                    <input type="text" maxlength="20" class="form-control" id="harga"
+                                        name="nilai_kontrak" placeholder="Masukkan Harga Kontrak"
+                                        value="{{ old('nilai_kontrak') }}"
                                         @if (old('nilai_kontrak')) readonly @endif>
                                 </div>
                                 <div class="row">

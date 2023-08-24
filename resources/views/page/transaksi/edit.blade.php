@@ -352,8 +352,8 @@
                                     <div class="col mb-3">
                                         <label for="dana_masuk" class="col-form-label fs-6 dana_masuk">DANA MASUK
                                             (Rp) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control dana_masuk" id="dana_masuk_giro"
-                                            name="dana_masuk">
+                                        <input type="text" maxlength="20" class="form-control dana_masuk"
+                                            id="dana_masuk_giro" name="dana_masuk">
                                     </div>
                                 </div>
 
@@ -361,12 +361,7 @@
                             <div class="mb-3">
                                 <label for="status" class="col-form-label fs-6">STATUS <span
                                         class="text-danger">*</span></label>
-                                <select class="form-control" required name="status">
-                                    <option value="Belum Dibayar" @if ($transaksi->status == 'Belum Dibayar') selected @endif>
-                                        Belum Dibayar</option>
-                                    <option value="Sudah Dibayar" @if ($transaksi->status == 'Sudah Dibayar') selected @endif>
-                                        Sudah Dibayar</option>
-                                </select>
+                                <input class="form-control" required name="status" value="Sudah Dibayar" readonly>
                             </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-alt-success">

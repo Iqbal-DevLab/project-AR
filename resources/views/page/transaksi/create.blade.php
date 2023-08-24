@@ -304,13 +304,13 @@
                                     <div class="col mb-3">
                                         <label for="dana_masuk" class="col-form-label fs-6">DANA MASUK
                                             (Rp)</label>
-                                        <input type="text" class="form-control"
+                                        <input type="text" maxlength="20" class="form-control"
                                             placeholder="Masukkan Nominal Dana Masuk" id="dana_masuk" name="dana_masuk">
                                     </div>
                                     <div class="col mb-3">
                                         <label for="bank_charge" class="col-form-label fs-6">BANK CHARGE
                                             (Rp)</label>
-                                        <input type="text" class="form-control"
+                                        <input type="text" maxlength="20" class="form-control"
                                             placeholder="Masukkan Biaya Admin Bank" id="bank_charge" name="bank_charge">
                                     </div>
                                 </div>
@@ -356,8 +356,8 @@
                                 <div class="mb-3">
                                     <label for="nilai_giro" class="col-form-label fs-6">NILAI GIRO
                                         (Rp)</label>
-                                    <input type="text" class="form-control" id="nilai_giro" name="nilai_giro"
-                                        placeholder="Masukkan NILAI GIRO">
+                                    <input type="text" maxlength="20" class="form-control" id="nilai_giro"
+                                        name="nilai_giro" placeholder="Masukkan NILAI GIRO">
                                 </div>
                             </div>
                             <div class="mb-3">

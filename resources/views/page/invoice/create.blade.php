@@ -158,8 +158,9 @@
                                 </label>
                                 <span class="align-self-center">(Rp)</span>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" oninput="formatCurrencyInput(this)"
-                                        id="tagihan" name="tagihan" placeholder="">
+                                    <input type="text" maxlength="20" class="form-control"
+                                        oninput="formatCurrencyInput(this)" id="tagihan" name="tagihan"
+                                        placeholder="">
                                     <div class="input-group-append">
                                         <button class="btn btn-secondary fw-bold" title="Refresh Nilai Tagihan"
                                             type="button" id="refresh_tagihan"><i class="fa-solid fa-rotate"></i>
@@ -177,8 +178,9 @@
                                     </div>
                                     <div class="col input-group">
                                         <span class="align-self-center">Rp.</span>
-                                        <input type="text" name="koreksi_dp" class="form-control col-md-5"
-                                            oninput="formatCurrencyInput(this)" id="koreksi_dp" placeholder=0>
+                                        <input type="text" maxlength="20" name="koreksi_dp"
+                                            class="form-control col-md-5" oninput="formatCurrencyInput(this)"
+                                            id="koreksi_dp" placeholder=0>
                                     </div>
                                 </div>
                                 <div class="row text-monospace">
@@ -238,8 +240,9 @@
                                     </div>
                                     <div class="col input-group">
                                         <span class="align-self-center">Rp.</span>
-                                        <input type="text" name="lain_lain" class="form-control col-md-5"
-                                            oninput="formatCurrencyInput(this)" id="biayalain" placeholder=0>
+                                        <input type="text" maxlength="20" name="lain_lain"
+                                            class="form-control col-md-5" oninput="formatCurrencyInput(this)"
+                                            id="biayalain" placeholder=0>
                                     </div>
                                 </div>
                             </div>

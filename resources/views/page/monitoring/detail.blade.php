@@ -248,54 +248,6 @@
                                                         $testcommPPN = $testcomm * $ppn;
                                                         $retensiPPN = $retensi * $ppn;
                                                         
-                                                        // if ($monitoringTable[$item->id]['tagihanDP'] == $monitoringTable[$item->id]['arDP']) {
-                                                        //     $dpNominal = $dpPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanDP'] - $monitoringTable[$item->id]['arDP'];
-                                                        //     $dpAR = $dpPPN - $diff;
-                                                        //     $dpNominal = $dpAR;
-                                                        // }
-                                                        
-                                                        // if ($monitoringTable[$item->id]['tagihanAPPROVAL'] == $monitoringTable[$item->id]['arAPPROVAL']) {
-                                                        //     $approvalNominal = $approvalPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanAPPROVAL'] - $monitoringTable[$item->id]['arAPPROVAL'];
-                                                        //     $approvalAR = $approvalPPN - $diff;
-                                                        //     $approvalNominal = $approvalAR;
-                                                        // }
-                                                        
-                                                        // if ($monitoringTable[$item->id]['tagihanBMOS'] == $monitoringTable[$item->id]['arBMOS']) {
-                                                        //     $bmosNominal = $bmosPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanBMOS'] - $monitoringTable[$item->id]['arBMOS'];
-                                                        //     $bmosAR = $bmosPPN - $diff;
-                                                        //     $bmosNominal = $bmosAR;
-                                                        // }
-                                                        
-                                                        // if ($monitoringTable[$item->id]['tagihanAMOS'] == $monitoringTable[$item->id]['arAMOS']) {
-                                                        //     $amosNominal = $amosPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanAMOS'] - $monitoringTable[$item->id]['arAMOS'];
-                                                        //     $amosAR = $amosPPN - $diff;
-                                                        //     $amosNominal = $amosAR;
-                                                        // }
-                                                        
-                                                        // if ($monitoringTable[$item->id]['tagihanTESTCOMM'] == $monitoringTable[$item->id]['arTESTCOMM']) {
-                                                        //     $testcommNominal = $testcommPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanTESTCOMM'] - $monitoringTable[$item->id]['arTESTCOMM'];
-                                                        //     $testcommAR = $testcommPPN - $diff;
-                                                        //     $testcommNominal = $testcommAR;
-                                                        // }
-                                                        
-                                                        // if ($monitoringTable[$item->id]['tagihanRETENSI'] == $monitoringTable[$item->id]['arRETENSI']) {
-                                                        //     $retensiNominal = $retensiPPN;
-                                                        // } else {
-                                                        //     $diff = $monitoringTable[$item->id]['tagihanRETENSI'] - $monitoringTable[$item->id]['arRETENSI'];
-                                                        //     $retensiAR = $retensiPPN - $diff;
-                                                        //     $retensiNominal = $retensiAR;
-                                                        // }
-                                                        
                                                         $tagihanDP = $monitoringTable[$item->id]['tagihanDP'];
                                                         $arDP = $monitoringTable[$item->id]['arDP'];
                                                         
@@ -322,68 +274,83 @@
                                                         $retensiNominal = $tagihanRETENSI == $arRETENSI ? $retensiPPN : $retensiPPN - ($tagihanRETENSI - $arRETENSI);
                                                         
                                                     @endphp
-                                                    {{-- <table>
-                                                        <tr>
-                                                            @if (!empty($item->DP))
-                                                                <td class="top-td">DP {{ $item->DP }}</td>
-                                                                <td>:</td>
-                                                                <td class="nominal-top-td">@currency($dpPPN),-</td>
-                                                                <td class="top-td">Sisa</td>
-                                                                <td>:</td>
-                                                                <td>@currency($dpNominal),-</td>
-                                                            @endif
-                                                        <tr>
-                                                            @if (!empty($item->APPROVAL))
-                                                                <td class="top-td">APPROVAL {{ $item->APPROVAL }}</td>
-                                                                <td>:</td>
-                                                                <td class="nominal-top-td">@currency($approvalPPN),-</td>
-                                                                <td class="top-td">Sisa</td>
-                                                                <td>:</td>
-                                                                <td>@currency($approvalNominal),-</td>
-                                                            @endif
-                                                        </tr>
-                                                    </table> --}}
                                                     <address>
                                                         <div class="row">
                                                             @if (!empty($item->DP))
                                                                 <span class="col"> DP {{ $item->DP }}
                                                                     @currency($dpPPN),-</span>
-                                                                <span class="col">Sisa @currency($dpNominal),-</span><br>
+                                                                @if ($dpNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($dpNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($dpNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->APPROVAL))
                                                                 <span class="col"> APPROVAL {{ $item->APPROVAL }}
                                                                     @currency($approvalPPN),-</span>
-                                                                <span class="col">Sisa @currency($approvalNominal),-</span><br>
+                                                                @if ($approvalNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($approvalNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($approvalNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->BMOS))
                                                                 <span class="col"> BMOS {{ $item->BMOS }}
                                                                     @currency($bmosPPN),-</span>
-                                                                <span class="col">Sisa @currency($bmosNominal),-</span><br>
+                                                                @if ($bmosNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($bmosNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($bmosNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->AMOS))
                                                                 <span class="col"> AMOS {{ $item->AMOS }}
                                                                     @currency($amosPPN),-</span>
-                                                                <span class="col">Sisa @currency($amosNominal),-</span><br>
+                                                                @if ($amossNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($amossNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($amossNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->TESTCOMM))
                                                                 <span class="col"> TESTCOMM {{ $item->TESTCOMM }}
                                                                     @currency($testcommPPN),-</span>
-                                                                <span class="col">Sisa @currency($testcommNominal),-</span><br>
+                                                                @if ($testcommNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($testcommNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($testcommNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="row">
                                                             @if (!empty($item->RETENSI))
                                                                 <p class="col"> RETENSI {{ $item->RETENSI }}
                                                                     @currency($retensiPPN),-</p>
-                                                                <p class="col">Sisa @currency($retensiNominal),-</p><br>
+                                                                @if ($retensiNominal < 0)
+                                                                    <span class="col">Lebih
+                                                                        @currency(abs($retensiNominal)),-</span><br>
+                                                                @else
+                                                                    <span class="col">Sisa
+                                                                        @currency($retensiNominal),-</span><br>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </address>
