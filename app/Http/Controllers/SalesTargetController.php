@@ -41,24 +41,33 @@ class SalesTargetController extends Controller
                 ->get();
         }
 
-        $salesTarget = DB::table('invoice')
-            ->join('proyek', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
-            ->join('sales', 'proyek.sales_id', '=', 'sales.id')
-            ->leftJoin('sales_target', 'sales.id', '=', 'sales_target.sales_id')
-            ->join('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
-            ->select(
+        $salesTarget = DB::table('sales')
+            ->select([
                 'sales.nama_sales',
                 'sales_target.target',
                 'sales.type',
-                DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan"),
-                DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun"),
-                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan"),
-                DB::raw("SUM(CONVERT(DECIMAL(18), invoice.koreksi_dp)) as total_koreksi_dp")
-            )
-            ->where('invoice.status', '!=', 'Dibatalkan')
-            ->where('invoice.progress', 'NOT LIKE', '%DP%')
+                DB::raw('MONTH(CONVERT(DATE, invoice.tgl_invoice, 103)) as bulan'),
+                DB::raw('YEAR(CONVERT(DATE, invoice.tgl_invoice, 103)) as tahun'),
+                DB::raw('SUM(CONVERT(DECIMAL(18), invoice.nilai_tagihan)) as total_nilai_tagihan'),
+                DB::raw('SUM(CONVERT(DECIMAL(18), invoice.koreksi_dp)) as total_koreksi_dp'),
+            ])
+            ->leftJoin('proyek', 'proyek.sales_id', '=', 'sales.id')
+            ->leftJoin('invoice', 'invoice.kode_proyek', '=', 'proyek.kode_proyek')
+            ->leftJoin('sales_target', 'sales.id', '=', 'sales_target.sales_id')
+            ->leftJoin('payment_terms', 'proyek.payment_terms_id', '=', 'payment_terms.id')
+            ->where(function ($query) {
+                $query->where('invoice.status', '!=', 'Dibatalkan')
+                    ->where('invoice.progress', 'NOT LIKE', '%DP%')
+                    ->orWhereNull('invoice.kode_proyek');
+            })
+            ->groupBy([
+                'sales.nama_sales',
+                'sales_target.target',
+                'sales.type',
+                DB::raw('MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))'),
+                DB::raw('YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))'),
+            ])
             ->orderBy('sales.nama_sales', 'asc')
-            ->groupBy('sales.nama_sales', 'sales_target.target', 'sales.type', DB::raw("MONTH(CONVERT(DATE, invoice.tgl_invoice, 103))"), DB::raw("YEAR(CONVERT(DATE, invoice.tgl_invoice, 103))"))
             ->get();
 
         $dataTarget = [];

@@ -125,9 +125,12 @@ class ProyekController extends Controller
 
     public function update(Request $request, $id)
     {
+        $harga = str_replace('.', '', $request->nilai_kontrak);
+
         DB::table('proyek')
             ->where('id', $id)
             ->update([
+                'nilai_kontrak' => $harga,
                 'status_po' => $request->status_po,
                 'keterangan' => $request->keterangan,
             ]);

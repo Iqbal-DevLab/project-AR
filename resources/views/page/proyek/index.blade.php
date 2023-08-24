@@ -85,9 +85,10 @@
                                                                 <div class="mb-3">
                                                                     <label for="harga" class="col-form-label fs-6">HARGA
                                                                         KONTRAK</label>
-                                                                    <input type="text" class="form-control"
+                                                                    <input type="text" disabled class="form-control"
                                                                         id="harga" name="nilai_kontrak"
-                                                                        placeholder="Masukkan Harga Kontrak">
+                                                                        placeholder="Masukkan Harga Kontrak"
+                                                                        value="{{ $p->nilai_kontrak }}">
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col mb-3">
@@ -132,4 +133,50 @@
             </div>
         </div>
         @include('sweetalert::alert')
+
+        {{-- <script>
+            var hargaInput = document.getElementById("harga");
+
+            hargaInput.addEventListener("keyup", function(event) {
+                var harga = this.value.replace(/\D/g, "");
+                totalharga = harga;
+
+                harga = harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                this.value = harga;
+            });
+        </script> --}}
+
+        <script>
+            function formatHargaInput(inputId) {
+                var hargaInput = document.getElementById(inputId);
+
+                // Function to format the value with dots
+                function formatValueWithDots(value) {
+                    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+
+                // Format the initial value
+                hargaInput.value = formatValueWithDots(hargaInput.value);
+
+                // Add event listener to format input while typing
+                hargaInput.addEventListener("input", function(event) {
+                    var caretPosition = this.selectionStart;
+                    var oldValue = this.value;
+
+                    this.value = formatValueWithDots(this.value);
+
+                    // Adjust caret position
+                    var diff = this.value.length - oldValue.length;
+                    caretPosition += diff;
+                    caretPosition = Math.max(caretPosition, 0);
+                    caretPosition = Math.min(caretPosition, this.value.length);
+                    this.setSelectionRange(caretPosition, caretPosition);
+                });
+            }
+        </script>
+
+        <script>
+            formatHargaInput("harga"); // Panggil fungsi dengan ID input "harga"
+        </script>
     @endsection
