@@ -480,7 +480,7 @@ updateButton.addEventListener("click", function () {
     document.getElementById("pph_nominal").value = formatCurrency(pph);
 
     var biayaLainnya =
-        parseFloat(biayaLainnyaInput.value.replace(/[^\d.,]/g, "")) || 0;
+        parseFloat(biayaLainnyaInput.value.replace(/[^\d.,-]/g, "")) || 0;
 
     if (biayaLainnya === 0) {
         document.getElementById("biayalain").value = "";
