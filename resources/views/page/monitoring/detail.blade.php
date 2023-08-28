@@ -282,7 +282,7 @@
                                                                 @if ($dpNominal < 0)
                                                                     <span class="col">Lebih
                                                                         @currency(abs($dpNominal)),-</span><br>
-                                                                @else
+                                                                @elseif($dpNominal >= 0)
                                                                     <span class="col">Sisa
                                                                         @currency($dpNominal),-</span><br>
                                                                 @endif
@@ -295,7 +295,7 @@
                                                                 @if ($approvalNominal < 0)
                                                                     <span class="col">Lebih
                                                                         @currency(abs($approvalNominal)),-</span><br>
-                                                                @else
+                                                                @elseif($approvalNominal >= 0)
                                                                     <span class="col">Sisa
                                                                         @currency($approvalNominal),-</span><br>
                                                                 @endif
@@ -308,7 +308,7 @@
                                                                 @if ($bmosNominal < 0)
                                                                     <span class="col">Lebih
                                                                         @currency(abs($bmosNominal)),-</span><br>
-                                                                @else
+                                                                @elseif($bmosNominal >= 0)
                                                                     <span class="col">Sisa
                                                                         @currency($bmosNominal),-</span><br>
                                                                 @endif
@@ -318,12 +318,12 @@
                                                             @if (!empty($item->AMOS))
                                                                 <span class="col"> AMOS {{ $item->AMOS }}
                                                                     @currency($amosPPN),-</span>
-                                                                @if ($amossNominal < 0)
+                                                                @if ($amosNominal < 0)
                                                                     <span class="col">Lebih
-                                                                        @currency(abs($amossNominal)),-</span><br>
-                                                                @else
+                                                                        @currency(abs($amosNominal)),-</span><br>
+                                                                @elseif($amosNominal >= 0)
                                                                     <span class="col">Sisa
-                                                                        @currency($amossNominal),-</span><br>
+                                                                        @currency($amosNominal),-</span><br>
                                                                 @endif
                                                             @endif
                                                         </div>
@@ -334,7 +334,7 @@
                                                                 @if ($testcommNominal < 0)
                                                                     <span class="col">Lebih
                                                                         @currency(abs($testcommNominal)),-</span><br>
-                                                                @else
+                                                                @elseif($testcommNominal >= 0)
                                                                     <span class="col">Sisa
                                                                         @currency($testcommNominal),-</span><br>
                                                                 @endif
@@ -347,7 +347,7 @@
                                                                 @if ($retensiNominal < 0)
                                                                     <span class="col">Lebih
                                                                         @currency(abs($retensiNominal)),-</span><br>
-                                                                @else
+                                                                @elseif($retensiNominal >= 0)
                                                                     <span class="col">Sisa
                                                                         @currency($retensiNominal),-</span><br>
                                                                 @endif
