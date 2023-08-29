@@ -233,29 +233,56 @@
                             </td>
                             <td class="text-right font-weight-bold" colspan="5">
                                 Rp.
-                                {{ number_format($data['sisaTagihan'], 0, '.', '.') }},-
+                                {{ number_format($totalSisaTagihan, 0, '.', '.') }},-
                             </td>
                             <td class="text-right font-weight-bold" colspan="1">
                                 @if (!$sameProyek)
                                     Rp.
-                                    {{ number_format($data['pembayaranSudahDiterima'], 0, '.', '.') }},-
+                                    {{ number_format($totalPembayaranSudahDiterima, 0, '.', '.') }},-
                                 @endif
                             </td>
                         </tr>
                     @endif
+                    @php
+                        $totalHargaKontrakKeseluruhan = 0;
+                        $totalARKeseluruhan = 0;
+                        $totalSisaTagihanKeseluruhan = 0;
+                        $totalPembayaranSudahDiterimaKeseluruhan = 0;
+                    @endphp
+
                     @foreach ($monitoringTable as $data)
+                        @php
+                            $totalNilaiKontrak = 0;
+                            $totalAR = 0;
+                            $totalSisaTagihan = 0;
+                            $totalPembayaranSudahDiterima = 0;
+                        @endphp
+
                         @foreach ($data['invoice'] as $index => $invoice)
-                            @php
-                                $totalHargaKontrakKeseluruhan += $data['proyek']->nilai_kontrak;
-                                $totalSisaTagihanKeseluruhan += $totalSisaTagihan;
-                                $totalARKeseluruhan += $invoice->ar;
-                                
-                                $totalPembayaranSudahDiterimaKeseluruhan += $totalPembayaranSudahDiterima;
-                            @endphp
+                            @if ($invoice->ar != 0)
+                                @php
+                                    $sameProyek = $prevProyek === $data['proyek']->nama_proyek;
+                                    if (!$sameProyek) {
+                                        $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
+                                    }
+                                    $totalAR += $invoice->ar;
+                                    $totalSisaTagihan += $data['sisaTagihan'];
+                                    if (!$sameProyek) {
+                                        $totalPembayaranSudahDiterima += $data['pembayaranSudahDiterima'];
+                                    }
+                                @endphp
+                            @endif
                         @endforeach
+
+                        @php
+                            $totalHargaKontrakKeseluruhan += $totalNilaiKontrak;
+                            $totalARKeseluruhan += $totalAR;
+                            $totalSisaTagihanKeseluruhan += $totalSisaTagihan;
+                            $totalPembayaranSudahDiterimaKeseluruhan += $totalPembayaranSudahDiterima;
+                        @endphp
                     @endforeach
 
-                    {{-- Tampilkan total keseluruhan --}}
+                    {{-- Tampilkan total keseluruhan di luar loop --}}
                     <tr class="small-row">
                         <td class="text-right font-weight-bold" colspan="2">
                             Total Keseluruhan
