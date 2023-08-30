@@ -217,16 +217,14 @@
                             @endif
                         @endforeach
                     @endforeach
-                    @if ($prevCustomer !== null)
+                    @if ($prevCustomer !== null && $totalNilaiKontrak > 0 && $totalAR > 0)
                         <tr class="small-row">
                             <td class="text-right font-weight-bold" colspan="2">
                                 Total
                             </td>
                             <td class="text-right font-weight-bold" colspan="3">
-                                @if (!$sameProyek)
-                                    Rp.
-                                    {{ number_format($totalNilaiKontrak, 0, '.', '.') }},-
-                                @endif
+                                Rp.
+                                {{ number_format($totalNilaiKontrak, 0, '.', '.') }},-
                             </td>
                             <td class="text-right font-weight-bold" colspan="6">Rp.
                                 {{ number_format($totalAR, 0, '.', '.') }},-
@@ -236,10 +234,8 @@
                                 {{ number_format($totalSisaTagihan, 0, '.', '.') }},-
                             </td>
                             <td class="text-right font-weight-bold" colspan="1">
-                                @if (!$sameProyek)
-                                    Rp.
-                                    {{ number_format($totalPembayaranSudahDiterima, 0, '.', '.') }},-
-                                @endif
+                                Rp.
+                                {{ number_format($totalPembayaranSudahDiterima, 0, '.', '.') }},-
                             </td>
                         </tr>
                     @endif
