@@ -316,24 +316,24 @@ class PDFController extends Controller
             ->get();
 
         // dd($results);
-        // return view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable', 'results'));
-        $html = view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable', 'results'))->render();
+        return view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable', 'results'));
+        // $html = view('page.monitoring.export-pdf', compact('proyek', 'monitoringTable', 'results'))->render();
 
-        $options = new Options();
-        $options->setDpi(72);
-        $options->setIsRemoteEnabled(true);
-        $options->setIsHtml5ParserEnabled(true);
-        $options->setChroot(public_path());
-        $options->setIsFontSubsettingEnabled(true);
+        // $options = new Options();
+        // $options->setDpi(72);
+        // $options->setIsRemoteEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $options->setChroot(public_path());
+        // $options->setIsFontSubsettingEnabled(true);
 
-        $dompdf = new Dompdf($options);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->getOptions()->set('renderer', 'gd');
-        $dompdf->loadHtml($html);
-        $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
+        // $dompdf = new Dompdf($options);
+        // $dompdf->setPaper('A4', 'landscape');
+        // $dompdf->getOptions()->set('renderer', 'gd');
+        // $dompdf->loadHtml($html);
+        // $pdfName = 'AR Monitoring ' . request('tgl_awal') . '-' . request('tgl_akhir');
 
-        $dompdf->render();
+        // $dompdf->render();
 
-        $dompdf->stream($pdfName . ".pdf");
+        // $dompdf->stream($pdfName . ".pdf");
     }
 }

@@ -71,12 +71,12 @@
                         <td class="text-center" style="width: 11%;">Pembayaran Sudah Diterima</td>
                     </tr>
                 </thead>
-                @php
+                {{-- @php
                     $totalHargaKontrakKeseluruhan = 0;
                     $totalARKeseluruhan = 0;
                     $totalSisaTagihanKeseluruhan = 0;
                     $totalPembayaranSudahDiterimaKeseluruhan = 0;
-                @endphp
+                @endphp --}}
                 <tbody>
                     @php
                         $no = 1;
@@ -112,9 +112,9 @@
                                         $totalSisaTagihan = 0;
                                         $totalPembayaranSudahDiterima = 0;
                                     }
-                                    if (!$sameProyek) {
-                                        $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
-                                    }
+                                    // if (!$sameProyek) {
+                                    $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
+                                    // }
                                     $totalSisaTagihan += $data['sisaTagihan'];
                                     $totalAR += $invoice->ar;
                                     
@@ -252,15 +252,17 @@
                             $totalAR = 0;
                             $totalSisaTagihan = 0;
                             $totalPembayaranSudahDiterima = 0;
+                            $prevProyek = null;
                         @endphp
 
                         @foreach ($data['invoice'] as $index => $invoice)
                             @if ($invoice->ar != 0)
                                 @php
                                     $sameProyek = $prevProyek === $data['proyek']->nama_proyek;
-                                    if (!$sameProyek) {
-                                        $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
-                                    }
+                                    $prevProyek = $data['proyek']->nama_proyek;
+                                    // if (!$sameProyek) {
+                                    $totalNilaiKontrak += $data['proyek']->nilai_kontrak;
+                                    // }
                                     $totalAR += $invoice->ar;
                                     $totalSisaTagihan += $data['sisaTagihan'];
                                     if (!$sameProyek) {
