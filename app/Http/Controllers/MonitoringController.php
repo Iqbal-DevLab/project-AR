@@ -24,7 +24,6 @@ class MonitoringController extends Controller
                 'invoice',
                 'customer.id',
                 '=',
-
                 'invoice.customer_id'
             )
             ->groupBy('customer.id')
@@ -34,6 +33,7 @@ class MonitoringController extends Controller
                 'customer.id',
             )
             ->get();
+
 
         $customers3 = DB::table('customer')
             ->join('transaksi', 'transaksi.customer_id', '=', 'customer.id')
@@ -102,13 +102,13 @@ class MonitoringController extends Controller
                 }
             }
 
-            foreach ($customers4 as $customer4) {
-                if ($customer1->id == $customer4->id) {
-                    $combinedCustomer->pembayaranBelumDiterima = "";
-                    $combinedCustomer->pembayaranBelumDiterima = $customer4->pembayaranBelumDiterima;
-                    break;
-                }
-            }
+            // foreach ($customers4 as $customer4) {
+            //     if ($customer1->id == $customer4->id) {
+            //         $combinedCustomer->pembayaranBelumDiterima = "";
+            //         $combinedCustomer->pembayaranBelumDiterima = $customer4->pembayaranBelumDiterima;
+            //         break;
+            //     }
+            // }
 
             foreach ($customers5 as $customer5) {
                 if ($customer1->id == $customer5->id) {

@@ -5,9 +5,9 @@ totalAR.value = total.textContent;
 console.log(total.textContent);
 
 function ttkFunction(id) {
-    var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
+    // var tglTtkInput = document.getElementById(`tgl_ttk${id}`);
     var tglJatuhTempoSelect = document.getElementById(`batas_jatuh_tempo${id}`);
-    console.log(tglTtkInput.value);
+    // console.log(tglTtkInput.value);
     tglJatuhTempoSelect.disabled = false;
 }
 
@@ -24,14 +24,12 @@ function jatuhTempo(jatuhTempo, id, i) {
         tglTtkParts[1] - 1,
         tglTtkParts[0]
     );
+    var selectedOptionValue = parseInt(jatuhTempo);
+    tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
 
     if (jatuhTempo !== "" && i == false) {
-        var selectedOptionValue = parseInt(jatuhTempo);
-        tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
         lainnyaForm.style.display = "none";
     } else {
-        var selectedOptionValue = parseInt(jatuhTempo);
-        tanggalTtk.setDate(tanggalTtk.getDate() + selectedOptionValue);
         lainnyaForm.style.display = "block";
     }
 

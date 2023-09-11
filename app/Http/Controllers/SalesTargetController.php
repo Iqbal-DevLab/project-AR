@@ -12,35 +12,6 @@ class SalesTargetController extends Controller
 {
     public function index(Request $request)
     {
-        $salesname = Sales::all();
-        $salestarget = SalesTarget::all();
-
-
-        // $salestarget = '';
-        $sales = Sales::select('nama_sales')
-            ->groupBy('nama_sales')
-            ->get();
-        $salest = SalesTarget::select('tahun')
-            ->groupBy('tahun')
-            ->get();
-        // dd($salestarget);
-
-
-        $sales = '';
-        $proyek = '';
-        if ($request->sales_id) {
-            $sales = DB::table('sales_target')->select('target', 'target_tercapai', 'tahun', 'sales_id', 'sales.nama_sales')
-                ->leftJoin('sales', 'sales.id', '=', 'sales_target.sales_id')
-                ->where('sales_id', $request->sales_id)->where('tahun', $request->tahun)
-                ->get();
-            // dd($request->tahun);    
-
-            $proyek = DB::table('proyek')->where('sales_id', $request->sales_id)
-                ->select(DB::raw('MONTH(tgl_jatuh_tempo) AS bulan'), DB::raw('SUM(nilai_kontrak) AS total'))
-                ->groupBy(DB::raw('MONTH(tgl_jatuh_tempo)'))
-                ->get();
-        }
-
         $salesTarget = DB::table('sales')
             ->select([
                 'sales.nama_sales',

@@ -16,20 +16,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
-            'username' => 'Fauzan',
-            'nik_karyawan' => '03.01.0035',
-            'password' => bcrypt('password'),
-            'role_id' => 1,
-            'last_login' => Carbon::now(),
-            'update_by' => 'admin',
-        ]);
 
         User::factory()->create([
             'username' => 'Iqbal',
             'nik_karyawan' => 'admin',
             'password' => bcrypt('admin'),
             'role_id' => 1,
+            'last_login' => Carbon::now(),
+            'update_by' => 'admin',
+        ]);
+
+        User::factory()->create([
+            'username' => 'Sales',
+            'nik_karyawan' => 'sales',
+            'password' => bcrypt('password'),
+            'role_id' => 2,
             'last_login' => Carbon::now(),
             'update_by' => 'admin',
         ]);

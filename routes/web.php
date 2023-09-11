@@ -51,6 +51,7 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
 });
 
+
 Route::group(['middleware' => ['finance']], function () {
 
     //route index

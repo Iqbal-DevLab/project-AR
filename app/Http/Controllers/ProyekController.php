@@ -20,13 +20,7 @@ class ProyekController extends Controller
             ->join('sales', 'sales.id', '=', 'proyek.sales_id')
             ->join('payment_terms', 'payment_terms.id', '=', 'proyek.payment_terms_id')
             ->get();
-
-        $customer = Customer::select('nama_customer', 'id')->get();
-        $sales = Sales::select('nama_sales', 'id')->get();
-
-        $payment_terms = PaymentTerms::all();
-
-        return view('page.proyek.index', compact('proyek', 'customer', 'sales', 'payment_terms'));
+        return view('page.proyek.index', compact('proyek'));
     }
 
     public function create(Request $request)
@@ -85,7 +79,6 @@ class ProyekController extends Controller
         ]);
 
         $harga = str_replace('.', '', $request->nilai_kontrak);
-        $convtahun = Carbon::parse($request->tgl_jatuh_tempo)->year;
 
         DB::table('proyek')->insert([
             'nama_proyek' => $request->nama_proyek,
@@ -101,17 +94,6 @@ class ProyekController extends Controller
             'keterangan' => $request->keterangan,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        $sales = Salestarget::select('target_tercapai')
-            ->where('sales_id', $request->sales_id)
-            ->first();
-
-        $target = $sales->target_tercapai ?? 0;
-        $updateTercapai = (int)$target + (int)$harga;
-
-        Salestarget::where('sales_id', $request->sales_id)->where('tahun', $convtahun)->update([
-            'target_tercapai' => $updateTercapai
         ]);
 
         return redirect('proyek')->with('success', 'Proyek baru berhasil ditambahkan!');;

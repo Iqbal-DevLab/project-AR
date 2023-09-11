@@ -126,10 +126,10 @@ class TransaksiController extends Controller
 
     public function create()
     {
-        $transaksi = DB::table('transaksi')
-            ->select('transaksi.*', 'proyek.nama_proyek')
-            ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
-            ->get();
+        // $transaksi = DB::table('transaksi')
+        //     ->select('transaksi.*', 'proyek.nama_proyek')
+        //     ->join('proyek', 'transaksi.kode_proyek', '=', 'proyek.kode_proyek')
+        //     ->get();
 
         $proyek = DB::table('invoice')
             ->join('proyek', 'proyek.kode_proyek', '=', 'invoice.kode_proyek')
@@ -139,7 +139,9 @@ class TransaksiController extends Controller
             ->whereNotNull('invoice.tgl_ttk')
             ->get();
 
-        return view('page.transaksi.create', compact('transaksi', 'proyek'));
+
+
+        return view('page.transaksi.create', compact('proyek'));
     }
 
     public function store(Request $request)
@@ -219,6 +221,7 @@ class TransaksiController extends Controller
         } else {
             $ar = $total_tagihan - $total_dana_masuk;
         }
+
 
         // Mengupdate ar pada invoice
         DB::table('invoice')

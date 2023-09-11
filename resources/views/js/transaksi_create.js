@@ -1,31 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // var danaMasukInput = document.getElementById("dana_masuk");
-    // var nilaiGiroInput = document.getElementById("nilai_giro");
-    // var bankChargeInput = document.getElementById("bank_charge");
-    // var totalDanaMasukInput = document.getElementById("total_dana_masuk_i");
-
-    // function updateTotalDanaMasuk(Transfer) {
-    //     // Mendapatkan nilai dana masuk
-    //     const danaMasuk =
-    //         parseFloat(danaMasukInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
-
-    //     // Mendapatkan nilai bank charge
-    //     const bankCharge =
-    //         parseFloat(bankChargeInput.value.replace(/\D/g, "")) || 0; // Menghapus karakter selain digit
-
-    //     // Menghitung total dana masuk setelah dikurangi bank charge atau sama dengan dana masuk jika bank charge belum diisi
-    //     const totalDanaMasuk = danaMasuk ? danaMasuk + bankCharge : danaMasuk;
-
-    //     totalDanaMasukInput.value =
-    //         totalDanaMasuk >= 0
-    //             ? (totalDanaMasuk = formatCurrency(totalDanaMasukInput))
-    //             : 0;
-
-    //     function formatCurrency(value) {
-    //         return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
-    //     }
-    // }
-
     var danaMasukInput = document.getElementById("dana_masuk");
     var nilaiGiroInput = document.getElementById("nilai_giro");
     var bankChargeInput = document.getElementById("bank_charge");
@@ -51,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Panggil fungsi updateTotalDanaMasuk saat input dana masuk atau bank charge berubah
-    danaMasukInput.addEventListener("input", updateTotalDanaMasuk);
-    bankChargeInput.addEventListener("input", updateTotalDanaMasuk);
+    // danaMasukInput.addEventListener("input", updateTotalDanaMasuk);
+    // bankChargeInput.addEventListener("input", updateTotalDanaMasuk);
 
     if (danaMasukInput) {
         danaMasukInput.addEventListener("input", function (event) {

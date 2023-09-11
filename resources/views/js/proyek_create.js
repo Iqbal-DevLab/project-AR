@@ -25,6 +25,7 @@ namaSalesInput.addEventListener("input", function () {
     const selectedOption = document.querySelector(
         `#sales option[value="${this.value}"]`
     );
+    this.readOnly = false;
     if (selectedOption) {
         idSalesInput.value = selectedOption.textContent.trim();
     } else {
@@ -52,10 +53,6 @@ namaSalesInput.addEventListener("click", function () {
     this.readOnly = false;
 });
 
-namaSalesInput.addEventListener("input", function () {
-    this.readOnly = false;
-});
-
 namaSalesInput.addEventListener("blur", function () {
     this.readOnly = true;
 });
@@ -70,6 +67,7 @@ namaCustomerInput.addEventListener("input", function () {
     const selectedOption = document.querySelector(
         `#pemesan option[value="${this.value}"]`
     );
+    this.readOnly = false;
     if (selectedOption) {
         idCustomerInput.value = selectedOption.textContent.trim();
     } else {
@@ -94,10 +92,6 @@ namaCustomerInput.addEventListener("change", () => {
 });
 
 namaCustomerInput.addEventListener("click", function () {
-    this.readOnly = false;
-});
-
-namaCustomerInput.addEventListener("input", function () {
     this.readOnly = false;
 });
 
@@ -207,6 +201,7 @@ paymentTermsInput.addEventListener("input", function () {
     function formatCurrency(value) {
         return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + ",-";
     }
+
     // Menghitung Nominal DP, APPROVAL, BMOS, AMOS, TESTCOMM, dan RETENSI pada input field masing-masing
     dpNominalInput.value = dpValue
         ? formatCurrency((dpValue * totalharga) / 100)
